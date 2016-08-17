@@ -1,0 +1,40 @@
+.scroll {
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  border:10px solid #1A237E;
+}
+.ionic_datepicker_popup
+
+
+.selected_date_full,
+.selected_date,
+.popup-buttons .button {
+  background-color: #1976D2 !important;
+}
+.month_select,
+.year_select,
+.today {
+  border-color: #1976D2!important;
+}
+.item-select:after,
+.button-clear {
+  color: #1976D2 !important;
+}
+
+.text{
+   font-weight: bold;color: #000000;
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+}
+.text2{
+  color: #000000;
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+}
+
+.outline{
+border: 2px solid #2196F3;
+}
+
