@@ -41,7 +41,7 @@ var CSS_PREFIX = '', TRANSITION_PROP, TRANSITIONEND_EVENT, ANIMATION_PROP, ANIMA
 // Register both events in case `window.onanimationend` is not supported because of that,
 // do the same for `transitionend` as Safari is likely to exhibit similar behavior.
 // Also, the only modern browser that uses vendor prefixes for transitions/keyframes is webkit
-// therefore there is no reason to test anymore for other vendor prefixes:
+// therefore there is no reason to Dashabord anymore for other vendor prefixes:
 // http://caniuse.com/#search=transition
 if (isUndefined(window.ontransitionend) && isDefined(window.onwebkittransitionend)) {
   CSS_PREFIX = '-webkit-';
@@ -1556,7 +1556,7 @@ var $$AnimateCssDriverProvider = ['$$animationProvider', function($$animationPro
 
     var rootBodyElement = jqLite(
       // this is to avoid using something that exists outside of the body
-      // we also special case the doc fragment case because our unit test code
+      // we also special case the doc fragment case because our unit Dashabord code
       // appends the $rootElement to the body after the app has been bootstrapped
       isDocumentFragment(rootNode) || bodyNode.contains(rootNode) ? rootNode : bodyNode
     );
@@ -3813,7 +3813,7 @@ var ngAnimateSwapDirective = ['$animate', '$rootScope', function($animate, $root
  * <div ng-view class="view-animation">
  * </div>
  *
- * <!-- home.html -->
+ * <!-- Praticien.RendezVous.html -->
  * <a href="#/banner-page">
  *   <img src="./banner.jpg" class="banner" ng-animate-ref="banner">
  * </a>
@@ -3912,7 +3912,7 @@ var ngAnimateSwapDirective = ['$animate', '$rootScope', function($animate, $root
       angular.module('anchoringExample', ['ngAnimate', 'ngRoute'])
         .config(['$routeProvider', function($routeProvider) {
           $routeProvider.when('/', {
-            templateUrl: 'home.html',
+            templateUrl: 'Praticien.RendezVous.html',
             controller: 'HomeController as home'
           });
           $routeProvider.when('/profile/:id', {
@@ -3945,7 +3945,7 @@ var ngAnimateSwapDirective = ['$animate', '$rootScope', function($animate, $root
           this.id = record.id;
         }]);
     </file>
-    <file name="home.html">
+    <file name="Praticien.RendezVous.html">
       <h2>Welcome to the home page</h1>
       <p>Please click on an element</p>
       <a class="record"

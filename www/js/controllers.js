@@ -1,5 +1,13 @@
-angular.module('starter.controllers', [])
+angular.module('tbibi.controllers', ['tbibi.services'])
 
+  /*
+  Défenir Nos Controlleurs
+   */
+
+
+  /*
+  Controleur pour l'App --------------
+   */
 .controller('AppCtrl', function($scope,$ionicModal, $ionicPopover, $timeout) {
 
 
@@ -127,14 +135,52 @@ angular.module('starter.controllers', [])
   };
 })
 
-  .controller('RechercheCtrl', function($scope, $timeout,$ionicPopover,$ionicLoading,$ionicModal,$state) {
+
+
+
+
+
+  /*
+  Controleur pour la recherche
+   */
+
+
+
+
+
+  .controller('RechercheCtrl',['$scope','$timeout','$ionicPopover','$ionicLoading','$ionicModal','$state','RechercherSevice','$filter',
+    'getDocteurs','$cordovaGeolocation',function($scope, $timeout
+    ,$ionicPopover,$ionicLoading,$ionicModal,$state,RechercherSevice,$filter,getDocteurs,$cordovaGeolocation) {
 
     $scope.showListemdecins = false ;
 
     $scope.disableGeo = true;
 
+      $scope.$on("$ionicView.beforeEnter", function() {
+        console.log("Running stuff...");
+
+      });
 
 
+
+      /*$ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true
+      });*/
+
+      $ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
+
+      });
+
+      $timeout(function(){
+        $ionicLoading.hide();
+      },2000)
 
 
     /*
@@ -180,13 +226,10 @@ angular.module('starter.controllers', [])
 
 
 
-
-
-
-
-
-
-
+    /*
+     IONIC Popever
+     _-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-_-__-_-
+     */
 
     $ionicPopover.fromTemplateUrl('templates/popover.html', {
       scope: $scope,
@@ -195,63 +238,41 @@ angular.module('starter.controllers', [])
     });
 
 
-    //fonction pour activer la géloaclisation
-
-    $scope.ActiverGeo = function(){
-
-      //activer la géolocalisation
-      $scope.disableGeo= false;
-      console.log('ok ok ok')
-      $ionicLoading.show({
-        content: 'Loading',
-        animation: 'fade-in',
-        showBackdrop: true,
-        maxWidth: 200,
-        showDelay: 0,
-
-      });
-
-      $timeout(function(){
-        $ionicLoading.hide();
-      },2000)
+    /*
+     -_-_-__-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-_-_-_-_-_-_-_-
+     */
 
 
-    }
+  /*
+  les fonctions
+   */
 
-    $scope.specialites = [
-      'Pharmacie de jour','Vétérinaire','Dentiste','Pharmacie de Nuit','Anesthethie'
-    ];
+
+
+    $scope.specialites = RechercherSevice.getSpecialitees();
+      console.log('get Docteurs' + JSON.stringify((getDocteurs)))
+
 
     //la liste de sgouvernorats
     $scope.gouvernorats = [
       'Ariana','Ben Arous','Mannouba','Tunis'
     ];
 
+      // la liste des Délégations
+      $scope.delegations =['Ariana Ville','Ariana Nouvelle','Ariana Sup','El Menzah 9']
 
 
+    //la liste des docteurs
+    $scope.docteurs =getDocteurs;
 
 
-    $scope.someSetModel = 'Mauro';
-    $scope.someModel2 = 'Hello';
-
-    $scope.getOpt = function(option){
-      return option.name + ":" + option.role;
-    };
-
-    $scope.shoutLoud = function(newValuea, oldValue){
-      alert("changed from " + JSON.stringify(oldValue) + " to " + JSON.stringify(newValuea));
-    };
-
-    $scope.shoutReset = function(){
-      alert("value was reset!");
-    };
 
 
 
     //une fonction pour faire la recherche du docteur
 
 
-    $scope.recherche = function(){
+    $scope.rechercheParCritere = function(){
       console.log('on va rechercher le docteur')
 
       $ionicLoading.show({
@@ -265,14 +286,80 @@ angular.module('starter.controllers', [])
 
       $timeout(function(){
         $ionicLoading.hide();
-        //$scope.openModal();
+        $scope.openModal();
       },2000)
 
 
-      $state.go('app.resultas')
+      //$state.go('app.resultas')
+
+    }
 
 
 
+
+//une méthode pour localiser l'utilisateur
+
+
+    $scope.RechercherParMap = function(){
+
+      //localiser l'utilisateur et rechercher les docteurs autour dde lui ;
+
+      $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
+
+      });
+
+      /*$timeout(function(){
+        $ionicLoading.hide();
+        //$scope.openModal();
+      },2000)*/
+
+
+
+      var posOptions = {timeout: 10000, enableHighAccuracy: false};
+      $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function (position) {
+          $ionicLoading.hide();
+          var lat  = position.coords.latitude
+          var long = position.coords.longitude
+          console.log('data' + lat + 'long 0' + long)
+        }, function(err) {
+          // error
+          console.log('err' + err)
+        });
+
+
+      var watchOptions = {
+        timeout : 3000,
+        enableHighAccuracy: false // may cause errors if true
+      };
+
+      /*var watch = $cordovaGeolocation.watchPosition(watchOptions);
+      watch.then(
+        null,
+        function(err) {
+          // error
+        },
+        function(position) {
+          var lat  = position.coords.latitude
+          var long = position.coords.longitude
+          console.log('data2' + lat + '---' + long)
+        });*/
+
+
+      /*watch.clearWatch();
+      // OR
+      $cordovaGeolocation.clearWatch(watch)
+        .then(function(result) {
+          // success
+        }, function (error) {
+          // error
+        });*/
 
 
 
@@ -286,12 +373,7 @@ angular.module('starter.controllers', [])
 
 
 
-
-
-
-
-
-  })
+  }])
 
 
   .controller('ResultatsCtrl', function($scope,$state,$stateParams,$cordovaGeolocation,$timeout) {
@@ -331,14 +413,29 @@ angular.module('starter.controllers', [])
   .controller('clientLoginCtrl', function($scope,$ionicLoading, $timeout) {
 
 
+    //variable pour vérifier si el formulaire est envoyée
+
+    $scope.submitted = false;
+
+    //varibale pour controler si l'email n'existe pas
+
+    $scope.emailInexistant = false;
+
+    //variable pour controler si le mot de pass est invalide
+    $scope.passwordInvalide = false;
+
     //initializer le client
 
     $scope.client ={};
 
     //une fonction ppur login Client
 
-    $scope.loginClient = function(){
-      console.log('ok ok ok')
+    $scope.loginClient = function(isValid){
+
+      console.log('validty' +isValid)
+
+      $scope.submitted = true;
+
       $ionicLoading.show({
         content: 'Loading',
         animation: 'fade-in',
@@ -357,7 +454,8 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('clientInscriptionCtrl', function($scope,ionicDatePicker,$ionicLoading, $timeout) {
+  .controller('clientInscriptionCtrl',['$scope','ionicDatePicker','$ionicLoading','$timeout','PatientService',function($scope,ionicDatePicker,$ionicLoading, $timeout
+  ,PatientService) {
     var ipObj1 = {
       callback: function (val) {  //Mandatory
         console.log('Return value from the datepicker popup is : ' + val, new Date(val));
@@ -384,11 +482,21 @@ angular.module('starter.controllers', [])
     //initializer le client
 
     $scope.newClient={};
+    $scope.accept1 = true;
+    $scope.accept2 = true;
+
+    $scope.phNumber = '/^[1-9]{1}[0-9]{7}$/';
+
+    $scope.submitted = false;
 
     //une fonction ppur login Client
 
-    $scope.inscrireClient = function(){
-      console.log('ok ok ok')
+    $scope.inscrireClient = function(isValid){
+      $scope.submitted = true;
+
+      if(isValid){
+
+
       $ionicLoading.show({
         content: 'Loading',
         animation: 'fade-in',
@@ -401,12 +509,30 @@ angular.module('starter.controllers', [])
       $timeout(function(){
         $ionicLoading.hide();
       },2000)
+      }//end if is valid
 
+
+      PatientService.inscrire($scope.newClient)
+      //si succes redirger vers dashabord
+      //si non afficher message d'erreurs
     }
 
-  })
+  }])
 
-  .controller('praticienLoginCtrl', function($scope, $ionicModal, $timeout,$ionicLoading) {
+  .controller('praticienLoginCtrl',['$scope','$timeout',
+  '$ionicLoading','DocteurService',function($scope, $timeout,$ionicLoading,DocteurService) {
+
+
+    //variable pour vérifier si el formulaire est envoyée
+
+    $scope.submitted = false;
+
+    //varibale pour controler si l'email n'existe pas
+
+    $scope.emailInexistant = false;
+
+    //variable pour controler si le mot de pass est invalide
+    $scope.passwordInvalide = false;
 
     //initializer le client
 
@@ -414,31 +540,116 @@ angular.module('starter.controllers', [])
 
     //une fonction ppur login Client
 
-    $scope.loginPraticient = function(){
-      console.log('ok ok ok')
-      $ionicLoading.show({
-        content: 'Loading',
-        animation: 'fade-in',
-        showBackdrop: true,
-        maxWidth: 200,
-        showDelay: 0,
+    $scope.loginPraticient = function(isValid){
 
-      });
 
-      $timeout(function(){
-        $ionicLoading.hide();
-      },2000)
+      console.log('form pratcine tlogin' + isValid);
+      $scope.submitted = true;
+
+      //DocteurService
+
+      if(isValid){
+
+        $ionicLoading.show({
+          content: 'Loading',
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0,
+
+        });
+
+        $timeout(function(){
+          $ionicLoading.hide();
+        },2000)
+
+        DocteurService.seConnecter($scope.praticient)
+        //si success rediriger vers dashabord
+        // si non afficher message d'erreur
+
+      }
+
+
 
     }
 
-  })
+  }])
 
-  .controller('praticienInscriptionCtrl', function($scope, $ionicModal, $timeout) {
+  .controller('praticienInscriptionCtrl',['$scope','$ionicModal','$timeout','DocteurService', ,function($scope, $ionicModal
+    ,$timeout,DocteurService) {
 
 
-  })
 
-  .controller('dashabordClientCtrl', function($scope, $ionicModal, $timeout,ionicMaterialMotion,ionicMaterialInk) {
+    //variable pour valider le formulaire vérifier si elle envoyée
+    $scope.submitted = false ;
+
+    //une variable pour vérifier si le code entré est invalide
+
+    $scope.codeInvalide = false;
+    //initializer les données
+    $scope.newDocteur ={};
+
+    $scope.inscrireDocteur = function(isVlaid){
+
+      console.log('IsValid' + isVlaid)
+      $scope.submitted = true;
+
+      if(isVlaid){
+        DocteurService.inscrire($scope.newDocteur)
+        // si success rediriger vers dashabord
+        //si non afficher message d'erreur
+      }
+
+    }
+
+
+  }])
+
+  .controller('dashabordClientCtrl',['$scope','$ionicModal','$timeout','ionicMaterialMotion','ionicMaterialInk','$ionicLoading',
+    '$ionicHistory','PatientService',
+    function($scope, $ionicModal, $timeout,ionicMaterialMotion,ionicMaterialInk,
+                                              $ionicLoading, $ionicHistory,PatientService) {
+
+
+    $scope.Client = PatientService.getPatient();
+
+    $scope.$on("$ionicView.enter", function() {
+      $ionicHistory.clearCache();
+      $ionicHistory.clearHistory();
+      console.log("dahsbord client .......")
+    });
+    $ionicLoading.show({
+      template: '<ion-spinner icon="dots"></ion-spinner>',
+      hideOnStageChange: true,
+      animation: 'fade-in',
+      showBackdrop: true,
+      maxWidth: 200,
+      showDelay: 0,
+
+    });
+
+    $timeout(function(){
+      $ionicLoading.hide();
+    },2000)
+
+    $scope.$on("$ionicView.beforeEnter", function() {
+      console.log("dahsbord client .......")
+    });
+    $ionicLoading.show({
+      template: '<ion-spinner icon="dots"></ion-spinner>',
+      hideOnStageChange: true,
+      animation: 'fade-in',
+      showBackdrop: true,
+      maxWidth: 200,
+      showDelay: 0,
+
+    });
+
+    $timeout(function(){
+      $ionicLoading.hide();
+    },2000)
+
+
 
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -461,11 +672,145 @@ angular.module('starter.controllers', [])
 
     // Set Ink
     ionicMaterialInk.displayEffect();
+
+
+
+
+
+
+
+
+
+    console.log('on va afficher lzs informations du client , ses rendez vous, et ses praticients')
+
+
+    //une méthode pour modifier le profile
+
+
+    $scope.modifierProfile = function(){
+
+      $ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
+
+      });
+
+      $timeout(function(){
+        $ionicLoading.hide();
+      },2000)
+
+      //on doit valider les informations changées
+      PatientService.modifierProfile(data)
+      //si success afficher Modal
+
+
+    }
+
+
+
+
+
+
+
+
+  }])
+
+  .controller('dashabordPraticienCtrl',['$scope','$ionicModal','$timeout','$ionicLoading','$ionicHistory','DocteurService', function($scope,$ionicModal,
+                                                                                                                                     $timeout,$ionicLoading,$ionicHistory,DocteurService) {
+
+
+
+
+    //récuperer le docteur
+
+    $scope.Docteur = DocteurService.getDocteur;
+
+
+    //on va afficher toutes les informations du docteur , profile , rendez vous la liste des clients
+
+
+    /*
+    les méthodes
+     */
+
+    $scope.confirmerRendezVous = function(){
+
+      //si valeur button rejeter alors envoyer rejter
+      //si valeur button confirmer envoyer confirmer
+      DocteurService.confirmerRendezVous();
+
+
+    }
+
+
+
+    $scope.modifierProfile = function(){
+      //modifier son profile et ses cordonnées
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $scope.$on("$ionicView.enter", function() {
+      $ionicHistory.clearCache();
+      $ionicHistory.clearHistory();
+      console.log("dahsbord praticien .......")
+    });
+    $ionicLoading.show({
+      template: '<ion-spinner icon="dots"></ion-spinner>',
+      hideOnStageChange: true,
+      animation: 'fade-in',
+      showBackdrop: true,
+      maxWidth: 200,
+      showDelay: 0,
+
+    });
+
+    $timeout(function(){
+      $ionicLoading.hide();
+    },2000)
+
+console.log('we are hear')
+  }])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .controller('DocteurCtrl', function($scope, $ionicModal, $timeout) {
+
+   $scope.Docteur  ='';
   })
 
-  .controller('dashabordPraticienCtrl', function($scope, $ionicModal, $timeout) {
+  .controller('RdvsCtrl', function($scope, $ionicModal, $timeout) {
 
-
+    $scope.RendezVous = '' ;
   })
 
 

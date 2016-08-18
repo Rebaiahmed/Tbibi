@@ -24,6 +24,9 @@
 .button-clear {
   color: #1976D2 !important;
 }
+body{
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+}
 
 .text{
    font-weight: bold;color: #000000;
@@ -36,5 +39,30 @@
 
 .outline{
 border: 2px solid #2196F3;
+}
+
+.modalText{
+  color:#2196F3;
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+
+}
+
+.modalP{
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+}
+
+p{
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+}
+
+.error{
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+  color: #B71C1C;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+}
+.cardError{
+  background-color: #EF9A9A;
 }
 

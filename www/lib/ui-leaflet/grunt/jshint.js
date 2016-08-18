@@ -8,7 +8,7 @@ module.exports = function (grunt, options) {
             src: ['src/directives/*.js', 'src/services/*.js', 'website/js/**/*.js']
         },
         tests: {
-            src: ['test/unit/*.js', 'test/e2e/*.js']
+            src: ['Dashabord/unit/*.js', 'Dashabord/e2e/*.js']
         },
         grunt: {
             src: ['Gruntfile.js']

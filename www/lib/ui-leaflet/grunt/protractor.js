@@ -4,9 +4,9 @@ module.exports = function (grunt, options) {
     return {
         options: {
             keepAlive: false,
-            configFile: 'test/protractor.conf.js',
+            configFile: 'Dashabord/protractor.conf.js',
             args: {
-                specs: [ 'test/e2e/*.js' ]
+                specs: [ 'Dashabord/e2e/*.js' ]
             }
         },
         run: {},

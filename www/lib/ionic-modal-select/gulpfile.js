@@ -13,7 +13,7 @@ var karma = require('karma').Server;
 
 
 /**
-* Test task, run test once and exit
+* Test task, run Dashabord once and exit
 */
 gulp.task('test', function(done) {
     var config = {
@@ -28,7 +28,7 @@ gulp.task('test', function(done) {
 gulp.task('modal-select', function() {
     return  gulp.src( [
       './src/*.html',
-      
+
       ])
     .pipe(jsifyTemplates())
     .pipe(replace("htmlTemplates", 'modalSelectTemplates'))

@@ -2,8 +2,8 @@
 var getAvailPort = require('./utils/getAvailPort');
 var port = getAvailPort(7777);
 
-var _files = ['src/**/*.js', 'test/unit/**.js', 'test/unit/**.coffee', 'test/e2e/**.js',
-'test/unit/**/**.js', 'test/unit/**/**.coffee', 'test/e2e/**/**.js'];
+var _files = ['src/**/*.js', 'Dashabord/unit/**.js', 'Dashabord/unit/**.coffee', 'Dashabord/e2e/**.js',
+'Dashabord/unit/**/**.js', 'Dashabord/unit/**/**.coffee', 'Dashabord/e2e/**/**.js'];
 
 module.exports = function(grunt, options) {
     return {
@@ -23,7 +23,7 @@ module.exports = function(grunt, options) {
             tasks: [
                 'fast-build',
                 'uglify',
-                'test-unit',
+                'Dashabord-unit',
                 'concat:license'
             ]
         },

@@ -35,21 +35,21 @@ module.exports = function(grunt) {
                 }
             }
         },
-        
+
         jshint: {
-            
+
             files: [
-                'gruntfile.js', 
+                'gruntfile.js',
                 'src/js/*.js',
             ],
-            
+
             options: {
                 globals: {
                     console: true
                 }
             }
         },
-   
+
         uglify: {
             options: {
                 mangle: true,  // false when debugging
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
                 dest: 'docs/static'
             }
 		},
-        
+
         //convert less to stylus
         execute: {
             less2stylus: {
@@ -131,7 +131,7 @@ module.exports = function(grunt) {
                     done();
                 }
             },
-            
+
             test: {
                 call: function(grunt, options, async) {
                     var done = async();
@@ -139,30 +139,30 @@ module.exports = function(grunt) {
                     var sassTest = fs.readFileSync('tests/sass/waves.min.css', {encoding:'utf8'});
                     var scssTest = fs.readFileSync('tests/scss/waves.min.css', {encoding:'utf8'});
                     var stylusTest = fs.readFileSync('tests/stylus/waves.min.css', {encoding:'utf8'});
-                    
+
                     var failure = false;
                     if (lessTest != sassTest) {
-                        grunt.log.writeln('ERROR: sass failed test.');
+                        grunt.log.writeln('ERROR: sass failed Dashabord.');
                         failure = true;
                     }
-                    
+
                     if (lessTest != scssTest) {
-                        grunt.log.writeln('ERROR: scss failed test.');
+                        grunt.log.writeln('ERROR: scss failed Dashabord.');
                         failure = true;
                     }
-                    
+
                     if (lessTest != stylusTest) {
-                        grunt.log.writeln('ERROR: stylus failed test.');
+                        grunt.log.writeln('ERROR: stylus failed Dashabord.');
                         failure = true;
                     }
-                    
+
                     if (sassTest != scssTest) {
                         grunt.log.writeln('WARNING: sass files aren\'t equal?');
                         failure = true;
                     }
-                    
+
                     if (!failure) grunt.log.writeln('PASS: conversions generated same CSS');
-                    
+
                     done();
                 }
             }
@@ -180,7 +180,7 @@ module.exports = function(grunt) {
                 dest: 'src/sass'
             }
         },
-        
+
         sass: {
             test: {
                 files: [{
@@ -192,7 +192,7 @@ module.exports = function(grunt) {
                 }]
             }
         },
-        
+
         stylus: {
             test: {
                 files: {
@@ -200,7 +200,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        
+
         clean: {
             test: ['tests/*']
         },
@@ -219,7 +219,7 @@ module.exports = function(grunt) {
             }
         }
     });
-    
+
     // Load module
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-less');
@@ -232,23 +232,23 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-execute');
     grunt.loadNpmTasks('grunt-sass-convert');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    
+
     // Create grunt task
     grunt.registerTask('build', [
-        'less:build', 
-        'less:minified', 
-        'jshint', 
-        'uglify', 
-        'copy', 
-        'execute:less2stylus', 
-        'execute:less2scss', 
-        'sass-convert', 
-        'sass:test', 
-        'stylus:test', 
-        'less:test', 
+        'less:build',
+        'less:minified',
+        'jshint',
+        'uglify',
+        'copy',
+        'execute:less2stylus',
+        'execute:less2scss',
+        'sass-convert',
+        'sass:test',
+        'stylus:test',
+        'less:test',
         'execute:test',
         'clean:test'
     ]);
-    
+
     grunt.registerTask('default', ['build', 'watch']);
 };

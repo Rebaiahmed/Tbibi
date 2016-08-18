@@ -15,7 +15,7 @@ let mod = angular.module('test', [
 mod.config(Config);
 mod.controller('MainController', Controller);
 mod.run(($log) => {
-    $log.info('test running');
+    $log.info('Dashabord running');
 });
 
 export default mod = mod.name;

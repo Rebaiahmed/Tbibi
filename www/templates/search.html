@@ -29,7 +29,7 @@
 
             <i ng-show="!disableGeo" class="icon ion-ios-location placeholder-icon"></i>
             <i ng-show="disableGeo" class="icon ion-search placeholder-icon"></i>
-            <input type="text" placeholder="Rechercher autour de moi" autocorrect="off" autocapitalize="off" ng-click="ActiverGeo()" >
+            <input type="text" placeholder="Rechercher autour de moi" autocorrect="off" autocapitalize="off" ng-click="RechercherParMap()" >
 
 
           </label>
@@ -37,30 +37,7 @@
 
 
 
-        <script id="templates/popover.html" type="text/ng-template">
-          <ion-popover-view>
-            <ion-content>
-              <h4 class="border-top"> liste des docteurs</h4>
-              <div class="list">
-                <a class="item item-avatar">
-                  <img src="../img/doctor.png">
-                  <h2>Material</h2>
-                  <p>Sheets of paper</p>
-                </a>
-                <a class="item item-avatar">
-                  <img src="../img/doctor.png">
-                  <h2>Motion</h2>
-                  <p>Accent and bring attention</p>
-                </a>
-                <a class="item item-avatar">
-                  <img src="../img/doctor.png">
-                  <h2>Ink</h2>
-                  <p>Fluidity</p>
-                </a>
-              </div>
-            </ion-content>
-          </ion-popover-view>
-        </script>
+
 
 
         <div class="padding"></div>
@@ -119,7 +96,7 @@
 
         <div class="padding"></div>
 
-        <button style="border: 2px solid #2196F3;"  class="button button-block button-positive button-outline  ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="recherche()">
+        <button style="border: 2px solid #2196F3;"  class="button button-block button-positive button-outline  ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="rechercheParCritere()">
           Rechercher
           <i class="icon ion-search placeholder-icon"></i>
         </button>
@@ -136,20 +113,6 @@
 
 
 
-        <!-------------teh modal script--------------->
-
-        <script id="templates/modal.html" type="text/ng-template">
-          <ion-modal-view>
-            <ion-header-bar class="bar bar-header bar-positive">
-              <h1 class="title">Tbibi.tn</h1>
-              <button class="button button-clear button-primary" ng-click="modal.hide()"><i class = "icon icon ion-close"></i></button>
-            </ion-header-bar>
-            <ion-content class="padding">
-
-              <h1>Sorry we didn"t fin what you search</h1>
-            </ion-content>
-          </ion-modal-view>
-        </script>
 
         <!----------------------------------->
       </ion-tab>

@@ -3,7 +3,7 @@ module.exports = {
         "dist/css/"
     ],
     dev: [
-        "test/css/"
+        "Dashabord/css/"
     ],
     'less-temp': [
         "less/temp/"

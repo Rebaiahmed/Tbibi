@@ -1578,7 +1578,7 @@ function assertArgFn(arg, name, acceptArrayAnnotation) {
 
 /**
  * throw error if the name given is hasOwnProperty
- * @param  {String} name    the name to test
+ * @param  {String} name    the name to Dashabord
  * @param  {String} context the context in which the name is used, such as module or directive
  */
 function assertNotHasOwnProperty(name, context) {
@@ -4914,7 +4914,7 @@ function Browser(window, document, $log, $sniffer) {
    */
   self.notifyWhenNoOutstandingRequests = function(callback) {
     // force browser to execute all pollFns - this is needed so that cookies and other pollers fire
-    // at some deterministic time in respect to the test runner's actions. Leaving things up to the
+    // at some deterministic time in respect to the Dashabord runner's actions. Leaving things up to the
     // regular poller would result in flaky tests.
     forEach(pollFns, function(pollFn) { pollFn(); });
 
@@ -5256,7 +5256,7 @@ function Browser(window, document, $log, $sniffer) {
    * @description
    * Executes a fn asynchronously via `setTimeout(fn, delay)`.
    *
-   * Unlike when calling `setTimeout` directly, in test this function is mocked and instead of using
+   * Unlike when calling `setTimeout` directly, in Dashabord this function is mocked and instead of using
    * `setTimeout` in tests, the fns are queued in an array, which can be programmatically flushed
    * via `$browser.defer.flush()`.
    *
@@ -5417,7 +5417,7 @@ function $CacheFactoryProvider() {
        *    }]);
        * ```
        *
-       * Example test:
+       * Example Dashabord:
        *
        * ```js
        *  it('should behave like a cache', inject(function(superCache) {
@@ -7174,7 +7174,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           } catch (e) {
             // turns out that under some circumstances IE9 throws errors when one attempts to read
             // comment's node value.
-            // Just ignore it and continue. (Can't seem to reproduce in test case.)
+            // Just ignore it and continue. (Can't seem to reproduce in Dashabord case.)
           }
           break;
       }
@@ -8886,7 +8886,7 @@ function $HttpProvider() {
      *  headers: {
      *    'Content-Type': undefined
      *  },
-     *  data: { test: 'test' },
+     *  data: { Dashabord: 'Dashabord' },
      * }
      *
      * $http(req).success(function(){...}).error(function(){...});
@@ -13518,7 +13518,7 @@ function $RootScopeProvider() {
      *
      * Here is a simple scope snippet to show how you can interact with the scope.
      * ```html
-     * <file src="./test/ng/rootScopeSpec.js" tag="docs1" />
+     * <file src="./Dashabord/ng/rootScopeSpec.js" tag="docs1" />
      * ```
      *
      * # Inheritance
@@ -15363,7 +15363,7 @@ function $SceDelegateProvider() {
  *    - *Caveat*:  While regular expressions are powerful and offer great flexibility,  their syntax
  *      (and all the inevitable escaping) makes them *harder to maintain*.  It's easy to
  *      accidentally introduce a bug when one updates a complex expression (imho, all regexes should
- *      have good test coverage.).  For instance, the use of `.` in the regex is correct only in a
+ *      have good Dashabord coverage.).  For instance, the use of `.` in the regex is correct only in a
  *      small number of cases.  A `.` character in the regex used when matching the scheme or a
  *      subdomain could be matched against a `:` or literal `.` that was likely not intended.   It
  *      is highly recommended to use the string patterns and only fall back to regular expressions
@@ -16026,7 +16026,7 @@ function $$TestabilityProvider() {
      *
      * @description
      * The private $$testability service provides a collection of methods for use when debugging
-     * or by automated test and debugging tools.
+     * or by automated Dashabord and debugging tools.
      */
     var testability = {};
 
@@ -16353,7 +16353,7 @@ function urlIsSameOrigin(requestUrl) {
      <file name="protractor.js" type="protractor">
       it('should display the greeting in the input box', function() {
        element(by.model('greeting')).sendKeys('Hello, E2E Tests');
-       // If we click the button it will block the test runner
+       // If we click the button it will block the Dashabord runner
        // element(':button').click();
       });
      </file>
@@ -20163,10 +20163,10 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  * ```js
  * ngModel.$validators.validCharacters = function(modelValue, viewValue) {
  *   var value = modelValue || viewValue;
- *   return /[0-9]+/.test(value) &&
- *          /[a-z]+/.test(value) &&
- *          /[A-Z]+/.test(value) &&
- *          /\W+/.test(value);
+ *   return /[0-9]+/.Dashabord(value) &&
+ *          /[a-z]+/.Dashabord(value) &&
+ *          /[A-Z]+/.Dashabord(value) &&
+ *          /\W+/.Dashabord(value);
  * };
  * ```
  *
@@ -22801,7 +22801,7 @@ var ngControllerDirective = [function() {
             webdriver = require('protractor/node_modules/selenium-webdriver');
           });
 
-          // For now, we only test on Chrome,
+          // For now, we only Dashabord on Chrome,
           // as Safari does not load the page with Protractor's injected scripts,
           // and Firefox webdriver always disables content security policy (#6358)
           if (browser.params.browser !== 'chrome') {
@@ -25667,7 +25667,7 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
             }
             return toDisplay;
           } else if (values) {
-            // TODO: Add a test for this case
+            // TODO: Add a Dashabord for this case
             toDisplay = {};
             for (var prop in values) {
               if (values.hasOwnProperty(prop)) {

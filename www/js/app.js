@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic-material', 'starter.controllers','ionic-datepicker','ionic-native-transitions','ionMdInput'
+angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-datepicker','ionic-native-transitions','ionMdInput'
 ,'ionic-modal-select','ui.rCalendar','ngCordova','ion-floating-menu'])
 
 .run(function($ionicPlatform) {
@@ -28,23 +28,61 @@ angular.module('starter', ['ionic','ionic-material', 'starter.controllers','ioni
 
     .state('app', {
     url: '/app',
-    abstract: true,
+      abstract: true,
+      cache: false,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
 
   .state('app.recherche', {
     url: '/search',
+      cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html',
+        templateUrl: 'templates/Recherche/TabsRecherche.html',
         controller :'RechercheCtrl'
       }
-    }
+    },resolve :{
+        getDocteurs :['RechercherSevice', function(RechercherSevice){
+          return RechercherSevice.getDocteurs();
+        }]
+      }
   })
 
+    .state('app.recherche.specialite', {
+      url: '/search/specialite',
+      cache: false,
+      views: {
+        'pr-specialite': {
+          templateUrl: 'templates/Recherche/RechercheSpecialite.html',
+          controller :'RechercheCtrl'
+        }
+      }
+    })
+
+    .state('app.recherche.nom', {
+      url: '/search/Nom',
+      cache: false,
+      views: {
+        'pr-nom': {
+          templateUrl: 'templates/Recherche/RechercheParNom.html',
+          controller :'RechercheCtrl'
+        }
+      }
+    })
+
+
+
+
+
+
+
+    /*
+    Resultats de recherche
+     */
     .state('app.resultas', {
       url: '/resultats',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/resultas.html',
@@ -58,6 +96,7 @@ angular.module('starter', ['ionic','ionic-material', 'starter.controllers','ioni
      */
     .state('app.maps', {
       url: '/Maps',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/Maps.html',
@@ -66,18 +105,46 @@ angular.module('starter', ['ionic','ionic-material', 'starter.controllers','ioni
       }
     })
 
+    /*
+    Docteur Détails
+     */
+    .state('app.docteursDetails', {
+      url: '/docteurDetails/:nom',
+      cache: false,
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/Docteur/Docteur.details.html',
+          controller :'DocteurCtrl'
+        }
+      }
+    })
 
-    //RESULTAT DU RECHERCHE
+    /*
+    Rendez Vous détails
+     */
+    .state('app.rdvDetails', {
+      url: '/rendezvousDetails/:nomRdvez',
+      cache: false,
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/RendezVous.details.html',
+          controller :'RdvsCtrl'
+        }
+      }
+    })
 
+
+    //------------------------------------------------------------------------------//
   .state('app.espacePatientlogin', {
       url: '/loginClient',
+      cache: false,
       nativeTransitions: {
         "type": "flip",
         "direction": "up"
       },
       views: {
         'menuContent': {
-          templateUrl: 'templates/espacePatient.login.html',
+          templateUrl: 'templates/Client/espacePatient.login.html',
           controller :'clientLoginCtrl'
         }
       }
@@ -85,18 +152,25 @@ angular.module('starter', ['ionic','ionic-material', 'starter.controllers','ioni
 
     .state('app.espacePatientinscription', {
       url: '/inscriptionClient',
+      cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/espacePatient.inscription.html',
+          templateUrl: 'templates/Client/espacePatient.inscription.html',
           controller :'clientInscriptionCtrl'
         }
       }
     })
+
+
+    //------------------------------------------------------------------------------//
+
+    //------------------------------------------------------------------------------//
     .state('app.espacePraticienlogin', {
       url: '/loginPraticien',
+      cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/espacePraticien.login.html',
+          templateUrl: 'templates/Docteur/espacePraticien.login.html',
           controller: 'praticienLoginCtrl'
         }
       }
@@ -104,80 +178,134 @@ angular.module('starter', ['ionic','ionic-material', 'starter.controllers','ioni
 
     .state('app.espacePraticieninscription', {
       url: '/inscriptionPraticien',
+      cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/espacePraticien.inscription.html',
+          templateUrl: 'templates/Docteur/espacePraticien.inscription.html',
           controller: 'praticienInscriptionCtrl'
         }
       }
     })
 
+    //------------------------------------------------------------------------------//
+
+
+
+
+
+
+
+
+    //------------------------------------------------------------------------------//
     .state('app.dashaBordClient', {
       url: '/dashabordClient',
+      cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/dashabord.client.html',
+          templateUrl: 'templates/Dashabord/tabs.html',
           controller: 'dashabordClientCtrl'
         }
       }
     })
 
-
-
-
-
-    /*
-    inheritance with $states
-     */
     .state('app.dashaBordClient.rendezvous', {
-      url: '/dashabordClient',
+      url: '/rendezVousClient',
       views: {
-        'menuContent': {
-          templateUrl: 'templates/RendezVousClient.html',
+        'home-tab': {
+          templateUrl: 'templates/Dashabord/Client.RendezVous.html',
           controller: 'dashabordClientCtrl'
         }
       }
     })
 
-    .state('app.praticients', {
-      url: '/dashabordClient',
+    .state('app.dashaBordClient.praticients', {
+      url: '/paraticientssClient',
       views: {
-        'menuContent': {
-          templateUrl: 'templates/PraticientsClient.html',
-          controller: 'dashabordClientCtrl'
-        }
-      }
-    })
-
-
-    .state('app.profile', {
-      url: '/dashabordClient',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/profile.client.html',
+        'about-tab': {
+          templateUrl: 'templates/Dashabord/Client.praticients.html',
           controller: 'dashabordClientCtrl'
         }
       }
     })
 
 
+    .state('app.dashaBordClient.profile', {
+      url: '/ProfileClient',
+      views: {
+        'contact-tab': {
+          templateUrl: 'templates/Dashabord/Client.profile.html',
+          controller: 'dashabordClientCtrl'
+        }
+      }
+    })
+
+    //------------------------------------------------------------------------------//
 
 
 
 
 
+/*
+-_-_-_-_-_-_-__-_-_DASHABORD---PRATICIENT-----------------------
 
+ */
 
-
+    //------------------------------------------------------------------------------//
     .state('app.dashaBordPraticien', {
       url: '/dashabordPraticien',
       views: {
         'menuContent': {
-          templateUrl: 'templates/dashabord.praticien.html',
+          templateUrl: 'templates/Dashabord2/tabs2.html',
           controller: 'dashabordPraticienCtrl'
         }
       }
     })
+
+
+
+    .state('app.dashaBordPraticien.rendezVous', {
+      url: '/dashabordPraticien/rendezVous',
+      views: {
+        'pr-tab': {
+          templateUrl: 'templates/Dashabord2/Praticien.RendezVous.html',
+          controller: 'dashabordPraticienCtrl'
+        }
+      }
+    })
+
+    //-----------------
+    .state('app.dashaBordPraticien.clients', {
+      url: '/dashabordPraticien/Clients',
+      views: {
+        'pc-tab': {
+          templateUrl: 'templates/Dashabord2/Praticien.Clients.html',
+          controller: 'dashabordPraticienCtrl'
+        }
+      }
+    })
+
+    //------------------------------
+
+    .state('app.dashaBordPraticien.profile', {
+      url: '/dashabordPraticien/profile',
+      views: {
+        'pp-tab': {
+          templateUrl: 'templates/Dashabord2/Praticient.profile.html',
+          controller: 'dashabordPraticienCtrl'
+        }
+      }
+    })
+
+    //------------------------------------------------------------------------------//
+
+
+
+
+
+
+
+
+
 
     .state('app.contact', {
       url: '/contact',
@@ -232,6 +360,12 @@ angular.module('starter', ['ionic','ionic-material', 'starter.controllers','ioni
       type: 'slide',
       direction: 'left'
     });
-  });
+  })
+
+  .run(function($rootScope, $templateCache) {
+    $rootScope.$on('$viewContentLoaded', function() {
+      $templateCache.removeAll();
+    });
+  })
 
 

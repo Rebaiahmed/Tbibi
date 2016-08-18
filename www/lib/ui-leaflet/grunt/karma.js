@@ -4,7 +4,7 @@
 module.exports = function (grunt, options) {
     return {
         unit: {
-            configFile: 'test/karma-unit.conf.js',
+            configFile: 'Dashabord/karma-unit.conf.js',
             autoWatch: false,
             singleRun: true,
             reporters: ['dots', 'coverage'],
@@ -20,32 +20,32 @@ module.exports = function (grunt, options) {
             }
         },
         'unit-mocha': {
-            configFile: 'test/karma-unit.conf.js',
+            configFile: 'Dashabord/karma-unit.conf.js',
             autoWatch: false,
             singleRun: true,
             reporters: ['mocha']
         },
         'unit-dots': {
-            configFile: 'test/karma-unit.conf.js',
+            configFile: 'Dashabord/karma-unit.conf.js',
             autoWatch: false,
             singleRun: true,
             reporters: ['dots']
         },
         'unit-chrome': {
-            configFile: 'test/karma-unit.conf.js',
+            configFile: 'Dashabord/karma-unit.conf.js',
             browsers: ['Chrome'],
             autoWatch: true,
             singleRun: false
         },
         'unit-chrome-mocha': {
-            configFile: 'test/karma-unit.conf.js',
+            configFile: 'Dashabord/karma-unit.conf.js',
             browsers: ['Chrome'],
             autoWatch: true,
             singleRun: false,
             reporters: ['mocha']
         },
         'unit-chrome-once': {
-            configFile: 'test/karma-unit.conf.js',
+            configFile: 'Dashabord/karma-unit.conf.js',
             browsers: ['Chrome'],
             autoWatch: true,
             singleRun: true

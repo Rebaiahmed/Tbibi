@@ -20,7 +20,7 @@ module.exports = {
             minifier: false
         },
         files: {
-            'test/css/material-design-iconic-font.css': 'test/css/material-design-iconic-font.css'
+            'test/css/material-design-iconic-font.css': 'Dashabord/css/material-design-iconic-font.css'
         }
     },
     'prod-min': {

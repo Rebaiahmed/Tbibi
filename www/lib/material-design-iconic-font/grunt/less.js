@@ -5,7 +5,7 @@ module.exports = {
             paths: ["less"],
             sourceMap: true,
             sourceMapRootpath: "/",
-            sourceMapFilename: "test/css/material-design-iconic-font.css.map",
+            sourceMapFilename: "Dashabord/css/material-design-iconic-font.css.map",
             sourceMapURL: "material-design-iconic-font.css.map"
         },
         files: {

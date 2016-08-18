@@ -23,7 +23,7 @@ module.exports = {
     },
     'dev': {
         src: 'svg/2.2/*/*.svg',
-        dest: 'test/fonts',
+        dest: 'Dashabord/fonts',
         destCss: 'less/temp',
         options: {
             font: 'Material-Design-Iconic-Font',

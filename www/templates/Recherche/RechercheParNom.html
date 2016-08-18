@@ -1,0 +1,46 @@
+<ion-view view-title="Recherche">
+  <ion-content class="padding animated fadeInLeft">
+
+
+
+    <div class="row">
+      <label class="item item-input item-stable">
+
+        <i ng-show="!disableGeo" class="icon ion-ios-location placeholder-icon"></i>
+        <i ng-show="disableGeo" class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Rechercher autour de moi" autocorrect="off" autocapitalize="off" ng-click="RechercherParMap()" >
+
+
+      </label>
+    </div>
+
+
+    <div class="padding"></div>
+
+    <div class="row">
+
+
+
+        <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="someModel" options="Docteurs" modal-title="Choisir Docteur" has-search="true">
+        Recherchez Votre médecin ou votre établissement
+          <div class="option">
+            {{option}}
+          </div>
+        </button>
+
+
+
+      </div><!----end of Row---------->
+
+
+
+
+
+
+
+
+
+
+
+  </ion-content>
+</ion-view>

@@ -2535,7 +2535,7 @@ window.ionic.version = '1.0.0-beta.14';
  * - Works with labels surrounding inputs
  * - Does not fire off a click if the user moves the pointer too far
  * - Adds and removes an 'activated' css class
- * - Multiple [unit tests](https://github.com/driftyco/ionic/blob/master/test/unit/utils/tap.unit.js) for each scenario
+ * - Multiple [unit tests](https://github.com/driftyco/ionic/blob/master/Dashabord/unit/utils/tap.unit.js) for each scenario
  *
  */
 /*
@@ -7369,7 +7369,7 @@ ionic.views.Slider = ionic.views.View.inherit({
           y: touches.pageY - start.y
         };
 
-        // determine if scrolling test has run - one time test
+        // determine if scrolling Dashabord has run - one time Dashabord
         if ( typeof isScrolling == 'undefined') {
           isScrolling = !!( isScrolling || Math.abs(delta.x) < Math.abs(delta.y) );
         }
