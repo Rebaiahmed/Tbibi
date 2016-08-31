@@ -19,52 +19,73 @@
 
     <!--------the select------------->
 
-    <div class="row">
 
 
 
-      <div class="col-50">
-        <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="someModel" options="specialites" modal-title="Choisir Spécialité" has-search="true">
+
+      <div class="row">
+
+
+
+        <div class="col-33">
+        <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="data.specialite" options="specialites" modal-title="Choisir Spécialité" has-search="true" required="">
           Spécialité
           <div class="option">
             {{option}}
           </div>
         </button>
-      </div><!----end of col 50----------->
+      </div><!----end of col 33----------->
+
 
       <!------------------->
 
       <!--------the select------------->
-      <div class="col-50">
-        <button style="border: 2px solid #2196F3;" class="button button-positive button-outline" modal-select="" ng-model="someModel" options="gouvernorats" modal-title="Choisir Spécialité" has-search="true">
+      <div class="col-33">
+        <button style="border: 2px solid #2196F3;" class="button button-positive button-outline" modal-select="" ng-model="data.gouvernorat" options="gouvernorats" modal-title="Choisir Gouvernorat" has-search="true">
           Gouvernorat
           <div class="option">
             {{option}}
           </div>
         </button>
-      </div><!----end of col 50-------------->
+      </div><!----end of col 33-------------->
+
       <!------------------->
 
-    </div><!---end of row-------------->
+
 
 
     <div class="padding"></div>
     <!------------------>
 
-    <div style="border: 2px solid #2196F3;" class="">
-      <label class = "item item-input item-select item-light" ng-show="!showListemdecins">
-        <div class = "input-label">
-          Délégation
+
+
+    <div class="col-33">
+      <button style="border: 2px solid #2196F3;" class="button button-positive button-outline" modal-select="" ng-model="data.delegation" options="delegations" modal-title="Choisir Délegation" has-search="true">
+       Délegation
+        <div class="option">
+          {{option}}
         </div>
+      </button>
+    </div><!----end of col-33------------->
 
-        <select>
-          <option>Ariana Ville</option>
-          <option selected>Ennasr 1</option>
-          <option>Ennasr 2</option>
-        </select>
-      </label>
+    <!------------------->
+</div><!------------------end of row--------------->
+
+<div class="padding"></div>
+    <div class="row">
+      <div class="col-33" ng-if="data.specialite">
+        <p>{{ data.specialite}} <i class = "icon icon ion-ios-medkit-outline"></i></p>
+      </div>
+
+      <div class="col-33 text2" ng-if="data.gouvernorat">
+        <p>{{ data.gouvernorat}} <i class = "icon icon ion-ios-location"></i></p>
+      </div>
+
+      <div class="col-33 text2" ng-if="data.delegation">
+        <p>{{ data.delegation}} <i class = "icon icon ion-android-home"></i></p>
+      </div>
+
     </div>
-
 
     <div class="padding"></div>
 

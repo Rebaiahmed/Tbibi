@@ -4,8 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-datepicker','ionic-native-transitions','ionMdInput'
-,'ionic-modal-select','ui.rCalendar','ngCordova','ion-floating-menu'])
+angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker','ionic-native-transitions','ionMdInput'
+,'ionic-modal-select','ngCordova','ion-floating-menu','ui.rCalendar','leaflet-directive','ngGeolocation','LocalStorageModule'
+  ,'ngPassword','LocalStorageModule','ionic-toast'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -44,7 +45,14 @@ angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-da
       }
     },resolve :{
         getDocteurs :['RechercherSevice', function(RechercherSevice){
+
+
           return RechercherSevice.getDocteurs();
+        }],
+        getSpecialitees :['RechercherSevice', function(RechercherSevice){
+
+
+          return RechercherSevice.getSpecialitees();
         }]
       }
   })
@@ -81,7 +89,7 @@ angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-da
     Resultats de recherche
      */
     .state('app.resultas', {
-      url: '/resultats',
+      url: '/resultats/:resultats',
       cache: false,
       views: {
         'menuContent': {
@@ -89,6 +97,7 @@ angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-da
           controller :'ResultatsCtrl'
         }
       }
+
     })
 
     /*
@@ -100,7 +109,17 @@ angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-da
       views: {
         'menuContent': {
           templateUrl: 'templates/Maps.html',
-          controller :'ResultatsCtrl'
+          controller :'MapsCtrl',
+          resolve:{
+            getPosition : ['GeoSevice', function(GeoSevice){
+
+              return GeoSevice.getCurrentPosition();
+            }],
+            getDocteurs :['RechercherSevice', function(RechercherSevice){
+              return RechercherSevice.getDocteurs();
+            }]
+          }
+
         }
       }
     })
@@ -109,13 +128,21 @@ angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-da
     Docteur Détails
      */
     .state('app.docteursDetails', {
-      url: '/docteurDetails/:nom',
+      url: '/docteurDetails/:id',
       cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/Docteur/Docteur.details.html',
-          controller :'DocteurCtrl'
+          controller :'DocteurDetailsCtrl'
         }
+      },
+      resolve:{
+        getDocteur : ['RechercherSevice','$stateParams', function(RechercherSevice,$stateParams){
+
+
+         return RechercherSevice.RechercheDocteur($stateParams.id);
+
+        }]
       }
     })
 
@@ -316,6 +343,16 @@ angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-da
       }
     })
 
+    .state('app.propos', {
+      url: '/Apropos',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/Apropos.html',
+
+        }
+      }
+    })
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/search');
@@ -362,10 +399,23 @@ angular.module('tbibi', ['ionic','ionic-material', 'tbibi.controllers','ionic-da
     });
   })
 
-  .run(function($rootScope, $templateCache) {
+  .run(function($rootScope, $templateCache,PatientService) {
     $rootScope.$on('$viewContentLoaded', function() {
       $templateCache.removeAll();
     });
+
+
+    console.log('client existe' + PatientService.getPatient());
+
+    if(PatientService.getPatient()){
+      $rootScope.clientAuthenticated = true ;
+    }else{
+      $rootScope.clientAuthenticated = false ;
+    }
+
+
+
+
   })
 
 

@@ -1,4 +1,12 @@
 <ion-view view-title="Rendez Vous">
+
+  <ion-nav-buttons side="right">
+    <button class="button button-calm" ng-click="logout()">
+      logout
+    </button>
+  </ion-nav-buttons>
+
+
   <ion-content class="padding animated fadeInLeft">
 
 
@@ -6,23 +14,28 @@
     <h4 class="content padding double-padding-x text2" style="text-align: center;">Mes Rendez-vous</h4>
 
     <!--------Praticients------------------>
-    <div class="list animate-fade-slide-in-right text2">
+
+    <p>{{ Client}}</p>
+    <div class="list animate-fade-slide-in-right">
 
 
 
-      <a  class="item item-avatar item-icon-right" ui-sref="app.rdvDetails({nomRdvez:'rdv1'})">
+      <a  class="item item-avatar item-icon-left"  ng-repeat=" rdv in Client.RendezVous.data">
         <img src="/img/dashbord.png">
-        <h2 class="text2">Rendez vous 1</h2>
+        <h2 class="text2">Rendez vous {{ rd.id}}</h2>
+        <p class="rdvText">  Date :{{ rdv.DATE }}</p>
+
+        <p class="rdvText">  {{ rdv.nom_praticien + ' ' + rdv.prenom_praticien}}</p>
+        <p class="rdvText">  Spécialité : {{ rdv.specialite}}</p>
+
+
+        <p class="rdvText">  Etat :{{ rdv.etat}}</p>
 
 
       </a>
 
 
 
-      <a  class="item item-avatar item-icon-right"  ui-sref="app.rdvDetails({nomRdvez:'rdv1'})">
-        <img src="/img/dashbord.png">
-        <h2 class="">Rendez vous 2</h2>
-      </a>
 
 
 

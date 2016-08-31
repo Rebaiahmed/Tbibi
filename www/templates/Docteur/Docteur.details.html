@@ -3,9 +3,66 @@
 
 
     <div class="row">
-      <a> Docteur Détails</a>
-      <br>
-      <a ui-sref="app.maps">Show Map</a>
+
+
+
+
+
+
+          <div class="col-40 imageDoctor" >
+            <a>
+              <img src="/img/docteuritem.jpg" width="70px">
+            </a>
+          </div><!----end of col md40----->
+
+          <div class="col-60">
+            <h5 class="doctor">
+              Dr {{ Docteur.nom_praticien + ' ' + Docteur.prenom_praticien}}
+
+            </h5>
+            <h6 class="specialite">Spécialité :{{ Docteur.specialite}}</h6>
+            <br>
+            <p>
+              <i class = "icon icon ion-android-home"></i>
+              Addresse :{{ Docteur.gouvernorat + ' ' + Docteur.ville}}</p>
+          <span style="color: #2196F3">
+            <i class = "icon icon ion-android-call"></i>
+            telephone {{ 	Docteur.phone__fixe_praticien}}
+          </span>
+            <br>
+
+
+          </div><!--end of col 60------->
+
+
+
+
+
+
+    </div><!-----------end of row------------>
+
+
+
+    <div class="padding"></div>
+
+    <ion-list >
+
+      <ion-item>
+      <button class="button" ng-disabled="isToday()" ng-click="today()">Today</button>
+        <button class="button" ng-click="changeMode('month')">M</button>
+        <button class="button" ng-click="changeMode('month')">M</button>
+        <button class="button" ng-click="changeMode('week')">W</button>
+        <button class="button" ng-click="changeMode('day')">D</button>
+        <button class="button" ng-click="loadEvents()">Load Events</button>
+      </ion-item>
+
+    </ion-list>
+
+    <div class="row">
+      <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode" event-source="calendar.eventSource"
+                range-changed="reloadSource(startTime, endTime)"
+                event-selected="onEventSelected(event)" title-changed="onViewTitleChanged(title)"
+                time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
     </div>
 
 
@@ -13,33 +70,7 @@
 
 
 
-    <!-- Cards -->
-    <h4 class="border-top"><i class="icon ion-arrow-shrink"></i> Cards</h4>
-    <div class="list card stable-bg">
-      <div class="item item-avatar">
-        <img src="img/arya.jpg">
-        <h2>Arya Stark</h2>
-        <p>"Joffrey. Cersei. Ilyn Payne. Hound. Polliver. The Mountain."</p>
-      </div>
-      <div class="item item-body">
-        The quickest way to a man's heart is through Arya's needle. She has two speeds: Walk and Kill, and is the reason why Waldo is still hiding.
-        <p>
-          <a class="subdued">1 Like</a>
-          <a class="subdued">5 Comments</a>
-        </p>
-      </div>
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
-          <i class="icon ion-thumbsup"></i> Like
-        </a>
-        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
-          <i class="icon ion-chatbox"></i> Comment
-        </a>
-        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
-          <i class="icon ion-share"></i> Share
-        </a>
-      </div>
-    </div>
+
 
 
 

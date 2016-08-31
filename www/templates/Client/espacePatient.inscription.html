@@ -69,7 +69,7 @@
         <label class="item item-input item-light">
         <i class="icon ion-locked placeholder-icon"></i>
         <input type="password" placeholder="Password" autocorrect="off" autocapitalize="off" ng-model="newClient.password"
-               required name="password">
+               required name="password"  ng-minlength="3">
         </label>
           </div><!----ed of div--------->
 
@@ -82,7 +82,7 @@
         <div class="padding-bottom"></div>
 
         <!--------error show message------------------->
-        <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.password.$invalid ">
+        <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.password.$error.required ">
           <p class="error">Vous Devez indiquez un mot de passe
 
         </div>
@@ -90,40 +90,51 @@
 
         <!------------------------>
 
+  <!----------------------------------------------------------------------------->
+  <div class="padding-bottom"></div>
+
+  <!--------error show message------------------->
+  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.password.$error.minlength" >
+    <p class="error">le mot de passe au moins doit contenir 3 charactéres
+  </div>
+  <!---------------------------------------------------------------------------------------->
 
           <div style="border: 2px solid #2196F3;" class="">
           <label class="item item-input item-light">
             <i class="icon  ion-checkmark placeholder-icon"></i>
-            <input type="password" placeholder="Confimer Password" autocorrect="off" autocapitalize="off" ng-model="newClient.password" required name="secondpassword">
+            <input   name="confirmPassword" ng-model="newClient.confirmpassword" placeholder="Confimer Password" type="password"
+                   autocorrect="off" autocapitalize="off" required valid-password-c >
+
           </label>
             </div><!--end of div---------->
 
 
 
-
-        <!----------------------------------------------------------------------------->
-        <div class="padding-bottom"></div>
-
-        <!--------error show message------------------->
-        <div class="card card-assertive cardError" ng-if="submitted" >
-          <p class="error">Vous Devez confirmez votre mot de passe
-
-        </div>
-        <!---------------------------------------------------------------------------------------->
+  <div class="padding-bottom"></div>
 
 
 
 
+  <div class="padding-bottom"></div>
+<p>{{ ClientInscrire.confirmPassword.$error}}</p>
+  <!---------------------------------------------------------------------------------------->
+  <div class="card card-assertive cardError" ng-if="!ClientInscrire.confirmPassword.$error.required && ClientInscrire.confirmPassword.$error.noMatch ">
+    <p class="error">mot de passe ne correspond pas</p>
+
+  </div>
 
 
-      <div class="padding"></div>
+
+
+
+  <div class="padding"></div>
 
 
           <div style="border: 2px solid #2196F3;" class="">
           <label class="item item-input item-stable">
             <i class="icon  ion-iphone placeholder-icon"></i>
             <input type="text" placeholder="mobile" autocorrect="off" autocapitalize="off" ng-model="newClient.mobile"
-                   required name="mobile" ng-pattern="phNumber">
+                   required name="mobile" ng-pattern="phNumber" >
           </label>
             </div><!----end of div-------------->
 
@@ -133,8 +144,8 @@
   <div class="padding-bottom"></div>
 
   <!--------error show message------------------->
-  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.mobile.$invalid " >
-    <p class="error">Vous Devez au moins un numéro de télephone
+  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.mobile.$error.required " >
+    <p class="error">Vous Devez indiquez au moins un numéro de télephone
 
   </div>
 
@@ -142,7 +153,7 @@
   <div class="padding-bottom"></div>
 
   <!--------error show message------------------->
-  <div class="card card-assertive cardError" ng-if="submitted " >
+  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.mobile.$error.pattern" >
     <p class="error">Vous Devez indiquez un numéro de télephone valide
 
   </div>
@@ -161,6 +172,16 @@
             </div><!---end of div------------->
 
 
+
+  <!----------------------------------------------------------------------------->
+  <div class="padding-bottom"></div>
+
+  <!--------error show message------------------->
+  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.domicile.$error.pattern" >
+    <p class="error">Vous Devez indiquez un numéro de télephone valide
+
+  </div>
+
         <!---------------------------------->
       <div class="padding"></div>
 
@@ -175,13 +196,19 @@
 
 
 
+  <!----------------------------------------------------------------------------->
+  <div class="padding-bottom"></div>
 
+  <!--------error show message------------------->
+  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.bureau.$error.pattern" >
+    <p class="error">Vous Devez indiquez un numéro de télephone valide
+
+  </div>
 
 
 
       <!-------------------------->
-      <div class="padding"></div>
-
+  <div class="padding-bottom"></div>
 
 
 
@@ -190,7 +217,7 @@
           <label class="item item-input item-light">
             <i class="icon ion-android-person placeholder-icon"></i>
             <input type="text" placeholder="Nom" autocorrect="off" autocapitalize="off"
-                   ng-model="newClient.Nom" required name="Nom">
+                   ng-model="newClient.nom" required name="Nom"  ng-minlength="3">
           </label>
             </div><!----end of div---------->
 
@@ -201,24 +228,35 @@
         <div class="padding-bottom"></div>
 
         <!--------error show message------------------->
-        <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.Nom.$invalid"  >
+        <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.Nom.$error.required"  >
           <p class="error">Vous Devez indiquez Votre Nom
 
         </div>
         <!---------------------------------------------------------------------------------------->
 
 
+  <!----------------------------------------------------------------------------->
+  <div class="padding-bottom"></div>
+
+  <!--------error show message------------------->
+  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.Nom.$error.minlength" >
+    <p class="error">le Nom contient au moins 3 caractéres
+  </div>
+  <!---------------------------------------------------------------------------------------->
 
 
-        <!------------------------>
+
+  <!------------------------>
 
           <div style="border: 2px solid #2196F3;" class="">
           <label class="item item-input item-light">
             <i class="icon ion-android-person-add placeholder-icon"></i>
             <input type="text" placeholder="Prenom" autocorrect="off" autocapitalize="off"
-                   ng-model="newClient.Prenom" required name="Prenom">
+                   ng-model="newClient.prenom" required name="Prenom" ng-minlength="3">
           </label>
             </div><!---end of div------------>
+
+
 
 
 
@@ -227,12 +265,21 @@
         <div class="padding-bottom"></div>
 
         <!--------error show message------------------->
-        <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.Prenom.$invalid" >
-          <p class="error">Vous Devez confirmez votre Prénom
+        <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.Prenom.$error.required" >
+          <p class="error">Vous Devez indiquez votre Prénom
         </div>
         <!---------------------------------------------------------------------------------------->
 
 
+
+  <!----------------------------------------------------------------------------->
+  <div class="padding-bottom"></div>
+
+  <!--------error show message------------------->
+  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.Prenom.$error.minlength" >
+    <p class="error">le Prénom contient au moins 3 caractéres
+  </div>
+  <!---------------------------------------------------------------------------------------->
 
 
 
@@ -242,17 +289,29 @@
       <div style="border: 2px solid #2196F3;" class="">
         <label class="item item-input">
           <span class="input-label">Date de naissance</span>
-<input type="date" ng-click="openDatePicker()" ng-model="newClient.dateNaissance"  name="dateNaissance">
+<input type="date" ng-click="openDatePicker()" ng-model="newClient.dateNaissance"  name="dateNaissance" required>
         </label>
 
       </div><!----end of div------------->
+
+
+
+
+  <!----------------------------------------------------------------------------->
+  <div class="padding-bottom"></div>
+
+  <!--------error show message------------------->
+  <div class="card card-assertive cardError" ng-if="submitted && ClientInscrire.dateNaissance.$error.required" >
+    <p class="error">Vous Devez indiquez Votre date de naissance
+  </div>
+  <!---------------------------------------------------------------------------------------->
 
       <div class="row">
 
 
         <div class="col-50">
           <div style="border: 2px solid #2196F3;" class="">
-          <ion-radio ng-model="newClient.sexe" name="sexe" ng-value="'Homme'">
+          <ion-radio ng-model="newClient.genre" name="genre" ng-value="'Homme'" ng-required="true">
             Homme
             <i class = "icon icon ion-man"></i>
           </ion-radio>
@@ -261,13 +320,23 @@
 
         <div class="col-50">
           <div style="border: 2px solid #2196F3;" class="">
-          <ion-radio ng-model="newClient.sexe" name="sexe" ng-value="'Femme'">Femme
+          <ion-radio ng-model="newClient.genre" name="genre" ng-value="'Femme'" ng-required="true">Femme
             <i class = "icon icon ion-woman"></i></ion-radio>
             </div><!---nd of div------------->
         </div>
 
       </div><!---end of row---->
 
+
+
+  <!----------------------------------------------------------------------------->
+  <div class="padding-bottom"></div>
+{{ ClientInscrire.$error }}
+  <!--------error show message------------------->
+  <div class="card card-assertive cardError" ng-if="submitted && !ClientInscrire.genre.$valid " >
+    <p class="error">Vous Devez indiquez Votre genre
+  </div>
+  <!---------------------------------------------------------------------------------------->
   <div class="padding"></div>
 
 

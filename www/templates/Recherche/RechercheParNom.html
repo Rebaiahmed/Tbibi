@@ -21,18 +21,29 @@
 
 
 
-        <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="someModel" options="Docteurs" modal-title="Choisir Docteur" has-search="true">
-        Recherchez Votre médecin ou votre établissement
+        <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="doctor" options="docteurs" modal-title="Choisir Docteur" has-search="true"
+                cancel-button="Annuler" reset-button="Annuler" search-placeholder="Rechercher Pa Nom" cancel-search-button="réinitialiser"
+                sub-header-class="bar-positive">
+        Recherchez Votre médecin
           <div class="option">
-            {{option}}
+            {{option.prenom_praticien + ' ' + option.nom_praticien}}
           </div>
         </button>
 
-
-
       </div><!----end of Row---------->
+    <p>{{ searchDoc}}</p>
+
+    <div class="padding"></div>
 
 
+    <div class="card text-center" ng-if="doctor" style="color: #2196F3;">
+    <a ui-sref="app.docteursDetails({id:doctor.id })"> Vous avez Choisi {{ doctor.prenom_praticien  + ' ' + doctor.nom_praticien +'i'
+      + doctor.id}}  <i class = "icon icon ion-happy-outline"></i></a>
+    </div>
+
+    <button class="button button-calm" ng-click="RechercheParNom()">
+     Next
+    </button>
 
 
 

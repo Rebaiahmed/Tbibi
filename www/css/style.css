@@ -5,7 +5,8 @@
 #map {
   width: 100%;
   height: 100%;
-  border:10px solid #1A237E;
+
+
 }
 .ionic_datepicker_popup
 
@@ -25,12 +26,12 @@
   color: #1976D2 !important;
 }
 body{
-  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+  font-family : 'Baloo+Tamma, sans-serif', Baloo+Tamma, 'sans-serif' !important;
 }
 
 .text{
    font-weight: bold;color: #000000;
-  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+  font-family : 'Baloo+Tamma, sans-serif', Roboto, 'sans-serif';
 }
 .text2{
   color: #000000;
@@ -66,3 +67,37 @@ p{
   background-color: #EF9A9A;
 }
 
+.test{
+  background-color: #000088; !important;
+  color: #004444; !important;
+}
+
+.doctor {
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+  color: #2196F3;
+}
+.specialite{
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+  font-weight: bold;
+
+  margin: auto
+}
+
+.imageDoctor{
+  border: 1px solid #BBDEFB;
+  border-radius: 10px;
+  margin: auto;
+}
+.detailsDoctor{
+  border: 1px solid #2196F3;
+
+  margin: auto;
+}
+.rdvText{
+  font-weight: bold;
+  font-family : 'Roboto, sans-serif', Roboto, 'sans-serif';
+  color: #000000; !important;
+}

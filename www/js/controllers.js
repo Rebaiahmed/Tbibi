@@ -1,4 +1,4 @@
-angular.module('tbibi.controllers', ['tbibi.services'])
+angular.module('tbibi')
 
   /*
   Défenir Nos Controlleurs
@@ -8,7 +8,7 @@ angular.module('tbibi.controllers', ['tbibi.services'])
   /*
   Controleur pour l'App --------------
    */
-.controller('AppCtrl', function($scope,$ionicModal, $ionicPopover, $timeout) {
+.controller('AppCtrl',['$scope','$ionicModal','$ionicPopover','$timeout', function($scope,$ionicModal, $ionicPopover, $timeout) {
 
 
     // Form data for the login modal
@@ -28,22 +28,6 @@ angular.module('tbibi.controllers', ['tbibi.services'])
     // Layout Methods
     ////////////////////////////////////////
 
-    $scope.hideNavBar = function() {
-      document.getElementsByTagName('ion-nav-bar')[0].style.display = 'none';
-    };
-
-    $scope.showNavBar = function() {
-      document.getElementsByTagName('ion-nav-bar')[0].style.display = 'block';
-    };
-
-    $scope.noHeader = function() {
-      var content = document.getElementsByTagName('ion-content');
-      for (var i = 0; i < content.length; i++) {
-        if (content[i].classList.contains('has-header')) {
-          content[i].classList.toggle('has-header');
-        }
-      }
-    };
 
     $scope.setExpanded = function(bool) {
       $scope.isExpanded = bool;
@@ -76,22 +60,7 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
     };
 
-    $scope.hideHeader = function() {
-      $scope.hideNavBar();
-      $scope.noHeader();
-    };
 
-    $scope.showHeader = function() {
-      $scope.showNavBar();
-      $scope.hasHeader();
-    };
-
-    $scope.clearFabs = function() {
-      var fabs = document.getElementsByClassName('button-fab');
-      if (fabs.length && fabs.length > 1) {
-        fabs[0].remove();
-      }
-    };
 
 
 
@@ -123,17 +92,8 @@ angular.module('tbibi.controllers', ['tbibi.services'])
     $scope.modal.show();
   };
 
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
-})
+}])
 
 
 
@@ -149,15 +109,27 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
 
   .controller('RechercheCtrl',['$scope','$timeout','$ionicPopover','$ionicLoading','$ionicModal','$state','RechercherSevice','$filter',
-    'getDocteurs','$cordovaGeolocation',function($scope, $timeout
-    ,$ionicPopover,$ionicLoading,$ionicModal,$state,RechercherSevice,$filter,getDocteurs,$cordovaGeolocation) {
+    'getDocteurs','getSpecialitees',function($scope, $timeout
+    ,$ionicPopover,$ionicLoading,$ionicModal,$state,RechercherSevice,$filter,getDocteurs
+    ,getSpecialitees) {
 
-    $scope.showListemdecins = false ;
 
-    $scope.disableGeo = true;
 
       $scope.$on("$ionicView.beforeEnter", function() {
         console.log("Running stuff...");
+        $ionicLoading.show({
+          template: '<ion-spinner icon="dots"></ion-spinner>',
+          hideOnStageChange: true,
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0,
+
+        });
+
+        $timeout(function(){
+          $ionicLoading.hide();
+        },2000)
 
       });
 
@@ -168,7 +140,7 @@ angular.module('tbibi.controllers', ['tbibi.services'])
         hideOnStageChange: true
       });*/
 
-      $ionicLoading.show({
+      /*$ionicLoading.show({
         template: '<ion-spinner icon="dots"></ion-spinner>',
         hideOnStageChange: true,
         animation: 'fade-in',
@@ -180,7 +152,7 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
       $timeout(function(){
         $ionicLoading.hide();
-      },2000)
+      },2000)*/
 
 
     /*
@@ -249,8 +221,25 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
 
 
-    $scope.specialites = RechercherSevice.getSpecialitees();
-      console.log('get Docteurs' + JSON.stringify((getDocteurs)))
+
+
+
+      $scope.doctor= '';
+      $scope.specialites =[]
+      $scope.searchDoc = {};
+
+      angular.forEach(getSpecialitees, function(value, key){
+        $scope.specialites[key] =  value.specialite;
+      });
+
+      /*$scope.specialites = ['Dentiste','Ophtalmologiste','Généraliste','Gynécologue','ORL','Dermatologue','Pédiatre','physiotherapeute','Cardiologue'
+        ,'Gastro-entérologue','psychiatre','Chirurgien orthopédiste','Cancérologue','Orthophoniste','Orthopédiste','Radiologue','Angiologue'
+        ,'Orthodontiste','Chirurgien Urologue','Neurologue','Hématologie','Nutritionniste','Pneumologie-Allergologie','Chirurgie Générale',
+        'Rhumatologue','Chirurgie Pédiatrique','Chirurgie maxillo-faciale et stomatologie','Anesthesiste','Pharmacie de Jour',
+        'Pharmacie de Nuit','Pharmacie de Garde','Laboratoire Danalises Médicale','Prothesiste Dentaire','Anatomie et Cytologie Pathologiques',
+        'Orthoptistes','Chirurgie réparartrice','Pédiatrie-Allergologie','Urologue','Vétérinaire','Electromyographie','Médecin Esthétique',
+        'Electroencephalogramme - Troubles du sommeil']*/
+
 
 
     //la liste de sgouvernorats
@@ -263,18 +252,44 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
 
     //la liste des docteurs
-    $scope.docteurs =getDocteurs;
 
 
 
 
+
+
+var liste =[];
+      var option ={};
+      angular.forEach(getDocteurs, function(value, key) {
+
+
+        option.id = value.id_praticien;
+        option.prenom_praticien = value.prenom_praticien;
+        option.nom_praticien = value.nom_praticien ;
+
+        liste.push(option)
+
+        option={};
+      })
+
+
+
+      $scope.docteurs =liste;
 
     //une fonction pour faire la recherche du docteur
+$scope.data ={};
+
+      $scope.data.specialite = '';
+      $scope.data.gouvernorat = '';
+      $scope.data.delegation = '';
+
+
+      /*
+
+       */
 
 
     $scope.rechercheParCritere = function(){
-      console.log('on va rechercher le docteur')
-
       $ionicLoading.show({
         content: 'Loading',
         animation: 'fade-in',
@@ -284,13 +299,36 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
       });
 
-      $timeout(function(){
-        $ionicLoading.hide();
-        $scope.openModal();
-      },2000)
+      RechercherSevice.RechercheParCritere($scope.data)
+        .then(function(result){
+          $ionicLoading.hide();
 
 
-      //$state.go('app.resultas')
+          if(result.data.Number==0){
+            $scope.openModal();
+          }else{
+            //get the result pass on params
+//Resultats
+            var liste =[];
+            for(var i=0;i<result.data.Number;i++){
+
+              liste[i] =result.data.Resultats[i] ;
+            }
+
+            $state.go('app.resultas',{'resultats':liste})
+          }
+
+        }).catch(function(err){
+          $ionicLoading.hide();
+          console.log('eer' + JSON.stringify(err));
+        })
+
+
+
+
+
+
+
 
     }
 
@@ -300,9 +338,11 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 //une méthode pour localiser l'utilisateur
 
 
-    $scope.RechercherParMap = function(){
+    $scope.RechercherParMap = function() {
 
       //localiser l'utilisateur et rechercher les docteurs autour dde lui ;
+
+      console.log('on va chercher par Maps !!')
 
       $ionicLoading.show({
         content: 'Loading',
@@ -312,60 +352,12 @@ angular.module('tbibi.controllers', ['tbibi.services'])
         showDelay: 0,
 
       });
-
-      /*$timeout(function(){
+      $timeout(function () {
         $ionicLoading.hide();
         //$scope.openModal();
-      },2000)*/
-
-
-
-      var posOptions = {timeout: 10000, enableHighAccuracy: false};
-      $cordovaGeolocation
-        .getCurrentPosition(posOptions)
-        .then(function (position) {
-          $ionicLoading.hide();
-          var lat  = position.coords.latitude
-          var long = position.coords.longitude
-          console.log('data' + lat + 'long 0' + long)
-        }, function(err) {
-          // error
-          console.log('err' + err)
-        });
-
-
-      var watchOptions = {
-        timeout : 3000,
-        enableHighAccuracy: false // may cause errors if true
-      };
-
-      /*var watch = $cordovaGeolocation.watchPosition(watchOptions);
-      watch.then(
-        null,
-        function(err) {
-          // error
-        },
-        function(position) {
-          var lat  = position.coords.latitude
-          var long = position.coords.longitude
-          console.log('data2' + lat + '---' + long)
-        });*/
-
-
-      /*watch.clearWatch();
-      // OR
-      $cordovaGeolocation.clearWatch(watch)
-        .then(function(result) {
-          // success
-        }, function (error) {
-          // error
-        });*/
-
-
-
+      }, 2000)
+         $state.go('app.maps')
     }
-
-
 
 
 
@@ -376,41 +368,130 @@ angular.module('tbibi.controllers', ['tbibi.services'])
   }])
 
 
-  .controller('ResultatsCtrl', function($scope,$state,$stateParams,$cordovaGeolocation,$timeout) {
-
-    var options = {timeout: 10000, enableHighAccuracy: true};
+  .controller('ResultatsCtrl',['$scope','$ionicLoading','$timeout','$stateParams', function($scope,$ionicLoading,$timeout,$stateParams) {
 
 
+    $scope.$on("$ionicView.beforeEnter", function() {
+      console.log("Running stuff...");
+      $ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
 
-    $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+      });
 
-      var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      $timeout(function(){
+        $ionicLoading.hide();
+      },2000)
 
-      var mapOptions = {
-        center: latLng,
-        zoom: 13,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
+    });
 
-      $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-    }, function(error){
-      console.log("Could not get location");
+console.log('resulatts' + JSON.stringify($stateParams.resultats))
+
+
+    $scope.Resultats = $stateParams.resultats;
+
+  }])
+
+
+  .controller('MapsCtrl', function(getDocteurs, $http,localStorageService,$scope) {
+
+
+    console.log('docteurs are' + JSON.stringify(getDocteurs[0]))
+
+    angular.extend($scope, {
+      center: {
+        lat: localStorageService.get('position').lat ,
+        lng: localStorageService.get('position').long,
+        zoom: 10
+      },
+      layers: {
+        baselayers: {
+          osm: {
+            name: 'OpenStreetMap',
+            url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            type: 'xyz'
+          },
+        },
+        overlays:{
+          earthquake: {
+            name: 'earthquake',
+            type: 'markercluster',
+            visible: true
+          }
+        }
+      }
     });
 
 
 
 
+ var doc ={};
+    var lat,long ;
+    $scope.markers =[]
+
+    for(var i=0;i<100;i++){
 
 
-    //--------------------------------------------------
+    lat = parseFloat(getDocteurs[i].latitude);
+    long = parseFloat(getDocteurs[i].latitude);
+
+    $scope.markers[i] = {
+        lat: lat,
+        lng: long,
+      message: " " + getDocteurs[i].nom_praticien + ' ' + getDocteurs[i].prenom_praticien + '</br>' +
+      'tél :' +getDocteurs[i].phone__fixe_praticien + '</br>' +
+      'spécialité :'  +getDocteurs[i].mobile_praticien ,
+      focus: true,
+      draggable: false
+
+      }
+
+    }
+
+
+
+
+      angular.extend($scope, {
+        markers:  $scope.markers
+      });
 
 
   })
 
   //controleur pour gérer l'étape du login du client pour son espace
 
-  .controller('clientLoginCtrl', function($scope,$ionicLoading, $timeout) {
+  .controller('clientLoginCtrl',['$scope','$ionicLoading','$timeout','PatientService','$state','$rootScope',function($scope,$ionicLoading,
+                                                                                                        $timeout,PatientService
+    ,$state,$rootScope) {
+
+
+    /*
+    avant d'entrer dans dans la vue
+     */
+    $scope.$on("$ionicView.beforeEnter", function() {
+      console.log("clien tlogin client...");
+      $ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
+
+      });
+
+      $timeout(function(){
+        $ionicLoading.hide();
+      },2000)
+
+    });
+
+    /*-----------------------------*/
 
 
     //variable pour vérifier si el formulaire est envoyée
@@ -430,14 +511,66 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
     //une fonction ppur login Client
 
-    $scope.loginClient = function(isValid){
+    $scope.loginClient = function(isValid) {
 
-      console.log('validty' +isValid)
 
       $scope.submitted = true;
 
+
+      if (isValid) {
+
+        $ionicLoading.show({
+          content: 'Loading',
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0,
+
+        });
+
+       PatientService.seConnecter($scope.client)
+          .then(function (client) {
+
+            console.log('client' + JSON.stringify(client.data));
+
+            $ionicLoading.hide();
+           if (client.data.error.code==404) {
+              console.log('error in submit')
+              $scope.emailInexistant = true;
+            } else {
+              console.log('client logged');
+              $rootScope.clientAuthenticated = true ;
+
+             //setPatient
+             PatientService.setPatient(client.data)
+              $state.go('app.dashaBordClient')
+            }
+
+        }).catch(function (err) {
+            //console.log('err' + JSON.stringify(err));
+            $ionicLoading.hide();
+          })
+
+
+      }
+
+    }
+  }])
+
+  .controller('clientInscriptionCtrl',['$scope','ionicDatePicker','$ionicLoading','$timeout','PatientService','$rootScope'
+    ,'$state','$ionicModal',function($scope,ionicDatePicker,$ionicLoading, $timeout
+  ,PatientService,$rootScope,$state,$ionicModal) {
+
+
+
+    /*
+     avant d'entrer dans dans la vue
+     */
+    $scope.$on("$ionicView.beforeEnter", function() {
+      console.log("client inscription client...");
       $ionicLoading.show({
-        content: 'Loading',
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
         animation: 'fade-in',
         showBackdrop: true,
         maxWidth: 200,
@@ -449,16 +582,63 @@ angular.module('tbibi.controllers', ['tbibi.services'])
         $ionicLoading.hide();
       },2000)
 
-    }
+    });
+
+    /*-----------------------------------------*/
 
 
-  })
 
-  .controller('clientInscriptionCtrl',['$scope','ionicDatePicker','$ionicLoading','$timeout','PatientService',function($scope,ionicDatePicker,$ionicLoading, $timeout
-  ,PatientService) {
+
+    $ionicModal.fromTemplateUrl('templates/EmailInvalide.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.openModal = function() {
+      $scope.modal.show();
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.modal.remove();
+    });
+    // Execute action on hide modal
+    $scope.$on('modal.hidden', function() {
+      // Execute action
+    });
+    // Execute action on remove modal
+    $scope.$on('modal.removed', function() {
+      // Execute action
+    });
+
+
+
+
+
+
+
+
+
+
+
+    ///-__________________________________________
+    //initializer le client
+
+    $scope.newClient={};
+
+
+
+    /*
+    the datepicker configuration
+     */
     var ipObj1 = {
       callback: function (val) {  //Mandatory
         console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+        $scope.newClient.dateNaissance = new Date(val);
+        console.log('the date is' + typeof $scope.newClient.dateNaissance )
       },
 
       from: new Date(1940, 1, 1), //Optional
@@ -473,19 +653,16 @@ angular.module('tbibi.controllers', ['tbibi.services'])
     $scope.openDatePicker = function(){
       ionicDatePicker.openDatePicker(ipObj1);
     };
+/*--------------------------------------------------------*/
 
 
 
 
 
-    ///-__________________________________________
-    //initializer le client
-
-    $scope.newClient={};
     $scope.accept1 = true;
     $scope.accept2 = true;
 
-    $scope.phNumber = '/^[1-9]{1}[0-9]{7}$/';
+    $scope.phNumber = "^[1-9][0-9]{7}$";
 
     $scope.submitted = false;
 
@@ -494,6 +671,8 @@ angular.module('tbibi.controllers', ['tbibi.services'])
     $scope.inscrireClient = function(isValid){
       $scope.submitted = true;
 
+console.log('isvalid' + isValid);
+      isValid = true;
       if(isValid){
 
 
@@ -506,21 +685,78 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
       });
 
-      $timeout(function(){
-        $ionicLoading.hide();
-      },2000)
-      }//end if is valid
 
+
+
+
+        //$rootScope.praticientAUthenticated  =false;
 
       PatientService.inscrire($scope.newClient)
-      //si succes redirger vers dashabord
-      //si non afficher message d'erreurs
+
+        .then(function(data){
+          //si data est valide // sauvegarder dans localStorage
+          //rediriger vers dashabord
+          $ionicLoading.hide();
+          console.log('data' + (data.data.error.code==401));
+
+         if(data.data.error.code==401){
+           $scope.openModal();
+          }else{
+            console.log('success dinscription')
+           $rootScope.clientAuthenticated = true ;
+           PatientService.setPatient(data.data)
+           $state.go('app.dashaBordClient')
+          }
+
+        }).catch(function(err){
+          //si erreru afficher les message d'erreurs
+          $ionicLoading.hide();
+          console.log('erreur' + JSON.stringify(err))
+        })
+
     }
+
+
+
+    }//end if is valid
 
   }])
 
   .controller('praticienLoginCtrl',['$scope','$timeout',
-  '$ionicLoading','DocteurService',function($scope, $timeout,$ionicLoading,DocteurService) {
+  '$ionicLoading','DocteurService','$rootScope','$state',function($scope, $timeout,$ionicLoading,DocteurService,$rootScope
+    ,$state) {
+
+
+
+
+
+
+
+
+      /*
+       avant d'entrer dans dans la vue
+       */
+      $scope.$on("$ionicView.beforeEnter", function() {
+        console.log("praticien login...");
+        $ionicLoading.show({
+          template: '<ion-spinner icon="dots"></ion-spinner>',
+          hideOnStageChange: true,
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0,
+
+        });
+
+        $timeout(function(){
+          $ionicLoading.hide();
+        },2000)
+
+      });
+
+      /*-----------------------------------------*/
+
+
 
 
     //variable pour vérifier si el formulaire est envoyée
@@ -559,11 +795,26 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
         });
 
-        $timeout(function(){
-          $ionicLoading.hide();
-        },2000)
+
 
         DocteurService.seConnecter($scope.praticient)
+          .then(function(praticien){
+            $ionicLoading.hide();
+            console.log('patrticn' + JSON.stringify(praticien.data.error.code));
+
+            if(praticien.data.error.code==404){
+              $scope.emailInexistant = true;
+            }else{
+
+              console.log('praticne logged');
+              $rootScope.praticientAuthenticated = true ;
+              $state.go('app.dashaBordPraticien')
+
+            }
+
+          }).catch(function(err){
+            console.log('err' + err);
+          })
         //si success rediriger vers dashabord
         // si non afficher message d'erreur
 
@@ -575,8 +826,43 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
   }])
 
-  .controller('praticienInscriptionCtrl',['$scope','$ionicModal','$timeout','DocteurService', ,function($scope, $ionicModal
-    ,$timeout,DocteurService) {
+  .controller('praticienInscriptionCtrl',['$scope','$ionicModal','$timeout','DocteurService','$ionicLoading',function($scope, $ionicModal
+    ,$timeout,DocteurService,$ionicLoading) {
+
+
+
+
+    /*
+     avant d'entrer dans dans la vue
+     */
+    $scope.$on("$ionicView.beforeEnter", function() {
+      console.log("praticien login...");
+      $ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
+
+      });
+
+      $timeout(function(){
+        $ionicLoading.hide();
+      },2000)
+
+    });
+
+    /*-----------------------------------------*/
+
+
+
+
+
+
+
+
+
 
 
 
@@ -591,13 +877,33 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
     $scope.inscrireDocteur = function(isVlaid){
 
-      console.log('IsValid' + isVlaid)
+
       $scope.submitted = true;
 
       if(isVlaid){
+
+
+        $ionicLoading.show({
+          template: '<ion-spinner icon="dots"></ion-spinner>',
+          hideOnStageChange: true,
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0,
+
+        });
+
+
         DocteurService.inscrire($scope.newDocteur)
-        // si success rediriger vers dashabord
-        //si non afficher message d'erreur
+          .then(function(result){
+            $ionicLoading.hide();
+            console.log('result' + JSON.stringify(result));
+
+          }).catch(function(err){
+            $ionicLoading.hide();
+            console.log('err' + err)
+          })
+
       }
 
     }
@@ -606,53 +912,43 @@ angular.module('tbibi.controllers', ['tbibi.services'])
   }])
 
   .controller('dashabordClientCtrl',['$scope','$ionicModal','$timeout','ionicMaterialMotion','ionicMaterialInk','$ionicLoading',
-    '$ionicHistory','PatientService',
+    '$ionicHistory','PatientService','ionicToast','$state','$rootScope',
     function($scope, $ionicModal, $timeout,ionicMaterialMotion,ionicMaterialInk,
-                                              $ionicLoading, $ionicHistory,PatientService) {
+                                              $ionicLoading, $ionicHistory,PatientService,ionicToast, $state,$rootScope) {
+
+      /*
+       avant d'entrer dans dans la vue
+       */
+      $scope.$on("$ionicView.beforeEnter", function() {
+        console.log("praticien login...");
+        $ionicLoading.show({
+          template: '<ion-spinner icon="dots"></ion-spinner>',
+          hideOnStageChange: true,
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0,
+
+        });
+
+        $timeout(function(){
+          $ionicLoading.hide();
+        },2000)
+
+      });
+
+      /*-----------------------------------------*/
 
 
-    $scope.Client = PatientService.getPatient();
-
-    $scope.$on("$ionicView.enter", function() {
-      $ionicHistory.clearCache();
-      $ionicHistory.clearHistory();
-      console.log("dahsbord client .......")
-    });
-    $ionicLoading.show({
-      template: '<ion-spinner icon="dots"></ion-spinner>',
-      hideOnStageChange: true,
-      animation: 'fade-in',
-      showBackdrop: true,
-      maxWidth: 200,
-      showDelay: 0,
-
-    });
-
-    $timeout(function(){
-      $ionicLoading.hide();
-    },2000)
-
-    $scope.$on("$ionicView.beforeEnter", function() {
-      console.log("dahsbord client .......")
-    });
-    $ionicLoading.show({
-      template: '<ion-spinner icon="dots"></ion-spinner>',
-      hideOnStageChange: true,
-      animation: 'fade-in',
-      showBackdrop: true,
-      maxWidth: 200,
-      showDelay: 0,
-
-    });
-
-    $timeout(function(){
-      $ionicLoading.hide();
-    },2000)
+      $scope.phNumber = "^[1-9][0-9]{7}$";
 
 
+    $scope.Client = JSON.parse(PatientService.getPatient());
+//modifier la date de naissance
 
-    $scope.$parent.showHeader();
-    $scope.$parent.clearFabs();
+      $scope.Client.userData.date_naissance = new Date(  $scope.Client.userData.date_naissance )
+console.log('client rendz vous' +  JSON.stringify($scope.Client.RendezVous.data.length));
+
     $scope.isExpanded = false;
     $scope.$parent.setExpanded(false);
     $scope.$parent.setHeaderFab(false);
@@ -686,9 +982,66 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
     //une méthode pour modifier le profile
 
+      /*--_-_-_-_-__-_-_-_-_mdofier profile--_-_-_-_-_-__-_-_--_-__-_-_-_-_-_-*/
 
-    $scope.modifierProfile = function(){
+    $scope.modifierProfile = function(isvlaid){
 
+
+      $scope.submitted = true ;
+      $ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
+
+      });
+console.log('isvalid')
+
+      //on doit valider les informations changées
+      if(isvlaid) {
+
+
+        PatientService.modifierProfile($scope.Client)
+          .then(function (result) {
+
+            $ionicLoading.hide();
+            console.log('result is' + JSON.stringify(result));
+          }).catch(function (err) {
+            $ionicLoading.hide();
+            console.log('err' + JSON.stringify(err));
+          })
+
+      }//end isvalid
+
+
+    }
+
+
+      /*--_-_-_-_-__-_-_-_-_logout function--_-_-_-_-_-__-_-_--_-__-_-_-_-_-_-*/
+
+$scope.logout = function(){
+  PatientService.logout();
+  ionicToast.show('déconnecter from our app', 'top', true, 2500);
+  $rootScope.clientAuthenticated = false ;
+  $state.go('app.recherche');
+}
+
+
+
+
+  }])
+
+  .controller('dashabordPraticienCtrl',['$scope','$ionicModal','$timeout','$ionicLoading','$ionicHistory','DocteurService', function($scope,$ionicModal,
+                                                                                                                                     $timeout,$ionicLoading,$ionicHistory,DocteurService) {
+
+
+    /*
+     avant d'entrer dans dans la vue
+     */
+    $scope.$on("$ionicView.beforeEnter", function() {
+      console.log("praticien login...");
       $ionicLoading.show({
         template: '<ion-spinner icon="dots"></ion-spinner>',
         hideOnStageChange: true,
@@ -703,25 +1056,9 @@ angular.module('tbibi.controllers', ['tbibi.services'])
         $ionicLoading.hide();
       },2000)
 
-      //on doit valider les informations changées
-      PatientService.modifierProfile(data)
-      //si success afficher Modal
+    });
 
-
-    }
-
-
-
-
-
-
-
-
-  }])
-
-  .controller('dashabordPraticienCtrl',['$scope','$ionicModal','$timeout','$ionicLoading','$ionicHistory','DocteurService', function($scope,$ionicModal,
-                                                                                                                                     $timeout,$ionicLoading,$ionicHistory,DocteurService) {
-
+    /*-----------------------------------------*/
 
 
 
@@ -748,44 +1085,12 @@ angular.module('tbibi.controllers', ['tbibi.services'])
 
 
 
-    $scope.modifierProfile = function(){
-      //modifier son profile et ses cordonnées
+    $scope.modifierProfile = function() {
+      //modifier son profile et ses cordonn
 
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    $scope.$on("$ionicView.enter", function() {
-      $ionicHistory.clearCache();
-      $ionicHistory.clearHistory();
-      console.log("dahsbord praticien .......")
-    });
-    $ionicLoading.show({
-      template: '<ion-spinner icon="dots"></ion-spinner>',
-      hideOnStageChange: true,
-      animation: 'fade-in',
-      showBackdrop: true,
-      maxWidth: 200,
-      showDelay: 0,
-
-    });
-
-    $timeout(function(){
-      $ionicLoading.hide();
-    },2000)
-
-console.log('we are hear')
   }])
 
 
@@ -803,10 +1108,96 @@ console.log('we are hear')
 
 
 
-  .controller('DocteurCtrl', function($scope, $ionicModal, $timeout) {
+  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur',function($scope, $ionicModal, $timeout, $cordovaCalendar,getDocteur) {
 
-   $scope.Docteur  ='';
-  })
+
+
+
+    console.log('getDocteut' + JSON.stringify(getDocteur));
+
+   $scope.Docteur  = getDocteur;
+
+
+
+
+
+
+
+
+
+    $scope.calendar = {};
+    $scope.changeMode = function (mode) {
+      $scope.calendar.mode = mode;
+    };
+
+    $scope.loadEvents = function () {
+      $scope.calendar.eventSource = createRandomEvents();
+    };
+
+    $scope.onEventSelected = function (event) {
+      console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+    };
+
+    $scope.onViewTitleChanged = function (title) {
+      $scope.viewTitle = title;
+    };
+
+    $scope.today = function () {
+      $scope.calendar.currentDate = new Date();
+    };
+
+    $scope.isToday = function () {
+      var today = new Date(),
+        currentCalendarDate = new Date($scope.calendar.currentDate);
+
+      today.setHours(0, 0, 0, 0);
+      currentCalendarDate.setHours(0, 0, 0, 0);
+      return today.getTime() === currentCalendarDate.getTime();
+    };
+
+    $scope.onTimeSelected = function (selectedTime, events) {
+      console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
+    };
+
+    function createRandomEvents() {
+      var events = [];
+      for (var i = 0; i < 50; i += 1) {
+        var date = new Date();
+        var eventType = Math.floor(Math.random() * 2);
+        var startDay = Math.floor(Math.random() * 90) - 45;
+        var endDay = Math.floor(Math.random() * 2) + startDay;
+        var startTime;
+        var endTime;
+        if (eventType === 0) {
+          startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
+          if (endDay === startDay) {
+            endDay += 1;
+          }
+          endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
+          events.push({
+            title: 'All Day - ' + i,
+            startTime: startTime,
+            endTime: endTime,
+            allDay: true
+          });
+        } else {
+          var startMinute = Math.floor(Math.random() * 24 * 60);
+          var endMinute = Math.floor(Math.random() * 180) + startMinute;
+          startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
+          endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
+          events.push({
+            title: 'Event - ' + i,
+            startTime: startTime,
+            endTime: endTime,
+            allDay: false
+          });
+        }
+      }
+      return events;
+    }
+
+
+  }])
 
   .controller('RdvsCtrl', function($scope, $ionicModal, $timeout) {
 
