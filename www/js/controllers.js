@@ -224,21 +224,25 @@ angular.module('tbibi')
 
 
 
-      $scope.doctor= '';
-      $scope.specialites =[]
+      $scope.doctor= {};
+      $scope.specialites =[];
       $scope.searchDoc = {};
 
+
+var word ={} ;
+      var i=0;
       angular.forEach(getSpecialitees, function(value, key){
-        $scope.specialites[key] =  value.specialite;
+
+
+value = angular.fromJson(value);
+
+            $scope.specialites[key] = value.specialite;
+
+
+
       });
 
-      /*$scope.specialites = ['Dentiste','Ophtalmologiste','Généraliste','Gynécologue','ORL','Dermatologue','Pédiatre','physiotherapeute','Cardiologue'
-        ,'Gastro-entérologue','psychiatre','Chirurgien orthopédiste','Cancérologue','Orthophoniste','Orthopédiste','Radiologue','Angiologue'
-        ,'Orthodontiste','Chirurgien Urologue','Neurologue','Hématologie','Nutritionniste','Pneumologie-Allergologie','Chirurgie Générale',
-        'Rhumatologue','Chirurgie Pédiatrique','Chirurgie maxillo-faciale et stomatologie','Anesthesiste','Pharmacie de Jour',
-        'Pharmacie de Nuit','Pharmacie de Garde','Laboratoire Danalises Médicale','Prothesiste Dentaire','Anatomie et Cytologie Pathologiques',
-        'Orthoptistes','Chirurgie réparartrice','Pédiatrie-Allergologie','Urologue','Vétérinaire','Electromyographie','Médecin Esthétique',
-        'Electroencephalogramme - Troubles du sommeil']*/
+
 
 
 
@@ -257,24 +261,26 @@ angular.module('tbibi')
 
 
 
+      $scope.docteurs =[];
 
-var liste =[];
       var option ={};
       angular.forEach(getDocteurs, function(value, key) {
 
-
+        value = angular.fromJson(value);
         option.id = value.id_praticien;
         option.prenom_praticien = value.prenom_praticien;
         option.nom_praticien = value.nom_praticien ;
 
-        liste.push(option)
+        $scope.docteurs[key] = option;
+
+        console.log('we are' + JSON.stringify($scope.docteurs[key]));
 
         option={};
       })
 
 
+      $scope.errorChoix = false
 
-      $scope.docteurs =liste;
 
     //une fonction pour faire la recherche du docteur
 $scope.data ={};
@@ -299,29 +305,62 @@ $scope.data ={};
 
       });
 
-      RechercherSevice.RechercheParCritere($scope.data)
-        .then(function(result){
-          $ionicLoading.hide();
+
+      console.log('data' + JSON.stringify($scope.data.specialite));
+
+
+
+      if($scope.data.doctor){
+
+
+
+
+          RechercherSevice.RechercheDocteur($scope.data.doctor.id)
+            .then(function(result){
+              console.log('result' + JSON.stringify(result));
+            }).catch(function(err){
+              console.log('err' + err);
+            })
+
+      }else   if($scope.data.specialite){
+
+        RechercherSevice.RechercheParCritere($scope.data)
+         .then(function(result){
+         $ionicLoading.hide();
 
 
           if(result.data.Number==0){
-            $scope.openModal();
-          }else{
+         $scope.openModal();
+         }else {
             //get the result pass on params
-//Resultats
-            var liste =[];
-            for(var i=0;i<result.data.Number;i++){
+            //Resultats
+            /*var liste = [];
 
-              liste[i] =result.data.Resultats[i] ;
-            }
+            for (var i = 0; i < result.data.Number; i++) {
 
-            $state.go('app.resultas',{'resultats':liste})
+              liste[i] = result.data.Resultats[i];
+
+            }*/
+
+
+            $state.go('app.resultas', {'resultats': JSON.stringify(result.data)})
           }
 
         }).catch(function(err){
-          $ionicLoading.hide();
-          console.log('eer' + JSON.stringify(err));
-        })
+         $ionicLoading.hide();
+         console.log('eer' + JSON.stringify(err));
+         })
+
+
+
+      }else{
+
+        //aucun choix choisit
+        $scope.errorChoix = true ;
+        $ionicLoading.hide();
+      }
+
+
 
 
 
@@ -368,7 +407,7 @@ $scope.data ={};
   }])
 
 
-  .controller('ResultatsCtrl',['$scope','$ionicLoading','$timeout','$stateParams', function($scope,$ionicLoading,$timeout,$stateParams) {
+  .controller('ResultatsCtrl',['$scope','$ionicLoading','$timeout','$stateParams','$state', function($scope,$ionicLoading,$timeout,$stateParams,$state) {
 
 
     $scope.$on("$ionicView.beforeEnter", function() {
@@ -390,10 +429,32 @@ $scope.data ={};
     });
 
 
-console.log('resulatts' + JSON.stringify($stateParams.resultats))
 
 
-    $scope.Resultats = $stateParams.resultats;
+
+
+
+
+    $stateParams.resultats = angular.fromJson($stateParams.resultats);
+
+
+    $scope.Resultats = [];
+
+     for (var i = 0; i < $stateParams.resultats.Number; i++) {
+
+       $scope.Resultats[i] = angular.fromJson($stateParams.resultats.Resultats[i]);
+
+
+
+     }
+
+
+    //fonction pour la trasntition vers docteurDetails
+
+    $scope.gotoDocteurDetails = function(id){
+
+      $state.go('app.docteursDetails',{id:id})
+    }
 
   }])
 
@@ -671,8 +732,6 @@ console.log('resulatts' + JSON.stringify($stateParams.resultats))
     $scope.inscrireClient = function(isValid){
       $scope.submitted = true;
 
-console.log('isvalid' + isValid);
-      isValid = true;
       if(isValid){
 
 
@@ -800,17 +859,18 @@ console.log('isvalid' + isValid);
         DocteurService.seConnecter($scope.praticient)
           .then(function(praticien){
             $ionicLoading.hide();
-            console.log('patrticn' + JSON.stringify(praticien.data.error.code));
+            console.log('patrticn' + JSON.stringify(praticien.data));
 
             if(praticien.data.error.code==404){
               $scope.emailInexistant = true;
             }else{
 
               console.log('praticne logged');
+             DocteurService.setPraticient(praticien.data)
               $rootScope.praticientAuthenticated = true ;
               $state.go('app.dashaBordPraticien')
 
-            }
+           }
 
           }).catch(function(err){
             console.log('err' + err);
@@ -826,8 +886,9 @@ console.log('isvalid' + isValid);
 
   }])
 
-  .controller('praticienInscriptionCtrl',['$scope','$ionicModal','$timeout','DocteurService','$ionicLoading',function($scope, $ionicModal
-    ,$timeout,DocteurService,$ionicLoading) {
+  .controller('praticienInscriptionCtrl',['$scope','$ionicModal','$timeout','DocteurService','$ionicLoading','$rootScope',
+    '$state',function($scope, $ionicModal
+    ,$timeout,DocteurService,$ionicLoading,$rootScope,$state) {
 
 
 
@@ -897,7 +958,16 @@ console.log('isvalid' + isValid);
         DocteurService.inscrire($scope.newDocteur)
           .then(function(result){
             $ionicLoading.hide();
-            console.log('result' + JSON.stringify(result));
+            console.log('result' + JSON.stringify(result.data));
+            if(result.data.error.code==401){
+              console.log('invalide code');
+              $scope.codeInvalide = true ;
+            }else{
+              console.log('praticne logged');
+              DocteurService.setPraticient(result.data)
+              $rootScope.praticientAuthenticated = true ;
+              $state.go('app.dashaBordPraticien')
+            }
 
           }).catch(function(err){
             $ionicLoading.hide();
@@ -943,11 +1013,15 @@ console.log('isvalid' + isValid);
       $scope.phNumber = "^[1-9][0-9]{7}$";
 
 
-    $scope.Client = JSON.parse(PatientService.getPatient());
+
 //modifier la date de naissance
 
-      $scope.Client.userData.date_naissance = new Date(  $scope.Client.userData.date_naissance )
-console.log('client rendz vous' +  JSON.stringify($scope.Client.RendezVous.data.length));
+      if(PatientService.getPatient()){
+        $scope.Client = JSON.parse(PatientService.getPatient());
+        $scope.Client.userData.date_naissance = new Date(  $scope.Client.userData.date_naissance )
+      }
+
+
 
     $scope.isExpanded = false;
     $scope.$parent.setExpanded(false);
@@ -975,11 +1049,6 @@ console.log('client rendz vous' +  JSON.stringify($scope.Client.RendezVous.data.
 
 
 
-
-
-    console.log('on va afficher lzs informations du client , ses rendez vous, et ses praticients')
-
-
     //une méthode pour modifier le profile
 
       /*--_-_-_-_-__-_-_-_-_mdofier profile--_-_-_-_-_-__-_-_--_-__-_-_-_-_-_-*/
@@ -1003,13 +1072,18 @@ console.log('isvalid')
       if(isvlaid) {
 
 
-        PatientService.modifierProfile($scope.Client)
+        PatientService.modifierProfile($scope.Client.userData)
           .then(function (result) {
 
             $ionicLoading.hide();
             console.log('result is' + JSON.stringify(result));
+            //we will save it
+
+            PatientService.setPatient(result);
+            ionicToast.show('Votre profile a été modifié avec succées ', 'top', true, 2500);
           }).catch(function (err) {
             $ionicLoading.hide();
+            ionicToast.show('Erreur veuillez réssayez plus tard ! ', 'top', true, 2500);
             console.log('err' + JSON.stringify(err));
           })
 
@@ -1063,8 +1137,12 @@ $scope.logout = function(){
 
 
     //récuperer le docteur
+    if(DocteurService.getDocteur()){
 
-    $scope.Docteur = DocteurService.getDocteur;
+      $scope.Docteur = JSON.parse(DocteurService.getDocteur());
+    }
+
+
 
 
     //on va afficher toutes les informations du docteur , profile , rendez vous la liste des clients
@@ -1074,14 +1152,50 @@ $scope.logout = function(){
     les méthodes
      */
 
-    $scope.confirmerRendezVous = function(){
+    $scope.confirmerRendezVous = function(idRdv){
 
       //si valeur button rejeter alors envoyer rejter
       //si valeur button confirmer envoyer confirmer
-      DocteurService.confirmerRendezVous();
+      DocteurService.confirmerRendezVous(idRdv)
+        .then(function(data){
+        console.log('data' + data);
+      }).catch(function(err){
+        console.log('err' +err)
+      })
 
 
     }
+
+
+
+
+    /*_-_-__-_-_-_-_-_methode rejeter RDV*/
+
+    $scope.rejeterRendezVous = function(idRdv){
+
+      //si valeur button rejeter alors envoyer rejter
+      //si valeur button confirmer envoyer confirmer
+      DocteurService.RejeterRendezVous(idRdv)
+        .then(function(data){
+          console.log('data' + data);
+        }).catch(function(err){
+          console.log('err' +err)
+        })
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1108,14 +1222,115 @@ $scope.logout = function(){
 
 
 
-  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur',function($scope, $ionicModal, $timeout, $cordovaCalendar,getDocteur) {
+  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur','PatientService',function($scope,
+                                                                                                                                $ionicModal, $timeout, $cordovaCalendar,getDocteur,PatientService) {
 
-
-
-
-    console.log('getDocteut' + JSON.stringify(getDocteur));
 
    $scope.Docteur  = getDocteur;
+
+
+/*
+THE MODAL
+ */
+    $ionicModal.fromTemplateUrl('/templates/messages/msgPrendreRdv.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true
+    }).then(function(modal) {
+      $scope.modal = modal;
+      //$scope.modal.show();
+    });
+
+
+    $scope.openModal = function() {
+      $scope.modal.show();
+    };
+
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+
+
+    $scope.$on('$destroy', function() {
+      $scope.modal.remove();
+    });
+
+    $scope.$on('modal.hidden', function() {
+      // Execute action
+    });
+
+    $scope.$on('modal.removed', function() {
+      // Execute action
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//initialize le rendez vous
+
+    $scope.RDV ={};
+
+
+if(PatientService.getPatient()){
+
+var client = angular.fromJson(PatientService.getPatient());
+  console.log('client' + JSON.stringify(client.userData.id_patient))
+  console.log('docteur' + JSON.stringify(  $scope.Docteur.id_praticien ));
+  $scope.RDV.id_patient = client.userData.id_patient;
+  $scope.RDV.id_praticien =$scope.Docteur.id_praticien ;
+
+  $scope.RDV.date = new Date();
+  $scope.RDV.time = "8h:30";
+}
+
+
+/* fonction pour le client pour prenrdre rendez vous */
+
+
+
+    $scope.prendreRdv = function(){
+
+      if(!PatientService.getPatient()){
+        //open a modal etre authentifiéé
+        $scope.openModal();
+      }else{
+
+        PatientService.prendreRendezVous( $scope.RDV)
+          .then(function(data){
+            console.log('data' + data.data.etat);
+
+            if(data.data.etat==200){
+              alert('suucess cretaed !')
+            }
+
+          }).catch(function(err){
+            console.log('err' + err);
+          })
+      }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 

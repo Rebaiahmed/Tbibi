@@ -99,35 +99,14 @@
   </div>
   <!---------------------------------------------------------------------------------------->
 
-          <div style="border: 2px solid #2196F3;" class="">
-          <label class="item item-input item-light">
-            <i class="icon  ion-checkmark placeholder-icon"></i>
-            <input   name="confirmPassword" ng-model="newClient.confirmpassword" placeholder="Confimer Password" type="password"
-                   autocorrect="off" autocapitalize="off" required valid-password-c >
-
-          </label>
-            </div><!--end of div---------->
-
-
-
-  <div class="padding-bottom"></div>
 
 
 
 
   <div class="padding-bottom"></div>
-<p>{{ ClientInscrire.confirmPassword.$error}}</p>
-  <!---------------------------------------------------------------------------------------->
-  <div class="card card-assertive cardError" ng-if="!ClientInscrire.confirmPassword.$error.required && ClientInscrire.confirmPassword.$error.noMatch ">
-    <p class="error">mot de passe ne correspond pas</p>
-
-  </div>
 
 
 
-
-
-  <div class="padding"></div>
 
 
           <div style="border: 2px solid #2196F3;" class="">
@@ -331,7 +310,7 @@
 
   <!----------------------------------------------------------------------------->
   <div class="padding-bottom"></div>
-{{ ClientInscrire.$error }}
+
   <!--------error show message------------------->
   <div class="card card-assertive cardError" ng-if="submitted && !ClientInscrire.genre.$valid " >
     <p class="error">Vous Devez indiquez Votre genre

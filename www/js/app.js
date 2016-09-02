@@ -139,7 +139,6 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       resolve:{
         getDocteur : ['RechercherSevice','$stateParams', function(RechercherSevice,$stateParams){
 
-
          return RechercherSevice.RechercheDocteur($stateParams.id);
 
         }]
@@ -399,13 +398,12 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
     });
   })
 
-  .run(function($rootScope, $templateCache,PatientService) {
+  .run(function($rootScope, $templateCache,PatientService,DocteurService) {
     $rootScope.$on('$viewContentLoaded', function() {
       $templateCache.removeAll();
     });
 
 
-    console.log('client existe' + PatientService.getPatient());
 
     if(PatientService.getPatient()){
       $rootScope.clientAuthenticated = true ;
@@ -413,8 +411,15 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       $rootScope.clientAuthenticated = false ;
     }
 
-
-
+/*
+test sur le praticien
+ */
+    if( DocteurService.getDocteur()){
+      $rootScope.praticientAuthenticated = true ;
+    }else{
+      $rootScope.praticientAuthenticated = false ;
+    }
+DocteurService.logout();
 
   })
 

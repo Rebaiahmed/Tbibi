@@ -2,52 +2,102 @@
   <ion-content class="padding animated fadeInLeft">
 
 
-
-    <div class="row">
-      <label class="item item-input item-stable">
-
-        <i ng-show="!disableGeo" class="icon ion-ios-location placeholder-icon"></i>
-        <i ng-show="disableGeo" class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="Rechercher autour de moi" autocorrect="off" autocapitalize="off" ng-click="RechercherParMap()" >
+    <div class="padding"></div>
 
 
-      </label>
-    </div>
+<div class="row">
 
+  <div class="col-50">
+   <img src="/img/logo.png">
+  </div>
+
+  <!---------------->
+  <div class="col-50">
+    <p>Trouvez simplement un médecin et prendre un rendez vous</p>
+  </div>
+
+</div>
 
     <div class="padding"></div>
 
     <!--------the select------------->
 
+<hr>
+    <p>Quel Médecin recherchez Vous</p>
 
 
 
 
-      <div class="row">
 
-
-
-        <div class="col-33">
-        <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="data.specialite" options="specialites" modal-title="Choisir Spécialité" has-search="true" required="">
+<div class="row">
+        <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="data.specialite" options="specialites" modal-title="Choisir Spécialité" has-search="true" required
+          name="specialite">
           Spécialité
           <div class="option">
             {{option}}
           </div>
         </button>
-      </div><!----end of col 33----------->
+
+  <p>{{ data.specialite}}</p>
+</div>
 
 
+    <!----------------------------------------------------------------------------->
+    <div class="padding-bottom"></div>
+<p>{{ specialite}}</p>
+    <!--------error show message------------------->
+    <div class="card card-assertive cardError" ng-if="errorChoix ">
+      <p class="error">Vous Devez précisez la specialite ou bien choisir un docteur
+    </div>
+    <!---------------------------------------------------------------------------------------->
+    <div class="padding"></div>
+
+
+
+    <div class="padding"></div>
+
+
+    <div class="row">
+     <h5>Or chercher par Nom doctuer</h5>
+    </div>
+
+    <div class="row">
+      <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="data.doctor" options="docteurs" modal-title="Choisir Docteur" has-search="true"
+              cancel-button="Annuler" reset-button="Annuler" search-placeholder="Rechercher Pa Nom" cancel-search-button="réinitialiser"
+              sub-header-class="bar-positive">
+        Nom de votre médecin
+        <div class="option">
+          {{option.prenom_praticien + ' ' + option.nom_praticien}}
+        </div>
+      </button>
       <!------------------->
 
+      <p>{{data.doctor}}</p>
+    </div>
+
+    <div class="padding"></div>
+      <!------------------->
+
+
+    <div class="row">
+      <img src="/img/plus.png" width="50px" height="50px">
+    </div>
+
+
+    <div class="padding"></div>
       <!--------the select------------->
-      <div class="col-33">
+      <div class="row">
+
+
         <button style="border: 2px solid #2196F3;" class="button button-positive button-outline" modal-select="" ng-model="data.gouvernorat" options="gouvernorats" modal-title="Choisir Gouvernorat" has-search="true">
           Gouvernorat
           <div class="option">
             {{option}}
           </div>
         </button>
-      </div><!----end of col 33-------------->
+
+<p>{{ data.gouvernorat}}</p>
+      </div><!----end of row-------------->
 
       <!------------------->
 
@@ -59,33 +109,21 @@
 
 
 
-    <div class="col-33">
+<div class="row">
       <button style="border: 2px solid #2196F3;" class="button button-positive button-outline" modal-select="" ng-model="data.delegation" options="delegations" modal-title="Choisir Délegation" has-search="true">
        Délegation
         <div class="option">
           {{option}}
         </div>
       </button>
-    </div><!----end of col-33------------->
+  <p>{{ data.delegation }}</p>
+</div>
 
-    <!------------------->
-</div><!------------------end of row--------------->
 
-<div class="padding"></div>
-    <div class="row">
-      <div class="col-33" ng-if="data.specialite">
-        <p>{{ data.specialite}} <i class = "icon icon ion-ios-medkit-outline"></i></p>
-      </div>
 
-      <div class="col-33 text2" ng-if="data.gouvernorat">
-        <p>{{ data.gouvernorat}} <i class = "icon icon ion-ios-location"></i></p>
-      </div>
 
-      <div class="col-33 text2" ng-if="data.delegation">
-        <p>{{ data.delegation}} <i class = "icon icon ion-android-home"></i></p>
-      </div>
 
-    </div>
+
 
     <div class="padding"></div>
 

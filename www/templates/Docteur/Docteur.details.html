@@ -45,25 +45,10 @@
 
     <div class="padding"></div>
 
-    <ion-list >
 
-      <ion-item>
-      <button class="button" ng-disabled="isToday()" ng-click="today()">Today</button>
-        <button class="button" ng-click="changeMode('month')">M</button>
-        <button class="button" ng-click="changeMode('month')">M</button>
-        <button class="button" ng-click="changeMode('week')">W</button>
-        <button class="button" ng-click="changeMode('day')">D</button>
-        <button class="button" ng-click="loadEvents()">Load Events</button>
-      </ion-item>
-
-    </ion-list>
-
-    <div class="row">
-      <calendar ng-model="calendar.currentDate" calendar-mode="calendar.mode" event-source="calendar.eventSource"
-                range-changed="reloadSource(startTime, endTime)"
-                event-selected="onEventSelected(event)" title-changed="onViewTitleChanged(title)"
-                time-selected="onTimeSelected(selectedTime, events)" step="30"></calendar>
-    </div>
+    <button class="button button-block" ng-click="prendreRdv()">
+      Prendre un rnedez Vous
+    </button>
 
 
 

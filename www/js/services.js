@@ -34,8 +34,14 @@ var urlBase = '';
 
 
     this.prendreRendezVous= function(data){
-      //envoyer rendez Vous
-      return 1;
+
+      return $http({
+        method: "post",
+        url: 'http://localhost/webservices/prendreRendezVousClient.php',
+        data :{'id_patient' : data.id_patient,'id_praticien': data.id_praticien,'date': data.date
+          ,'time': data.time},
+        headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+      })
     }
 
 
@@ -49,12 +55,17 @@ var urlBase = '';
 
     this.modifierProfile= function(data){
 
+/*
+ {"id_patient":"192","\tnom_patient":"","prenom_patient":"taoufik","email_patient":"taoufik.ettaieb@gmail.com","phone_bureau_patient":"344444","\tphone_domicile_patient":"","mobile_patient":"20140428",
+ "date_naissance":"2016-08-17T00:00:00.000Z",
+ "genre":"homme","nom_patient":"taoufik","phone_domicile_patient":"33333"}
+ */
 
       return $http({
         method: "post",
         url: 'http://localhost/webservices/modifierProfileClient.php',
-        data :{'email' : data.email,'password': data.password,'nom': data.nom,'prenom': data.prenom
-          ,'genre': data.genre,'mobile': data.mobile,'domicile': data.domicile,'bureau':data.bureau},
+        data :{'id' : data.id_patient,'nom': data.nom_patient,'prenom': data.prenom_patient
+          ,'genre': data.genre,'mobile': data.mobile_patient,'dateNaissance':data.date_naissance},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       })
 
@@ -109,7 +120,9 @@ var urlBase = '';
 
     //-_-_-_-_-_une méthode pour mettre le docteur en localStorage
 
-    this.setDocteur= function(data){
+    this.setPraticient = function(data){
+
+      localStorageService.set('praticient', JSON.stringify(data));
 
     }
 
@@ -117,19 +130,49 @@ var urlBase = '';
 
 
     this.getDocteur = function(){
-      return 1;
+      // return localStorage
+      return localStorageService.get('praticient');
     }
 
     //-_-_-_-_-_une méthode pour confirmer ou refuser un rendez vous par le docteur
 
 
-    this.confirmerRendezVous= function(data){
-      return 1;
+    this.confirmerRendezVous= function(idRdv){
+      return $http({
+        method: "post",
+        url: 'http://localhost/webservices/confirmezRdv.php',
+        data :{'idRdv' :idRdv},
+        headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+      })
     }
+
+
+
+
+
+
+
+    //-_-_-_-_-_une méthode pour  refuser un rendez vous par le docteur
+
+
+    this.RejeterRendezVous= function(idRdv){
+      return $http({
+        method: "post",
+        url: 'http://localhost/webservices/RejeterRdv.php',
+        data :{'idRdv' :idRdv},
+        headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+      })
+    }
+
+
+
+
 
     //-_-_-_-_-_une méthode pour prendre le rendez Vous d'apres le client
 
-
+    this.logout = function(){
+      return localStorageService.remove('praticient');
+    }
 
     //-_-_-_-_-_une méthode pour modifier le profile
 
@@ -225,14 +268,15 @@ var urlBase = '';
 
 
 
-    this.RechercheDocteur = function(data){
+    this.RechercheDocteur = function(id){
       //envoyer les données de recherche au serveur
+
 
       var def = $q.defer();
       $http({
         method: "post",
         url: 'http://localhost/webservices/getDocteurParNom.php',
-        data :{'id' : data},
+        data :{'id' : id},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       }).success(function(data){
 
@@ -241,6 +285,7 @@ var urlBase = '';
         def.resolve(data);
 
       }).error(function(err){
+        console.log('err' + err)
         def.reject(err);
       })
       return def.promise;
@@ -278,7 +323,7 @@ var urlBase = '';
     this.RechercheParCritere= function(data) {
 
 
-
+console.log('recherche critre' + JSON.stringify(data));
      return $http({
         method: "post",
         url: 'http://localhost/webservices/RechercheDocteurs.php',

@@ -4,68 +4,66 @@
 
     <div class="row">
 
-      <div class="col-25">
+      <div class="col-20">
 
       </div>
       <!------------------------------>
       <div class="col-50">
 
 
-        <h4 class="title text"> {{ Resultats.length}}Résulatts de recherche   <img src="/img/result.png" width="30px">
+        <h4 class="title text">
+          <img src="/img/result.png" width="30px">
+          {{ Resultats.length}} praticients
           </h4>
 
 
       </div>
       <!---------------------->
-      <div class="col-25">
+      <div class="col-20">
 
       </div>
 
     </div><!----end of row--->
 
 
-    <ion-list ng-repeat="dc in Resultats track by $index">
+    <ion-list ng-repeat="dc in Resultats ">
 
 
-      <ion-item>
-        <a ui-sref="app.docteursDetails">
-        {{ dc }}
-        </a>
-      </ion-item>
-      <!---<ion-item style="border: 0px" >
+      <ion-item style="border: 0px" >
       <div class="row detailsDoctor" >
 
         <div class="col-40 imageDoctor" >
-          <a ui-sref="app.docteursDetails({nom:dc.nom_praticien})">
+          <a ui-sref="app.docteursDetails({ id : dc.id_praticien})">
           <img ng-src="{{dc.image}}" width="70px">
           </a>
         </div><!----end of col md40----->
 
-       <!-- <div class="col-60 text-center">
+       <div class="col-60 text-center">
           <h3 class="doctor">
-            <a ui-sref="app.docteursDetails({nom:dc.nom_praticien})">Dr {{ dc.nom_praticien + ' ' + dr.prenom_praticien}}
+
+            <a ui-sref="app.docteursDetails({id : dc.id_praticien})">Dr {{ dc.nom_praticien + ' ' + dc.prenom_praticien}}
           </a>
           </h3>
-          <h4 class="specialite">{{ dr.specialite}}</h4>
+          <h4 class="specialite">{{ dc.specialite}}</h4>
           <br>
           <p>
             <i class = "icon icon ion-android-home"></i>
-            Addresse {{ dr.adresse }}</p>
+            Addresse {{ dc.adresse }}</p>
           <span style="color: #2196F3">
             <i class = "icon icon ion-android-call"></i>
-            telephone :{{ dr.phone__fixe_praticien }}
+            telephone :{{ dc.phone__fixe_praticien }}
           </span>
           <br>
-          <button class="button button-calm " ui-sref="app.docteursDetails({nom:dc.nom_praticien})">
+          <button class="button button-calm " ng-click="gotoDocteurDetails(dc.id_praticien)">
             Prendre RDV
           </button>
 
         </div><!--end of col 60------->
 
 
-     <!--</div><!----end of row-------->
+    </div><!----end of row-------->
 
-     <!-- </ion-item>-->
+      </ion-item>
 <!-------------------------------------------------------------------------------->
 
 
