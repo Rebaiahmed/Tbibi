@@ -8,9 +8,9 @@
 
       <ion-tab title="Home">
         <!-- Tab 1 content -->
-        <div class="padding"></div>
+
         <!--------the select------------->
-        <div class="row" ng-show="showListemdecins">
+        <div class="row">
 
 
 
@@ -21,35 +21,11 @@
           </div>
 
         </div><!---end of row--->
-        <div class="padding"></div>
-
-        <!------------------->
-        <div class="row">
-          <label class="item item-input item-stable">
-
-            <i ng-show="!disableGeo" class="icon ion-ios-location placeholder-icon"></i>
-            <i ng-show="disableGeo" class="icon ion-search placeholder-icon"></i>
-            <input type="text" placeholder="Rechercher autour de moi" autocorrect="off" autocapitalize="off" ng-click="RechercherParMap()" >
-
-
-          </label>
-        </div>
-
-
-
-
-
-
-        <div class="padding"></div>
-
-
-
+        <div class="padding-bottom"></div>
 
         <!--------the select------------->
 
         <div class="row">
-
-
 
           <div class="col-50">
             <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="someModel" options="specialites" modal-title="Choisir Spécialité" has-search="true">
@@ -75,12 +51,11 @@
 
         </div><!---end of row-------------->
 
-
-        <div class="padding"></div>
+        <div class="padding-bottom"></div>
         <!------------------>
 
         <div style="border: 2px solid #2196F3;" class="">
-          <label class = "item item-input item-select item-light" ng-show="!showListemdecins">
+          <label class = "item item-input item-select item-light">
             <div class = "input-label">
               Délégation
             </div>

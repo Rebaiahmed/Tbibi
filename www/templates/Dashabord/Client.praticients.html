@@ -1,30 +1,34 @@
-<ion-view view-title="Praticients">
+<ion-view>
+
+  <ion-nav-title>
+    <p class="choix">Praticients</p>
+  </ion-nav-title>
+  <ion-nav-buttons side="right">
+    <button class="button button-calm" ng-click="logout()">
+      logout
+    </button>
+  </ion-nav-buttons>
   <ion-content class="padding animated fadeInLeft">
 
 
 
 
 
-    <h4 class="content padding double-padding-x text2" style="text-align: center;">Mes Praticients</h4>
+    <h4 class="content padding double-padding-x text" style="text-align: center;">Mes praticients</h4>
 
     <!--------Praticients------------------>
     <div class="list animate-fade-slide-in-right text2">
 
 
-
-      <a  class="item item-avatar item-icon-right" ui-sref="app.docteursDetails({nom:'ahmed'})">
+<ion-item ng-repeat=" rdv in Client.praticients.data">
+      <a  class="item item-avatar item-icon-right" ui-sref="app.docteursDetails({id : rdv.id_praticien })">
         <img src="/img/doctorMenu.png">
-        <h2 class="text2">Praticien 1</h2>
-
+        <h2 class="text2">{{ rdv.prenom_praticien + ' ' + rdv.nom_praticien }}</h2>
+        <p class="text">Spécialité : {{ rdv.specialite }}</p>
 
       </a>
+</ion-item>
 
-
-
-      <a  class="item item-avatar item-icon-right" ui-sref="app.docteursDetails({nom:'ahmed'})">
-        <img src="/img/doctorMenu.png">
-        <h2 class="">Praticien 2</h2>
-      </a>
 
 
 

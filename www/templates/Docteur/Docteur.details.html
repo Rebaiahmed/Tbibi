@@ -1,62 +1,118 @@
-<ion-view view-title="Docteur" ng-class="{expanded:isExpanded}" class="animate-fade-slide-in">
+<ion-view  ng-class="{expanded:isExpanded}" class="animate-fade-slide-in">
+
+  <ion-nav-title>
+    <p class="choix">Docteur</p>
+  </ion-nav-title>
   <ion-content class="animated fadeInLeft">
 
-
-    <div class="row">
-
+    <div class="padding-bottom"></div>
 
 
-
-
-
-          <div class="col-40 imageDoctor" >
-            <a>
-              <img src="/img/docteuritem.jpg" width="70px">
-            </a>
-          </div><!----end of col md40----->
-
-          <div class="col-60">
-            <h5 class="doctor">
-              Dr {{ Docteur.nom_praticien + ' ' + Docteur.prenom_praticien}}
-
-            </h5>
-            <h6 class="specialite">Spécialité :{{ Docteur.specialite}}</h6>
-            <br>
-            <p>
-              <i class = "icon icon ion-android-home"></i>
-              Addresse :{{ Docteur.gouvernorat + ' ' + Docteur.ville}}</p>
-          <span style="color: #2196F3">
-            <i class = "icon icon ion-android-call"></i>
-            telephone {{ 	Docteur.phone__fixe_praticien}}
-          </span>
-            <br>
-
-
-          </div><!--end of col 60------->
+    <div class="card">
 
 
 
 
+      <div class="item item-avatar">
+        <img src="/img/doctorNew.png" width="70px">
+        <div class="padding"></div>
+        <h3 class="doctor">
+          Dr {{ Docteur.nom_praticien + ' ' + Docteur.prenom_praticien}}
+        </h3>
+        <div class="padding-bottom"></div>
+        <p class="doctor">
+          <i class = "icon icon ion-document-text"></i>
+          Spécialité :{{ Docteur.specialite}}</p>
+        <div class="padding-bottom"></div>
+        <p class="doctor">
+          <i class = "icon icon ion-android-home"></i>
+          Addresse :{{ Docteur.gouvernorat + ' ' + Docteur.ville}}
+        </p>
+        <div class="padding-bottom"></div>
+        <p class="doctor">
+          <i class = "icon icon ion-android-call"></i>
+          telephone {{ 	Docteur.phone__fixe_praticien | number}}
+        </p>
+      </div>
 
 
-    </div><!-----------end of row------------>
+
+
+    </div><!-----------end of card----------->
 
 
 
-    <div class="padding"></div>
+    <div class="padding-buttom"></div>
 
-
-    <button class="button button-block" ng-click="prendreRdv()">
-      Prendre un rnedez Vous
-    </button>
+<div class="card">
+  <div class="item item-avatar">
+    <img src="/img/calendar.png" width="90px">
+    <p class="msg">Prenez Rendez Vous avec Docteur Foulen ben Foulen</p>
+  </div><!--end of item avatar--->
+</div><!----end of card------------>
 
 
 
 
 
 
+    <ion-slide-box active-slide="1" >
 
 
+
+      <!---------------------------------------------------------------->
+      <ion-slide>
+
+
+        <div class="row bar bar-positive">
+          <i class = "icon icon ion-arrow-left-a" ng-click="slideNext()"></i>
+          <div class="col choix">jeudi</div>
+          <div class="col choix">Vendredi</div>
+          <div class="col choix">Samedi
+          </div>
+
+        </div>
+        <div class="padding"></div>
+        <div class="row" ng-repeat="data in temps">
+          <div class="padding"></div>
+          <div class="col time">{{data}}</div>
+          <div class="padding"></div>
+          <div class="col time">{{data}}</div>
+          <div class="padding"></div>
+          <div class="col time">{{data}}</div>
+
+
+        </div>
+
+      </ion-slide>
+
+
+
+      <!----------------------------------->
+      <ion-slide>
+
+        <div class="row bar bar-positive">
+          <div class="col choix">lundi</div>
+          <div class="col choix">Mardi</div>
+          <div class="col choix">Mercredi
+            <i class = "icon icon ion-arrow-right-a" ng-click="slidePrevious()"></i>
+          </div>
+
+        </div>
+
+        <div class="row" ng-repeat="data in temps">
+
+          <div class="col time">{{data}}</div>
+          <div class="padding"></div>
+          <div class="col time">{{data}}</div>
+          <div class="padding"></div>
+          <div class="col time">{{data}}</div>
+
+
+        </div>
+      </ion-slide>
+
+    </ion-slide-box>
 
 
   </ion-content>

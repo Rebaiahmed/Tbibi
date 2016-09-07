@@ -1,5 +1,9 @@
-<ion-view view-title="Rendez Vous">
+<ion-view>
 
+
+  <ion-nav-title>
+    <p class="choix">Rendez Vous</p>
+  </ion-nav-title>
   <ion-nav-buttons side="right">
     <button class="button button-calm" ng-click="logout()">
       logout
@@ -11,11 +15,16 @@
 
 
 
-    <h4 class="content padding double-padding-x text2" style="text-align: center;">Mes Rendez-vous</h4>
+    <h4 class="content padding double-padding-x text" style="text-align: center;">Mes Rendez-vous</h4>
 
     <!--------Praticients------------------>
 
-    <p>{{ Client}}</p>
+
+    <div class="card" >
+      <p class="error">Bienvenue Mr {{ Client.userData.nom_patient + ' ' + Client.userData.prenom_patient  }} , Vous n'avez effectuer aucun rendez Vous !</p>
+    </div>
+
+
     <div class="list animate-fade-slide-in-right">
 
 

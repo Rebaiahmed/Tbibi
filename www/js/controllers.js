@@ -8,7 +8,8 @@ angular.module('tbibi')
   /*
   Controleur pour l'App --------------
    */
-.controller('AppCtrl',['$scope','$ionicModal','$ionicPopover','$timeout', function($scope,$ionicModal, $ionicPopover, $timeout) {
+.controller('AppCtrl',['$scope','$ionicModal','$ionicPopover','$timeout','$state', function($scope,$ionicModal,
+                                                                                            $ionicPopover, $timeout,$state) {
 
 
     // Form data for the login modal
@@ -65,8 +66,12 @@ angular.module('tbibi')
 
 
 
+    $scope.navigateTo = function(stateName){
 
+      console.log('satteName'+ stateName);
+      $state.go(stateName);
 
+    }
 
 
 
@@ -224,13 +229,22 @@ angular.module('tbibi')
 
 
 
+
+      //une fonction pour faire la recherche du docteur
+      $scope.data ={};
+
+      $scope.data.specialite = '';
+      $scope.data.gouvernorat = '';
+      $scope.data.delegation = '';
+
+
       $scope.doctor= {};
       $scope.specialites =[];
       $scope.searchDoc = {};
 
+$scope.errorDoctor = false ;
+      $scope.errorSpecilaite = false ;
 
-var word ={} ;
-      var i=0;
       angular.forEach(getSpecialitees, function(value, key){
 
 
@@ -273,21 +287,11 @@ value = angular.fromJson(value);
 
         $scope.docteurs[key] = option;
 
-        console.log('we are' + JSON.stringify($scope.docteurs[key]));
 
         option={};
       })
 
 
-      $scope.errorChoix = false
-
-
-    //une fonction pour faire la recherche du docteur
-$scope.data ={};
-
-      $scope.data.specialite = '';
-      $scope.data.gouvernorat = '';
-      $scope.data.delegation = '';
 
 
       /*
@@ -296,6 +300,10 @@ $scope.data ={};
 
 
     $scope.rechercheParCritere = function(){
+
+
+
+
       $ionicLoading.show({
         content: 'Loading',
         animation: 'fade-in',
@@ -306,23 +314,7 @@ $scope.data ={};
       });
 
 
-      console.log('data' + JSON.stringify($scope.data.specialite));
-
-
-
-      if($scope.data.doctor){
-
-
-
-
-          RechercherSevice.RechercheDocteur($scope.data.doctor.id)
-            .then(function(result){
-              console.log('result' + JSON.stringify(result));
-            }).catch(function(err){
-              console.log('err' + err);
-            })
-
-      }else   if($scope.data.specialite){
+       if($scope.data.specialite){
 
         RechercherSevice.RechercheParCritere($scope.data)
          .then(function(result){
@@ -356,7 +348,7 @@ $scope.data ={};
       }else{
 
         //aucun choix choisit
-        $scope.errorChoix = true ;
+         $scope.errorSpecilaite = true ;
         $ionicLoading.hide();
       }
 
@@ -374,40 +366,86 @@ $scope.data ={};
 
 
 
-//une méthode pour localiser l'utilisateur
+      /*
+      RECHERCHER PAR Nom
+       */
+
+      $scope.rechercheParNom= function(){
 
 
-    $scope.RechercherParMap = function() {
+        $ionicLoading.show({
+          content: 'Loading',
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0,
 
-      //localiser l'utilisateur et rechercher les docteurs autour dde lui ;
-
-      console.log('on va chercher par Maps !!')
-
-      $ionicLoading.show({
-        content: 'Loading',
-        animation: 'fade-in',
-        showBackdrop: true,
-        maxWidth: 200,
-        showDelay: 0,
-
-      });
-      $timeout(function () {
-        $ionicLoading.hide();
-        //$scope.openModal();
-      }, 2000)
-         $state.go('app.maps')
-    }
+        });
 
 
 
+if($scope.data.doctor){
+
+  RechercherSevice.RechercheDocteur($scope.data.doctor.id)
+    .then(function(result){
+      $ionicLoading.hide();
+      console.log('result' + JSON.stringify(result));
+
+
+
+      if(result){
+        //app.docteursDetails
+        $state.go('app.docteursDetails', {'id': result.id_praticien})
+      }else{
+
+      }
+
+     /* if(result.data.Number==0){
+        $scope.openModal();
+      }else {
+
+        $state.go('app.resultas', {'resultats': JSON.stringify(result.data)})
+      }*/
+
+
+    }).catch(function(err){
+      $ionicLoading.hide();
+      console.log('err' + err);
+    })
+
+
+}else{
+  $scope.errorDoctor = true;
+  $ionicLoading.hide();
+}
 
 
 
 
-  }])
 
 
-  .controller('ResultatsCtrl',['$scope','$ionicLoading','$timeout','$stateParams','$state', function($scope,$ionicLoading,$timeout,$stateParams,$state) {
+
+
+
+
+
+
+
+      }
+
+
+
+
+
+
+
+
+
+    }])
+
+
+  .controller('ResultatsCtrl',['$scope','$ionicLoading','$timeout','$stateParams','$state','localStorageService', function($scope,$ionicLoading,$timeout,$stateParams
+    ,$state,localStorageService) {
 
 
     $scope.$on("$ionicView.beforeEnter", function() {
@@ -440,34 +478,79 @@ $scope.data ={};
 
     $scope.Resultats = [];
 
-     for (var i = 0; i < $stateParams.resultats.Number; i++) {
 
-       $scope.Resultats[i] = angular.fromJson($stateParams.resultats.Resultats[i]);
-
+    if($stateParams.resultats) {
 
 
-     }
+      for (var i = 0; i < $stateParams.resultats.Number; i++) {
+
+        $scope.Resultats[i] = angular.fromJson($stateParams.resultats.Resultats[i]);
 
 
+      }//end for
+
+
+    }//end if
     //fonction pour la trasntition vers docteurDetails
 
     $scope.gotoDocteurDetails = function(id){
 
       $state.go('app.docteursDetails',{id:id})
     }
+/*
+_-_-_-_-_-_-_-__-__-_-_-_-__-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-_-_-_-__-_-_-
+ */
+
+
+
+
+
+
+console.log('resultats are' + JSON.stringify($scope.Resultats));
+
+
+$scope.goMpas = function(){
+
+  $state.go('app.maps',{'Resultats':JSON.stringify($scope.Resultats)});
+}
 
   }])
 
 
-  .controller('MapsCtrl', function(getDocteurs, $http,localStorageService,$scope) {
+  .controller('MapsCtrl',['$stateParams','$http','$scope', function($stateParams, $http,$scope) {
 
 
-    console.log('docteurs are' + JSON.stringify(getDocteurs[0]))
+      var doc ={};
+      var lat,long ;
+
+
+
+
+
+    $stateParams.Resultats =  angular.fromJson($stateParams.Resultats);
+
+    console.log('params are' +  $stateParams.Resultats.length);
+
+    $scope.Resultats = [];
+
+
+    if($stateParams.Resultats) {
+
+
+      for (var i = 0; i < $stateParams.Resultats.length; i++) {
+
+        $scope.Resultats[i] = $stateParams.Resultats[i];
+
+
+      }//end for
+
+
+    }//end if
 
     angular.extend($scope, {
       center: {
-        lat: localStorageService.get('position').lat ,
-        lng: localStorageService.get('position').long,
+        lat: 36.7908,
+        lng: 10.1112,
         zoom: 10
       },
       layers: {
@@ -488,41 +571,40 @@ $scope.data ={};
       }
     });
 
+    //console.log('ddd' +    $scope.Resultats.length);
 
-
-
- var doc ={};
-    var lat,long ;
     $scope.markers =[]
 
-    for(var i=0;i<100;i++){
+      for(var i=0;i<$scope.Resultats.length;i++){
 
 
-    lat = parseFloat(getDocteurs[i].latitude);
-    long = parseFloat(getDocteurs[i].latitude);
+        lat = parseFloat($scope.Resultats[i].latitude);
+        long = parseFloat($scope.Resultats[i].longitude);
+        console.log('i' + lat + ' long' + long);
+        $scope.markers[i] = {
+          lat: lat,
+          lng: long,
+          message: " " + $scope.Resultats[i].nom_praticien + ' ' + $scope.Resultats[i].prenom_praticien + '</br>' +
+          'tél :' +$scope.Resultats[i].phone__fixe_praticien + '</br>' +
+          'spécialité :'  +$scope.Resultats[i].mobile_praticien ,
+          focus: true,
+          draggable: false
 
-    $scope.markers[i] = {
-        lat: lat,
-        lng: long,
-      message: " " + getDocteurs[i].nom_praticien + ' ' + getDocteurs[i].prenom_praticien + '</br>' +
-      'tél :' +getDocteurs[i].phone__fixe_praticien + '</br>' +
-      'spécialité :'  +getDocteurs[i].mobile_praticien ,
-      focus: true,
-      draggable: false
+        }
 
       }
-
-    }
-
-
-
 
       angular.extend($scope, {
         markers:  $scope.markers
       });
 
 
-  })
+
+
+
+
+
+  }])
 
   //controleur pour gérer l'étape du login du client pour son espace
 
@@ -867,6 +949,7 @@ $scope.data ={};
 
               console.log('praticne logged');
              DocteurService.setPraticient(praticien.data)
+
               $rootScope.praticientAuthenticated = true ;
               $state.go('app.dashaBordPraticien')
 
@@ -1107,8 +1190,9 @@ $scope.logout = function(){
 
   }])
 
-  .controller('dashabordPraticienCtrl',['$scope','$ionicModal','$timeout','$ionicLoading','$ionicHistory','DocteurService', function($scope,$ionicModal,
-                                                                                                                                     $timeout,$ionicLoading,$ionicHistory,DocteurService) {
+  .controller('dashabordPraticienCtrl',['$scope','$ionicModal','$timeout','$ionicLoading','$ionicHistory','DocteurService','$rootScope','$state','ionicToast', function($scope,$ionicModal,
+                                                                                                                                     $timeout,$ionicLoading,$ionicHistory,DocteurService,
+                                                                                                                                                           $rootScope,$state,ionicToast) {
 
 
     /*
@@ -1144,7 +1228,8 @@ $scope.logout = function(){
 
 
 
-
+$scope.checked = false ;
+    $scope.refused = false;
     //on va afficher toutes les informations du docteur , profile , rendez vous la liste des clients
 
 
@@ -1156,9 +1241,17 @@ $scope.logout = function(){
 
       //si valeur button rejeter alors envoyer rejter
       //si valeur button confirmer envoyer confirmer
-      DocteurService.confirmerRendezVous(idRdv)
-        .then(function(data){
-        console.log('data' + data);
+      data.idRdv = idRdv;
+      data.idDoctor = $scope.Docteur.userData.id_praticien ;
+
+      DocteurService.confirmerRendezVous(data)
+        .then(function(result){
+
+          DocteurService.setPraticient(result.data);
+
+          $scope.Docteur = JSON.parse(DocteurService.getDocteur());
+          $scope.checked = true;
+          ionicToast.show('le Rendez Vous est confirmée.', 'top', true, 2500);
       }).catch(function(err){
         console.log('err' +err)
       })
@@ -1167,17 +1260,25 @@ $scope.logout = function(){
     }
 
 
+var data ={};
 
 
     /*_-_-__-_-_-_-_-_methode rejeter RDV*/
 
     $scope.rejeterRendezVous = function(idRdv){
+   data.idRdv = idRdv;
+      data.idDoctor = $scope.Docteur.userData.id_praticien ;
+
 
       //si valeur button rejeter alors envoyer rejter
       //si valeur button confirmer envoyer confirmer
-      DocteurService.RejeterRendezVous(idRdv)
-        .then(function(data){
-          console.log('data' + data);
+      DocteurService.RejeterRendezVous(data)
+        .then(function(result){
+          DocteurService.setPraticient(result.data);
+
+          $scope.Docteur = JSON.parse(DocteurService.getDocteur());
+          $scope.refused = true;
+          ionicToast.show('le Rendez Vous est Rejetée.', 'top', true, 2500);
         }).catch(function(err){
           console.log('err' +err)
         })
@@ -1188,22 +1289,18 @@ $scope.logout = function(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     $scope.modifierProfile = function() {
       //modifier son profile et ses cordonn
 
     }
 
+/*è-_-_-_-_-_-_-_-_-_-_-_-_*/
+    $scope.logout = function(){
+      DocteurService.logout();
+      ionicToast.show('Déconnecter', 'top', true, 2500);
+      $rootScope.praticientAuthenticated = false ;
+      $state.go('app.recherche');
+    }
 
   }])
 
@@ -1222,8 +1319,8 @@ $scope.logout = function(){
 
 
 
-  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur','PatientService',function($scope,
-                                                                                                                                $ionicModal, $timeout, $cordovaCalendar,getDocteur,PatientService) {
+  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur','PatientService','$ionicSlideBoxDelegate',function($scope,
+                                                                                                                                $ionicModal, $timeout, $cordovaCalendar,getDocteur,PatientService,$ionicSlideBoxDelegate) {
 
 
    $scope.Docteur  = getDocteur;
@@ -1270,14 +1367,24 @@ THE MODAL
 
 
 
+    $scope.myActiveSlide = 1;
+
+    $scope.slidePrevious = function() {
+
+      $ionicSlideBoxDelegate.previous();
+    }
+
+    $scope.slideNext = function() {
+
+      $ionicSlideBoxDelegate.next();
+    }
 
 
 
 
+//temps =["8h:30","9h","9h:30","10h","10h:30","11h","11h:30","12h","12h:30","13h","13h:30","14h","14h:30","15h","15h:30","16h","16h:30","17h"]
 
-
-
-
+$scope.temps =["9h","10h","11h","12h","14h","15h","16h","17h"]
 
 //initialize le rendez vous
 

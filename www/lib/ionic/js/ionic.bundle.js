@@ -47904,7 +47904,7 @@ var ngAnimateSwapDirective = ['$animate', '$rootScope', function($animate, $root
  * <div ng-view class="view-animation">
  * </div>
  *
- * <!-- Praticien.RendezVous.html -->
+ * <!-- PraticienRendezVous.html -->
  * <a href="#/banner-page">
  *   <img src="./banner.jpg" class="banner" ng-animate-ref="banner">
  * </a>
@@ -48003,7 +48003,7 @@ var ngAnimateSwapDirective = ['$animate', '$rootScope', function($animate, $root
       angular.module('anchoringExample', ['ngAnimate', 'ngRoute'])
         .config(['$routeProvider', function($routeProvider) {
           $routeProvider.when('/', {
-            templateUrl: 'Praticien.RendezVous.html',
+            templateUrl: 'PraticienRendezVous.html',
             controller: 'HomeController as home'
           });
           $routeProvider.when('/profile/:id', {
@@ -48036,7 +48036,7 @@ var ngAnimateSwapDirective = ['$animate', '$rootScope', function($animate, $root
           this.id = record.id;
         }]);
     </file>
-    <file name="Praticien.RendezVous.html">
+    <file name="PraticienRendezVous.html">
       <h2>Welcome to the home page</h1>
       <p>Please click on an element</p>
       <a class="record"
@@ -51459,7 +51459,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *   - {array.&lt;object&gt;} - state parameters extracted from the current $location.path() by
    *     applying the current state
    *
-   * <pre>templateUrl: "Praticien.RendezVous.html"</pre>
+   * <pre>templateUrl: "PraticienRendezVous.html"</pre>
    * <pre>templateUrl: function(params) {
    *     return myTemplates[params.pageId]; }</pre>
    *
@@ -57571,7 +57571,7 @@ IonicModule
  *         views: {
  *           'home-tab': {
  *             prefetchTemplate: false,
- *             templateUrl: "tabs-templates/Praticien.RendezVous.html",
+ *             templateUrl: "tabs-templates/PraticienRendezVous.html",
  *             controller: 'HomeTabCtrl'
  *           }
  *         }
@@ -65239,7 +65239,7 @@ IonicModule
  *   $stateProvider
  *   .state('index', {
  *     url: '/',
- *     templateUrl: 'Praticien.RendezVous.html'
+ *     templateUrl: 'PraticienRendezVous.html'
  *   })
  *   .state('music', {
  *     url: '/music',
@@ -65248,11 +65248,11 @@ IonicModule
  * });
  * ```
  * Then on app start, $stateProvider will look at the url, see if it matches the index state,
- * and then try to load Praticien.RendezVous.html into the `<ion-nav-view>`.
+ * and then try to load PraticienRendezVous.html into the `<ion-nav-view>`.
  *
  * Pages are loaded by the URLs given. One simple way to create templates in Angular is to put
  * them directly into your HTML file and use the `<script type="text/ng-template">` syntax.
- * So here is one way to put Praticien.RendezVous.html into our app:
+ * So here is one way to put PraticienRendezVous.html into our app:
  *
  * ```html
  * <script id="home" type="text/ng-template">

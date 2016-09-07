@@ -137,11 +137,11 @@ var urlBase = '';
     //-_-_-_-_-_une méthode pour confirmer ou refuser un rendez vous par le docteur
 
 
-    this.confirmerRendezVous= function(idRdv){
+    this.confirmerRendezVous= function(data){
       return $http({
         method: "post",
         url: 'http://localhost/webservices/confirmezRdv.php',
-        data :{'idRdv' :idRdv},
+        data :{'idRdv' :data.idRdv,'idDoctor':data.idDoctor},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       })
     }
@@ -155,11 +155,11 @@ var urlBase = '';
     //-_-_-_-_-_une méthode pour  refuser un rendez vous par le docteur
 
 
-    this.RejeterRendezVous= function(idRdv){
+    this.RejeterRendezVous= function(data){
       return $http({
         method: "post",
         url: 'http://localhost/webservices/RejeterRdv.php',
-        data :{'idRdv' :idRdv},
+          data :{'idRdv' :data.idRdv,'idDoctor':data.idDoctor},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       })
     }

@@ -1,27 +1,29 @@
-<ion-view view-title="Resultats recherche" ng-class="{expanded:isExpanded}" class="animate-fade-slide-in">
+<ion-view  ng-class="{expanded:isExpanded}" class="animate-fade-slide-in">
+
+  <ion-nav-title>
+    <p class="choix">Résultats de Recherche </p>
+  </ion-nav-title>
   <ion-content class="animated bounceInLeft">
 
 
     <div class="row">
 
-      <div class="col-20">
-
-      </div>
-      <!------------------------------>
-      <div class="col-50">
 
 
-        <h4 class="title text">
-          <img src="/img/result.png" width="30px">
-          {{ Resultats.length}} praticients
-          </h4>
+
+        <h4 class="title text" ng-if="Resultats.length==1">
+          {{ Resultats.length}} praticient
+        </h4>
+      <h4 class="title text" ng-if="Resultats.length!=1">
+        {{ Resultats.length}} praticients
+      </h4>
+
+<h5><a ng-click="goMpas()">Voir Maps <i class="icon ion-ios-location"></i>
+</a></h5>
 
 
-      </div>
       <!---------------------->
-      <div class="col-20">
 
-      </div>
 
     </div><!----end of row--->
 
@@ -29,34 +31,44 @@
     <ion-list ng-repeat="dc in Resultats ">
 
 
-      <ion-item style="border: 0px" >
-      <div class="row detailsDoctor" >
+      <ion-item>
+      <div class="row " >
 
-        <div class="col-40 imageDoctor" >
+        <div class="col-40" >
           <a ui-sref="app.docteursDetails({ id : dc.id_praticien})">
-          <img ng-src="{{dc.image}}" width="70px">
+          <img src="img/doctorNew.png" width="50px" style="border-radius:50%; background-position:center center; background-size:cover; width:80%; height:100%;">
           </a>
         </div><!----end of col md40----->
 
        <div class="col-60 text-center">
-          <h3 class="doctor">
+          <h3 class="resultat">
 
             <a ui-sref="app.docteursDetails({id : dc.id_praticien})">Dr {{ dc.nom_praticien + ' ' + dc.prenom_praticien}}
           </a>
           </h3>
-          <h4 class="specialite">{{ dc.specialite}}</h4>
-          <br>
-          <p>
+         <div class="padding-bottom"></div>
+          <h3 class="resultat">
+            <i class = "icon icon ion-document-text"></i>
+            Spécialité :{{ dc.specialite}}</h3>
+         <div class="padding-bottom"></div>
+          <h3 class="resultat">
             <i class = "icon icon ion-android-home"></i>
-            Addresse {{ dc.adresse }}</p>
-          <span style="color: #2196F3">
+            Addresse :{{ dc.adresse }}
+          </h3>
+
+         <div class="padding-bottom"></div>
+
+          <h3 class="resultat">
             <i class = "icon icon ion-android-call"></i>
             telephone :{{ dc.phone__fixe_praticien }}
-          </span>
-          <br>
-          <button class="button button-calm " ng-click="gotoDocteurDetails(dc.id_praticien)">
-            Prendre RDV
-          </button>
+         </h3>
+         <div class="padding-bottom"></div>
+
+
+         <button class="button button-block button-positive button-outline text ink" data-ink-color="#9DEAFF" data-ink-opacity="1" style="border: 2px solid #2196F3;"
+                 ng-click="gotoDocteurDetails(dc.id_praticien)">
+           Prendre RDV
+         </button>
 
         </div><!--end of col 60------->
 
@@ -65,7 +77,7 @@
 
       </ion-item>
 <!-------------------------------------------------------------------------------->
-
+<div class="padding-bottom"></div>
 
 
 

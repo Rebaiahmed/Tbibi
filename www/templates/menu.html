@@ -21,7 +21,8 @@
     <ion-content>
       <ion-list>
 
-        <ion-item item-icon-right menu-close href="#/app/search" style=" font-weight: bold;color: #000000;font-family : 'Roboto, sans-serif', Roboto, sans-serif">
+        <ion-item item-icon-right menu-close  style=" font-weight: bold;color: #000000;font-family : 'Roboto, sans-serif', Roboto, sans-serif"
+                  ng-click="navigateTo('app.recherche')">
 
           <p>
             <img src="/img/search.png" width="30px">
@@ -52,7 +53,7 @@
           </p>
         </ion-item>
 
-        <ion-item item-icon-right menu-close href="#/app/dashabordPraticien" style=" font-weight: bold;color: #000000;font-family : 'Roboto, sans-serif', Roboto, sans-serif" ng-show="praticientAuthenticated  ">
+        <ion-item item-icon-right menu-close href="#/app/dashabordPraticien" style=" font-weight: bold;color: #000000;font-family : 'Roboto, sans-serif', Roboto, sans-serif" ng-show="praticientAuthenticated  " ng-click="navigateTo('app.dashaBordPraticien')">
           <p>
           <img src="/img/doctorMenu.png" width="30px">
           Dashabord Praticien

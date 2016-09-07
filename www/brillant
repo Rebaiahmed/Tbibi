@@ -1,0 +1,33 @@
+
+    <div class="row bar bar-positive">
+      <div class="col choix">lundi</div>
+      <div class="col choix">Mardi</div>
+      <div class="col choix">Mercredi</div>
+      <div class="col choix">jeudi</div>
+      <div class="col choix">Vendredi</div>
+        <div class="col choix">Samedi</div>
+    </div>
+    <div class="padding"></div>
+    <div class="row" ng-repeat="data in temps">
+      <div class="padding"></div>
+      <div class="col time">{{data}}</div>
+      <div class="padding"></div>
+      <div class="col time">{{data}}</div>
+      <div class="padding"></div>
+      <div class="col time">{{data}}</div>
+      <div class="padding"></div>
+      <div class="col time">{{data}}</div>
+      <div class="padding"></div>
+      <div class="col">{{data}}</div>
+      <div class="padding"></div>
+      <div class="col">{{data}}</div>
+      <div class="padding"></div>
+      <div class="col">{{data}}</div>
+    </div>
+
+
+    <div class="bar bar-header">
+      <button class="button button-icon icon ion-chevron-left" ng-click="slidePrevious()"></button>
+      <div class="h1 title">Header Buttons</div>
+      <button class="button button-icon icon ion-chevron-right" ng-click="slideNext()"></button>
+      </div>

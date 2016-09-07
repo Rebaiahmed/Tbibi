@@ -30,14 +30,13 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
     .state('app', {
     url: '/app',
       abstract: true,
-      cache: false,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
 
   .state('app.recherche', {
     url: '/search',
-      cache: false,
+
     views: {
       'menuContent': {
         templateUrl: 'templates/Recherche/TabsRecherche.html',
@@ -59,7 +58,6 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
 
     .state('app.recherche.specialite', {
       url: '/search/specialite',
-      cache: false,
       views: {
         'pr-specialite': {
           templateUrl: 'templates/Recherche/RechercheSpecialite.html',
@@ -70,7 +68,6 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
 
     .state('app.recherche.nom', {
       url: '/search/Nom',
-      cache: false,
       views: {
         'pr-nom': {
           templateUrl: 'templates/Recherche/RechercheParNom.html',
@@ -104,7 +101,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
     MAPS
      */
     .state('app.maps', {
-      url: '/Maps',
+      url: '/Maps/:Resultats',
       cache: false,
       views: {
         'menuContent': {
@@ -115,7 +112,8 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
 
               return GeoSevice.getCurrentPosition();
             }],
-            getDocteurs :['RechercherSevice', function(RechercherSevice){
+            getDocteurs :['RechercherSevice','$stateParams', function(RechercherSevice,$stateParams){
+
               return RechercherSevice.getDocteurs();
             }]
           }
@@ -293,7 +291,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/dashabordPraticien/rendezVous',
       views: {
         'pr-tab': {
-          templateUrl: 'templates/Dashabord2/Praticien.RendezVous.html',
+          templateUrl: 'templates/Dashabord2/PraticienRendezVous.html',
           controller: 'dashabordPraticienCtrl'
         }
       }
@@ -304,7 +302,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/dashabordPraticien/Clients',
       views: {
         'pc-tab': {
-          templateUrl: 'templates/Dashabord2/Praticien.Clients.html',
+          templateUrl: 'templates/Dashabord2/PraticienClients.html',
           controller: 'dashabordPraticienCtrl'
         }
       }
@@ -316,7 +314,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/dashabordPraticien/profile',
       views: {
         'pp-tab': {
-          templateUrl: 'templates/Dashabord2/Praticient.profile.html',
+          templateUrl: 'templates/Dashabord2/PraticientProfile.html',
           controller: 'dashabordPraticienCtrl'
         }
       }
@@ -419,7 +417,7 @@ test sur le praticien
     }else{
       $rootScope.praticientAuthenticated = false ;
     }
-DocteurService.logout();
+
 
   })
 
