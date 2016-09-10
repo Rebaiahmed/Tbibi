@@ -243,6 +243,7 @@ var urlBase = '';
 
       var liste =new Array();
       var def = $q.defer();
+      console.log('hello ')
       $http.get('http://localhost/webservices/specialitees.php')
         .then(function(data){
 
@@ -323,7 +324,7 @@ var urlBase = '';
     this.RechercheParCritere= function(data) {
 
 
-console.log('recherche critre' + JSON.stringify(data));
+
      return $http({
         method: "post",
         url: 'http://localhost/webservices/RechercheDocteurs.php',
