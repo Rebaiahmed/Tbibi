@@ -3,6 +3,9 @@
   <ion-nav-title>
     <p class="choix">Docteur</p>
   </ion-nav-title>
+
+  <ion-floating-button click="openModal()" has-footer="false" button-color="#42A5F5" icon="ion-plus" icon-color="#fff">
+  </ion-floating-button>
   <ion-content class="animated fadeInLeft">
 
     <div class="padding-bottom"></div>
@@ -47,7 +50,7 @@
 <div class="card">
   <div class="item item-avatar">
     <img src="/img/calendar.png" width="90px">
-    <p class="msg">Prenez Rendez Vous avec Docteur Foulen ben Foulen</p>
+    <p class="msg">Prenez Rendez Vous avec Docteur {{ Docteur.nom_praticien + ' ' + Docteur.prenom_praticien }}</p>
   </div><!--end of item avatar--->
 </div><!----end of card------------>
 
@@ -72,15 +75,159 @@
           </div>
 
         </div>
-        <div class="padding"></div>
-        <div class="row" ng-repeat="data in temps">
-          <div class="padding"></div>
-          <div class="col time">{{data}}</div>
-          <div class="padding"></div>
-          <div class="col time">{{data}}</div>
-          <div class="padding"></div>
-          <div class="col time">{{data}}</div>
 
+        <div class="padding"></div>
+        <div class="padding"></div>
+        <div class="padding"></div>
+        <div class="row">
+
+          <div class="col time">
+            <a >9h</a>
+          </div>
+          <div class="col time">
+            <a>9h</a>
+          </div>
+          <div class="col time">
+            <a>9h</a>
+          </div>
+
+        </div><!--end fo row---->
+        <!--------->
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+          <div class="col time">
+            <a >10h</a>
+          </div>
+          <div class="col time">
+            <a>10h</a>
+          </div>
+          <div class="col time">
+            <a>10h</a>
+          </div>
+
+        </div><!-----end of row---------->
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >11h</a>
+          </div>
+          <div class="col time">
+            <a>11h</a>
+          </div>
+          <div class="col time">
+            <a>11h</a>
+          </div>
+
+        </div>
+
+
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >12h</a>
+          </div>
+          <div class="col time">
+            <a>12h</a>
+          </div>
+          <div class="col time">
+            <a>12h</a>
+          </div>
+
+        </div>
+
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >13h</a>
+          </div>
+          <div class="col time">
+            <a>13h</a>
+          </div>
+          <div class="col time">
+            <a>13h</a>
+          </div>
+
+        </div>
+
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >14h</a>
+          </div>
+          <div class="col time">
+            <a>14h</a>
+          </div>
+          <div class="col time">
+            <a>14h</a>
+          </div>
+
+        </div>
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >15h</a>
+          </div>
+          <div class="col time">
+            <a>15h</a>
+          </div>
+          <div class="col time">
+            <a>15h</a>
+          </div>
+
+        </div>
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >16h</a>
+          </div>
+          <div class="col time">
+            <a>16h</a>
+          </div>
+          <div class="col time">
+            <a>16h</a>
+          </div>
+
+        </div>
+
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >17h</a>
+          </div>
+          <div class="col time">
+            <a>17h</a>
+          </div>
+          <div class="col time">
+            <a>17h</a>
+          </div>
 
         </div>
 
@@ -99,21 +246,168 @@
           </div>
 
         </div>
+<div class="padding"></div>
+        <div class="padding"></div>
+        <div class="padding"></div>
+        <div class="row">
 
-        <div class="row" ng-repeat="data in temps">
+        <div class="col time">
+          <a >9h</a>
+        </div>
+          <div class="col time">
+            <a>9h</a>
+          </div>
+          <div class="col time">
+            <a>9h</a>
+          </div>
 
-          <div class="col time">{{data}}</div>
+          </div><!--end fo row---->
+          <!--------->
           <div class="padding"></div>
-          <div class="col time">{{data}}</div>
-          <div class="padding"></div>
-          <div class="col time">{{data}}</div>
+<!------------------------------------------->
+        <div class="row">
+          <div class="col time">
+            <a >10h</a>
+          </div>
+          <div class="col time">
+            <a>10h</a>
+          </div>
+          <div class="col time">
+            <a>10h</a>
+          </div>
 
+        </div><!-----end of row---------->
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >11h</a>
+          </div>
+          <div class="col time">
+            <a>11h</a>
+          </div>
+          <div class="col time">
+            <a>11h</a>
+          </div>
+
+          </div>
+
+
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >12h</a>
+          </div>
+          <div class="col time">
+            <a>12h</a>
+          </div>
+          <div class="col time">
+            <a>12h</a>
+          </div>
 
         </div>
+
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >13h</a>
+          </div>
+          <div class="col time">
+            <a>13h</a>
+          </div>
+          <div class="col time">
+            <a>13h</a>
+          </div>
+
+        </div>
+
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >14h</a>
+          </div>
+          <div class="col time">
+            <a>14h</a>
+          </div>
+          <div class="col time">
+            <a>14h</a>
+          </div>
+
+        </div>
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >15h</a>
+          </div>
+          <div class="col time">
+            <a>15h</a>
+          </div>
+          <div class="col time">
+            <a>15h</a>
+          </div>
+
+        </div>
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >16h</a>
+          </div>
+          <div class="col time">
+            <a>16h</a>
+          </div>
+          <div class="col time">
+            <a>16h</a>
+          </div>
+
+        </div>
+
+
+
+        <div class="padding"></div>
+        <!------------------------------------------->
+        <div class="row">
+
+          <div class="col time">
+            <a >17h</a>
+          </div>
+          <div class="col time">
+            <a>17h</a>
+          </div>
+          <div class="col time">
+            <a>17h</a>
+          </div>
+
+        </div>
+
+
+
       </ion-slide>
 
     </ion-slide-box>
 
+<div class="padding"></div>
 
   </ion-content>
 </ion-view>

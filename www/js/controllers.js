@@ -63,7 +63,7 @@ angular.module('tbibi')
 
 
 
-
+console.log('app Ctrl')
 
 
     $scope.navigateTo = function(stateName){
@@ -258,6 +258,7 @@ value = angular.fromJson(value);
 
 
 
+      console.log('abstract state !')
 
 
     //la liste de sgouvernorats
@@ -385,7 +386,7 @@ value = angular.fromJson(value);
 
 
 if($scope.data.doctor){
-
+console.log('id is' + $scope.data.doctor.id);
   RechercherSevice.RechercheDocteur($scope.data.doctor.id)
     .then(function(result){
       $ionicLoading.hide();
@@ -397,15 +398,9 @@ if($scope.data.doctor){
         //app.docteursDetails
         $state.go('app.docteursDetails', {'id': result.id_praticien})
       }else{
-
+        $scope.openModal();
       }
 
-     /* if(result.data.Number==0){
-        $scope.openModal();
-      }else {
-
-        $state.go('app.resultas', {'resultats': JSON.stringify(result.data)})
-      }*/
 
 
     }).catch(function(err){
@@ -510,7 +505,7 @@ console.log('resultats are' + JSON.stringify($scope.Resultats));
 
 
 $scope.goMpas = function(){
-
+console.log('go to maps !')
   $state.go('app.maps',{'Resultats':JSON.stringify($scope.Resultats)});
 }
 
@@ -585,8 +580,8 @@ $scope.goMpas = function(){
           lat: lat,
           lng: long,
           message: " " + $scope.Resultats[i].nom_praticien + ' ' + $scope.Resultats[i].prenom_praticien + '</br>' +
-          'tél :' +$scope.Resultats[i].phone__fixe_praticien + '</br>' +
-          'spécialité :'  +$scope.Resultats[i].mobile_praticien ,
+          'Tel:' +$scope.Resultats[i].phone__fixe_praticien + '</br>' +
+          'Specialite :'  +$scope.Resultats[i].specialite ,
           focus: true,
           draggable: false
 
@@ -1243,15 +1238,26 @@ $scope.checked = false ;
       //si valeur button confirmer envoyer confirmer
       data.idRdv = idRdv;
       data.idDoctor = $scope.Docteur.userData.id_praticien ;
+      $ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
 
+      })
       DocteurService.confirmerRendezVous(data)
         .then(function(result){
 
+console.log('result' + JSON.stringify(result));
+
+          $ionicLoading.hide();
           DocteurService.setPraticient(result.data);
 
           $scope.Docteur = JSON.parse(DocteurService.getDocteur());
-          $scope.checked = true;
-          ionicToast.show('le Rendez Vous est confirmée.', 'top', true, 2500);
+          $scope.refused = true;
+          ionicToast.show('le Rendez Vous est confirmee.', 'top', true, 2500);
       }).catch(function(err){
         console.log('err' +err)
       })
@@ -1272,8 +1278,32 @@ var data ={};
 
       //si valeur button rejeter alors envoyer rejter
       //si valeur button confirmer envoyer confirmer
+
+
+
+
+      $ionicLoading.show({
+        template: '<ion-spinner icon="dots"></ion-spinner>',
+        hideOnStageChange: true,
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
+
+      });
+
+
+
+
+
+
+
+
+
       DocteurService.RejeterRendezVous(data)
         .then(function(result){
+
+          $ionicLoading.hide();
           DocteurService.setPraticient(result.data);
 
           $scope.Docteur = JSON.parse(DocteurService.getDocteur());
@@ -1287,10 +1317,13 @@ var data ={};
     }
 
 
+$scope.submitted = false ;
 
-
-    $scope.modifierProfile = function() {
+    $scope.modifierProfile = function(valid) {
       //modifier son profile et ses cordonn
+
+      console.log('ok ok ok')
+      $scope.submitted = true ;
 
     }
 
@@ -1299,7 +1332,39 @@ var data ={};
       DocteurService.logout();
       ionicToast.show('Déconnecter', 'top', true, 2500);
       $rootScope.praticientAuthenticated = false ;
-      $state.go('app.recherche');
+      $state.go('app.recherche.specialite');
+    }
+
+
+
+
+    /*
+    _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+     */
+
+    $scope.refresh = function(){
+      console.log('rfersh data from server!')
+
+
+      $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0,
+
+      })
+
+      DocteurService.refresh( $scope.Docteur.userData.id_praticien)
+        .then(function(data){
+          console.log('data are' + JSON.stringify(data));
+          $ionicLoading.hide();
+          DocteurService.setPraticient(data.data);
+
+          $scope.Docteur = JSON.parse(DocteurService.getDocteur());
+        }).catch(function(err){
+          console.log('err' +err)
+        })
     }
 
   }])
@@ -1319,17 +1384,65 @@ var data ={};
 
 
 
-  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur','PatientService','$ionicSlideBoxDelegate',function($scope,
-                                                                                                                                $ionicModal, $timeout, $cordovaCalendar,getDocteur,PatientService,$ionicSlideBoxDelegate) {
+  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur','PatientService','$ionicSlideBoxDelegate','ionicDatePicker','$ionicPopup',function($scope,
+                                                                                                                                $ionicModal, $timeout, $cordovaCalendar,getDocteur,PatientService,$ionicSlideBoxDelegate,ionicDatePicker,$ionicPopup) {
 
 
    $scope.Docteur  = getDocteur;
 
 
+
+
+
+
+    /*
+
+    teh datepikcer
+     */
+var date = new Date();
+
+    var date2 = new Date()
+    date2.setDate(date.getDate() + 7);
+
+    var ipObj1 = {
+      callback: function (val) {  //Mandatory
+        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+        $scope.RDV.date = new Date(val);
+      },
+      disabledDates: [            //Optional
+
+      ],
+     //Optional
+      from: new Date(), //Optional
+      to: new Date(2017, 8, 1),
+      inputDate: new Date(),      //Optional
+      mondayFirst: true,          //Optional
+      //disableWeekdays: [0],       //Optional
+      closeOnSelect: true,       //Optional
+      templateType: 'popup'       //Optional
+    };
+
+    $scope.openDatePicker = function(){
+      ionicDatePicker.openDatePicker(ipObj1);
+    };
+
+
+    //-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 /*
 THE MODAL
  */
-    $ionicModal.fromTemplateUrl('/templates/messages/msgPrendreRdv.html', {
+    $ionicModal.fromTemplateUrl('/templates/Docteur/PrendreRdv.html', {
       scope: $scope,
       animation: 'slide-in-up',
       focusFirstInput: true
@@ -1391,18 +1504,35 @@ $scope.temps =["9h","10h","11h","12h","14h","15h","16h","17h"]
     $scope.RDV ={};
 
 
-if(PatientService.getPatient()){
 
-var client = angular.fromJson(PatientService.getPatient());
-  console.log('client' + JSON.stringify(client.userData.id_patient))
-  console.log('docteur' + JSON.stringify(  $scope.Docteur.id_praticien ));
-  $scope.RDV.id_patient = client.userData.id_patient;
-  $scope.RDV.id_praticien =$scope.Docteur.id_praticien ;
 
-  $scope.RDV.date = new Date();
-  $scope.RDV.time = "8h:30";
-}
 
+    /*
+    Défenir uen fonction pour ouvrir un Popup
+     */
+    // An alert dialog
+    $scope.showAlert = function() {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Alerte',
+        template: 'Vous devez étre authentifié pour prendre un rendez vous !'
+      });
+
+      alertPopup.then(function (res) {
+        console.log('Thank you for not eating my delicious ice cream cone');
+      });
+
+    }
+
+    //-_-_-_-_-_-_-__--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-___-_-_-
+
+
+
+
+
+
+
+
+$scope.submitted = false ;
 
 /* fonction pour le client pour prenrdre rendez vous */
 
@@ -1410,9 +1540,25 @@ var client = angular.fromJson(PatientService.getPatient());
 
     $scope.prendreRdv = function(){
 
+      $scope.submitted = true ;
+
+
+      if(PatientService.getPatient()){
+
+        var client = angular.fromJson(PatientService.getPatient());
+        console.log('client' + JSON.stringify(client.userData.id_patient))
+        console.log('docteur' + JSON.stringify(  $scope.Docteur.id_praticien ));
+        $scope.RDV.id_patient = client.userData.id_patient;
+        $scope.RDV.id_praticien =$scope.Docteur.id_praticien ;
+
+
+
+      }
+
+
       if(!PatientService.getPatient()){
         //open a modal etre authentifiéé
-        $scope.openModal();
+        $scope.showAlert();
       }else{
 
         PatientService.prendreRendezVous( $scope.RDV)

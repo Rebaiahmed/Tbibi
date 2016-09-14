@@ -9,9 +9,10 @@ définir Nos services
 
 
 .service('PatientService',['$http','$q','localStorageService', function($http,$q,localStorageService){
-var urlBase = '';
+var urlBase = 'http://192.168.1.4/webservices';
 
     //-_-_-_-_-_une méthode pour mettre le patient en localStorage
+    console.log('work work work !')
 
     this.setPatient = function(data){
 
@@ -37,7 +38,7 @@ var urlBase = '';
 
       return $http({
         method: "post",
-        url: 'http://localhost/webservices/prendreRendezVousClient.php',
+        url: urlBase +'/prendreRendezVousClient.php',
         data :{'id_patient' : data.id_patient,'id_praticien': data.id_praticien,'date': data.date
           ,'time': data.time},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
@@ -63,7 +64,7 @@ var urlBase = '';
 
       return $http({
         method: "post",
-        url: 'http://localhost/webservices/modifierProfileClient.php',
+        url:urlBase +'/modifierProfileClient.php',
         data :{'id' : data.id_patient,'nom': data.nom_patient,'prenom': data.prenom_patient
           ,'genre': data.genre,'mobile': data.mobile_patient,'dateNaissance':data.date_naissance},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
@@ -80,7 +81,7 @@ var urlBase = '';
 
  return $http({
         method: "post",
-        url: 'http://localhost/webservices/loginClient.php',
+        url: urlBase +'/loginClient.php',
         data :{'email' : data.email,'password': data.password},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       })
@@ -95,7 +96,7 @@ var urlBase = '';
 
        return $http({
         method: "post",
-        url: 'http://localhost/webservices/inscrireClient.php',
+        url: urlBase +'/inscrireClient.php',
         data :{'email' : data.email,'password': data.password,'nom': data.nom,'prenom': data.prenom
     ,'genre': data.genre,'mobile': data.mobile,'domicile': data.domicile,'bureau':data.bureau},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
@@ -115,8 +116,8 @@ var urlBase = '';
 
   .service('DocteurService',['$http','$q','localStorageService', function($http,$q,localStorageService){
 
-
-    var urlBase = '';
+    var urlBase = 'http://192.168.1.4/webservices';
+    console.log('work work work 2 2 2 !')
 
     //-_-_-_-_-_une méthode pour mettre le docteur en localStorage
 
@@ -140,7 +141,7 @@ var urlBase = '';
     this.confirmerRendezVous= function(data){
       return $http({
         method: "post",
-        url: 'http://localhost/webservices/confirmezRdv.php',
+        url: urlBase + '/confirmezRdv.php',
         data :{'idRdv' :data.idRdv,'idDoctor':data.idDoctor},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       })
@@ -158,7 +159,7 @@ var urlBase = '';
     this.RejeterRendezVous= function(data){
       return $http({
         method: "post",
-        url: 'http://localhost/webservices/RejeterRdv.php',
+        url: urlBase + '/RejeterRdv.php',
           data :{'idRdv' :data.idRdv,'idDoctor':data.idDoctor},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       })
@@ -190,7 +191,7 @@ var urlBase = '';
       //
       return     $http({
         method: "post",
-        url: 'http://localhost/webservices/loginPraticient.php',
+        url: urlBase +'/loginPraticient.php',
         data :{'email' : data.email,'password': data.password},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       })
@@ -203,8 +204,22 @@ var urlBase = '';
       //
       return     $http({
         method: "post",
-        url: 'http://localhost/webservices/inscrirePraticinet.php',
+        url: urlBase +'/inscrirePraticinet.php',
         data :{'nom' : data.nom,'prenom': data.prenom,'code':data.code},
+        headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+      })
+    }
+
+
+    //_-_-_-_-_-_-_-méthode pour refershir les donnes d'apres le server _-_-_-_-_-_
+
+
+    this.refresh= function(id){
+      //
+      return     $http({
+        method: "post",
+        url: urlBase +'/refreshServer.php',
+        data :{'id' :id },
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       })
     }
@@ -221,13 +236,14 @@ var urlBase = '';
 
 
 
-
+    var urlBase = 'http://192.168.1.4/webservices';
     //une méthode pour récuperer la liste des docteurs
     this.getDocteurs = function(){
 
       var def = $q.defer();
-
-      $http.get('http://localhost/webservices/listeDocteurs.php')
+//http://localhost/webservices/
+      //urlBase +'/listeDocteurs.php
+      $http.get('http://192.168.1.4/webservices/listeDocteurs.php')
         .then(function(data){
 
          def.resolve(data.data);
@@ -244,7 +260,7 @@ var urlBase = '';
       var liste =new Array();
       var def = $q.defer();
       console.log('hello ')
-      $http.get('http://localhost/webservices/specialitees.php')
+      $http.get('http://192.168.1.4/webservices/specialitees.php')
         .then(function(data){
 
           //liste = angular.fromJson(data.data)
@@ -276,7 +292,7 @@ var urlBase = '';
       var def = $q.defer();
       $http({
         method: "post",
-        url: 'http://localhost/webservices/getDocteurParNom.php',
+        url:  'http://192.168.1.4/webservices/getDocteurParNom.php',
         data :{'id' : id},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       }).success(function(data){
@@ -302,7 +318,7 @@ var urlBase = '';
 
       var liste =new Array();
       var def = $q.defer();
-      $http.get('http://localhost/webservices/gouvernorats.php')
+      $http.get('http://192.168.1.4/webservices/gouvernorats.php')
         .then(function(data){
 
              def.resolve(data);
@@ -327,7 +343,7 @@ var urlBase = '';
 
      return $http({
         method: "post",
-        url: 'http://localhost/webservices/RechercheDocteurs.php',
+        url:  'http://192.168.1.4/webservices/RechercheDocteurs.php',
         data: {'specialite': data.specialite, 'gouvernorat': data.gouvernorat, 'delegation': data.delegation},
         headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
       })
@@ -345,13 +361,13 @@ var urlBase = '';
   .service('GeoSevice',['$http','$q','$cordovaGeolocation','localStorageService', function($http,$q,$cordovaGeolocation,localStorageService){
 
     //une méthode pour récuperer la liste des docteurs
-    this.getCurrentPosition = function(){
+    /*this.getCurrentPosition = function(){
 
       var def = $q.defer();
 
       var lat,long;
       var posOptions = {timeout: 10000, enableHighAccuracy: false};
-      $cordovaGeolocation
+      /*$cordovaGeolocation
         .getCurrentPosition(posOptions)
         .then(function (position) {
           lat  = position.coords.latitude
@@ -373,7 +389,7 @@ var urlBase = '';
           def.reject(err);
         });
       return def.promise;
-    }
+    }*/
 
 
 

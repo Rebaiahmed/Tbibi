@@ -26,23 +26,24 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-
     .state('app', {
     url: '/app',
       abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+
   })
 
   .state('app.recherche', {
     url: '/search',
+      abstract: true,
 
     views: {
       'menuContent': {
         templateUrl: 'templates/Recherche/TabsRecherche.html',
         controller :'RechercheCtrl'
       }
-    },resolve :{
+    },
+      resolve :{
         getDocteurs :['RechercherSevice', function(RechercherSevice){
 
 
@@ -57,7 +58,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
   })
 
     .state('app.recherche.specialite', {
-      url: '/search/specialite',
+      url: '/specialite',
       views: {
         'pr-specialite': {
           templateUrl: 'templates/Recherche/RechercheSpecialite.html',
@@ -67,7 +68,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
     })
 
     .state('app.recherche.nom', {
-      url: '/search/Nom',
+      url: '/Nom',
       views: {
         'pr-nom': {
           templateUrl: 'templates/Recherche/RechercheParNom.html',
@@ -108,14 +109,14 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
           templateUrl: 'templates/Maps.html',
           controller :'MapsCtrl',
           resolve:{
-            getPosition : ['GeoSevice', function(GeoSevice){
+            /*getPosition : ['GeoSevice', function(GeoSevice){
 
               return GeoSevice.getCurrentPosition();
-            }],
-            getDocteurs :['RechercherSevice','$stateParams', function(RechercherSevice,$stateParams){
+            }],*/
+           /* getDocteurs :['RechercherSevice','$stateParams', function(RechercherSevice,$stateParams){
 
               return RechercherSevice.getDocteurs();
-            }]
+            }]*/
           }
 
         }
@@ -352,15 +353,15 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
 
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/search');
+  $urlRouterProvider.otherwise('app/search/specialite');
 })
 
   .config(function (ionicDatePickerProvider) {
     var datePickerObj = {
       inputDate: new Date(),
-      setLabel: 'Set',
-      todayLabel: 'Today',
-      closeLabel: 'Close',
+      setLabel: 'Choisir',
+      todayLabel: 'Ajourdhui',
+      closeLabel: 'Fermer',
       mondayFirst: false,
       weeksList: ["S", "M", "T", "W", "T", "F", "S"],
       monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
@@ -370,7 +371,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       showTodayButton: true,
       dateFormat: 'dd MMMM yyyy',
       closeOnSelect: false,
-      disableWeekdays: [6]
+      //disableWeekdays: [6]
     };
     ionicDatePickerProvider.configDatePicker(datePickerObj);
   })
@@ -396,7 +397,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
     });
   })
 
-  .run(function($rootScope, $templateCache,PatientService,DocteurService) {
+  .run(function($rootScope, $templateCache,PatientService,DocteurService,RechercherSevice,$state) {
     $rootScope.$on('$viewContentLoaded', function() {
       $templateCache.removeAll();
     });
@@ -417,7 +418,13 @@ test sur le praticien
     }else{
       $rootScope.praticientAuthenticated = false ;
     }
+    RechercherSevice.getDocteurs()
 
+
+
+
+
+//$state.go('app.recherche.specialite');
 
   })
 

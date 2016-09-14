@@ -181,3 +181,8 @@ p{
   width: 19% !important;
   height: 20px !important;
 }
+
+.propos{
+  font-family: Roboto, sans-serif;margin: auto;
+  font-weight: bold;
+}
