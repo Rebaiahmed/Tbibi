@@ -1,0 +1,125 @@
+<ion-view view-title="Recherche">
+
+
+  <ion-content>
+
+
+    <ion-tabs>
+
+      <ion-tab title="Home">
+        <!-- Tab 1 content -->
+
+        <!--------the select------------->
+        <div class="row">
+
+
+
+          <div class="buttons">
+
+            <a ng-click="popover.show($event)">Rechercher Votre médecin ou votre établissement</a>
+
+          </div>
+
+        </div><!---end of row--->
+        <div class="padding-bottom"></div>
+
+        <!--------the select------------->
+
+        <div class="row">
+
+          <div class="col-50">
+            <button style="border: 2px solid #2196F3;"  class="button button-positive button-outline" modal-select="" ng-model="someModel" options="specialites" modal-title="Choisir Spécialité" has-search="true">
+              Spécialité
+              <div class="option">
+                {{option}}
+              </div>
+            </button>
+          </div><!----end of col 50----------->
+
+          <!------------------->
+
+          <!--------the select------------->
+          <div class="col-50">
+            <button style="border: 2px solid #2196F3;" class="button button-positive button-outline" modal-select="" ng-model="someModel" options="gouvernorats" modal-title="Choisir Spécialité" has-search="true">
+              Gouvernorat
+              <div class="option">
+                {{option}}
+              </div>
+            </button>
+          </div><!----end of col 50-------------->
+          <!------------------->
+
+        </div><!---end of row-------------->
+
+        <div class="padding-bottom"></div>
+        <!------------------>
+
+        <div style="border: 2px solid #2196F3;" class="">
+          <label class = "item item-input item-select item-light">
+            <div class = "input-label">
+              Délégation
+            </div>
+
+            <select>
+              <option>Ariana Ville</option>
+              <option selected>Ennasr 1</option>
+              <option>Ennasr 2</option>
+            </select>
+          </label>
+        </div>
+
+
+        <div class="padding"></div>
+
+        <button style="border: 2px solid #2196F3;"  class="button button-block button-positive button-outline  ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="rechercheParCritere()">
+          Rechercher
+          <i class="icon ion-search placeholder-icon"></i>
+        </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!----------------------------------->
+      </ion-tab>
+
+      <ion-tab title="Nom Médecin">
+        <div class="buttons">
+
+          <a ng-click="popover.show($event)">Rechercher Votre médecin ou votre établissement</a>
+
+        </div>
+      </ion-tab>
+
+      <ion-tab title="Maps">
+        Ici Maps
+      </ion-tab>
+
+    </ion-tabs>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </ion-content>
+</ion-view>

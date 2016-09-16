@@ -8,7 +8,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
 ,'ionic-modal-select','ngCordova','ion-floating-menu','ui.rCalendar','leaflet-directive','ngGeolocation','LocalStorageModule'
   ,'ngPassword','LocalStorageModule','ionic-toast'])
 
-.run(function($ionicPlatform) {
+.run(["$ionicPlatform",function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -22,14 +22,14 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       StatusBar.styleDefault();
     }
   });
-})
+} ] )
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider) {
   $stateProvider
     .state('app', {
     url: '/app',
       abstract: true,
-    templateUrl: 'templates/menu.html',
+    templateUrl: 'templates2/menu.html',
 
   })
 
@@ -39,7 +39,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
 
     views: {
       'menuContent': {
-        templateUrl: 'templates/Recherche/TabsRecherche.html',
+        templateUrl: 'templates2/Recherche/TabsRecherche.html',
         controller :'RechercheCtrl'
       }
     },
@@ -61,7 +61,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/specialite',
       views: {
         'pr-specialite': {
-          templateUrl: 'templates/Recherche/RechercheSpecialite.html',
+          templateUrl: 'templates2/Recherche/RechercheSpecialite.html',
           controller :'RechercheCtrl'
         }
       }
@@ -71,7 +71,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/Nom',
       views: {
         'pr-nom': {
-          templateUrl: 'templates/Recherche/RechercheParNom.html',
+          templateUrl: 'templates2/Recherche/RechercheParNom.html',
           controller :'RechercheCtrl'
         }
       }
@@ -91,7 +91,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/resultas.html',
+          templateUrl: 'templates2/resultas.html',
           controller :'ResultatsCtrl'
         }
       }
@@ -106,7 +106,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/Maps.html',
+          templateUrl: 'templates2/Maps.html',
           controller :'MapsCtrl',
           resolve:{
             /*getPosition : ['GeoSevice', function(GeoSevice){
@@ -131,7 +131,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/Docteur/Docteur.details.html',
+          templateUrl: 'templates2/Docteur/Docteur.details.html',
           controller :'DocteurDetailsCtrl'
         }
       },
@@ -152,7 +152,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/RendezVous.details.html',
+          templateUrl: 'templates2/RendezVous.details.html',
           controller :'RdvsCtrl'
         }
       }
@@ -169,7 +169,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       },
       views: {
         'menuContent': {
-          templateUrl: 'templates/Client/espacePatient.login.html',
+          templateUrl: 'templates2/Client/espacePatient.login.html',
           controller :'clientLoginCtrl'
         }
       }
@@ -180,7 +180,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/Client/espacePatient.inscription.html',
+          templateUrl: 'templates2/Client/espacePatient.inscription.html',
           controller :'clientInscriptionCtrl'
         }
       }
@@ -195,7 +195,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/Docteur/espacePraticien.login.html',
+          templateUrl: 'templates2/Docteur/espacePraticien.login.html',
           controller: 'praticienLoginCtrl'
         }
       }
@@ -206,7 +206,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/Docteur/espacePraticien.inscription.html',
+          templateUrl: 'templates2/Docteur/espacePraticien.inscription.html',
           controller: 'praticienInscriptionCtrl'
         }
       }
@@ -227,7 +227,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       cache: false,
       views: {
         'menuContent': {
-          templateUrl: 'templates/Dashabord/tabs.html',
+          templateUrl: 'templates2/Dashabord/tabs.html',
           controller: 'dashabordClientCtrl'
         }
       }
@@ -237,7 +237,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/rendezVousClient',
       views: {
         'home-tab': {
-          templateUrl: 'templates/Dashabord/Client.RendezVous.html',
+          templateUrl: 'templates2/Dashabord/Client.RendezVous.html',
           controller: 'dashabordClientCtrl'
         }
       }
@@ -247,7 +247,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/paraticientssClient',
       views: {
         'about-tab': {
-          templateUrl: 'templates/Dashabord/Client.praticients.html',
+          templateUrl: 'templates2/Dashabord/Client.praticients.html',
           controller: 'dashabordClientCtrl'
         }
       }
@@ -258,7 +258,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/ProfileClient',
       views: {
         'contact-tab': {
-          templateUrl: 'templates/Dashabord/Client.profile.html',
+          templateUrl: 'templates2/Dashabord/Client.profile.html',
           controller: 'dashabordClientCtrl'
         }
       }
@@ -280,7 +280,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/dashabordPraticien',
       views: {
         'menuContent': {
-          templateUrl: 'templates/Dashabord2/tabs2.html',
+          templateUrl: 'templates2/Dashabord2/tabs2.html',
           controller: 'dashabordPraticienCtrl'
         }
       }
@@ -292,7 +292,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/dashabordPraticien/rendezVous',
       views: {
         'pr-tab': {
-          templateUrl: 'templates/Dashabord2/PraticienRendezVous.html',
+          templateUrl: 'templates2/Dashabord2/PraticienRendezVous.html',
           controller: 'dashabordPraticienCtrl'
         }
       }
@@ -303,7 +303,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/dashabordPraticien/Clients',
       views: {
         'pc-tab': {
-          templateUrl: 'templates/Dashabord2/PraticienClients.html',
+          templateUrl: 'templates2/Dashabord2/PraticienClients.html',
           controller: 'dashabordPraticienCtrl'
         }
       }
@@ -315,7 +315,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/dashabordPraticien/profile',
       views: {
         'pp-tab': {
-          templateUrl: 'templates/Dashabord2/PraticientProfile.html',
+          templateUrl: 'templates2/Dashabord2/PraticientProfile.html',
           controller: 'dashabordPraticienCtrl'
         }
       }
@@ -336,7 +336,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/contact',
       views: {
         'menuContent': {
-          templateUrl: 'templates/Contact.html',
+          templateUrl: 'templates2/Contact.html',
         }
       }
     })
@@ -345,7 +345,7 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       url: '/Apropos',
       views: {
         'menuContent': {
-          templateUrl: 'templates/Apropos.html',
+          templateUrl: 'templates2/Apropos.html',
 
         }
       }
@@ -354,9 +354,9 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('app/search/specialite');
-})
+}])
 
-  .config(function (ionicDatePickerProvider) {
+  .config(['ionicDatePickerProvider',function (ionicDatePickerProvider) {
     var datePickerObj = {
       inputDate: new Date(),
       setLabel: 'Choisir',
@@ -374,11 +374,11 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       //disableWeekdays: [6]
     };
     ionicDatePickerProvider.configDatePicker(datePickerObj);
-  })
+  }])
 
 //configuration for native transitions
 
-  .config(function($ionicNativeTransitionsProvider){
+  .config(['$ionicNativeTransitionsProvider',function($ionicNativeTransitionsProvider){
     $ionicNativeTransitionsProvider.setDefaultOptions({
       duration: 400, // in milliseconds (ms), default 400,
       slowdownfactor: 4, // overlap views (higher number is more) or no overlap (1), default 4
@@ -395,9 +395,9 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       type: 'slide',
       direction: 'left'
     });
-  })
+  }])
 
-  .run(function($rootScope, $templateCache,PatientService,DocteurService,RechercherSevice,$state) {
+  .run(["$rootScope","$templateCache","PatientService","DocteurService","RechercherSevice",function($rootScope, $templateCache,PatientService,DocteurService,RechercherSevice) {
     $rootScope.$on('$viewContentLoaded', function() {
       $templateCache.removeAll();
     });
@@ -424,8 +424,8 @@ test sur le praticien
 
 
 
-//$state.go('app.recherche.specialite');
 
-  })
+
+  } ])
 
 

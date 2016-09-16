@@ -63,7 +63,6 @@ angular.module('tbibi')
 
 
 
-console.log('app Ctrl')
 
 
     $scope.navigateTo = function(stateName){
@@ -81,7 +80,7 @@ console.log('app Ctrl')
   $scope.loginData = {};
 
   // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
+  $ionicModal.fromTemplateUrl('templates2/login.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
@@ -165,7 +164,7 @@ console.log('app Ctrl')
     _-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-_-__-_-
      */
 
-    $ionicModal.fromTemplateUrl('templates/modal.html', {
+    $ionicModal.fromTemplateUrl('templates2/modal.html', {
       scope: $scope,
       animation: 'slide-in-up',
       focusFirstInput: true
@@ -208,7 +207,7 @@ console.log('app Ctrl')
      _-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-_-__-_-
      */
 
-    $ionicPopover.fromTemplateUrl('templates/popover.html', {
+    $ionicPopover.fromTemplateUrl('templates2/popover.html', {
       scope: $scope,
     }).then(function(popover) {
       $scope.popover = popover;
@@ -727,7 +726,7 @@ console.log('go to maps !')
 
 
 
-    $ionicModal.fromTemplateUrl('templates/EmailInvalide.html', {
+    $ionicModal.fromTemplateUrl('templates2/EmailInvalide.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
@@ -1442,7 +1441,7 @@ var date = new Date();
 /*
 THE MODAL
  */
-    $ionicModal.fromTemplateUrl('/templates/Docteur/PrendreRdv.html', {
+    $ionicModal.fromTemplateUrl('/templates2/Docteur/PrendreRdv.html', {
       scope: $scope,
       animation: 'slide-in-up',
       focusFirstInput: true
@@ -1667,9 +1666,9 @@ $scope.submitted = false ;
 
   }])
 
-  .controller('RdvsCtrl', function($scope, $ionicModal, $timeout) {
+  .controller('RdvsCtrl',['$scope','$ionicModal','$timeout', function($scope, $ionicModal, $timeout) {
 
     $scope.RendezVous = '' ;
-  })
+  }])
 
 

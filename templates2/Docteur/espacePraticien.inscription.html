@@ -1,0 +1,146 @@
+<ion-view>
+  <ion-nav-title>
+    <span class="text">Praticien</span>
+  </ion-nav-title>
+
+  <ion-content class="animated fadeInLeft">
+
+
+    <!--------------------->
+
+
+    <div class="row">
+
+      <div class="col-33">
+
+      </div>
+      <!------------------------------>
+      <div class="col-33">
+        <p>
+          <img src="/img/doctorNew.png" width="80px">
+        </p>
+
+        <h4 class="title text">Créer un Compte</h4>
+      </div>
+      <!---------------------->
+      <div class="col-33">
+
+      </div>
+
+    </div><!----end of row--->
+    <!------------------------------->
+
+
+    <div class="list list-inset padding">
+
+      <form name="docteurInscrire" novalidate ng-submit="inscrireDocteur(docteurInscrire.$valid)">
+
+
+
+      <div style="border: 2px solid #2196F3;" class="">
+      <label class="item item-input  item-outline">
+        <i class="icon ion-person-stalker placeholder-icon"></i>
+        <input type="text" placeholder="Nom" autocorrect="off" autocapitalize="off" ng-model="newDocteur.nom" required name="Nom"
+               ng-minlength="3">
+      </label>
+        </div><!----end of div------------>
+
+
+
+        <!----------------------------------------------------------------------------->
+        <div class="padding-bottom"></div>
+
+        <!--------error show message------------------->
+        <div class="card card-assertive cardError" ng-if="submitted && docteurInscrire.Nom.$error.required" >
+          <p class="error">Vous Devez indiquez Votre Nom
+        </div>
+        <!---------------------------------------------------------------------------------------->
+
+
+        <!----------------------------------------------------------------------------->
+        <div class="padding-bottom"></div>
+
+        <!--------error show message------------------->
+        <div class="card card-assertive cardError" ng-if="submitted && docteurInscrire.Nom.$error.minlength" >
+          <p class="error">le Nom contient au moins 3 caractéres
+        </div>
+        <!---------------------------------------------------------------------------------------->
+
+
+
+
+        <!------------------------->
+      <div style="border: 2px solid #2196F3;" class="">
+      <label class="item item-input ">
+        <i class="icon ion-ios-personadd placeholder-icon"></i>
+        <input type="text" placeholder="Prenom" autocorrect="off" autocapitalize="off" ng-model="newDocteur.prenom"
+               required name="Prenom" ng-minlength="3">
+      </label>
+        </div><!-----end of div---------------------->
+
+
+        <!----------------------------------------------------------------------------->
+        <div class="padding-bottom"></div>
+
+        <!--------error show message------------------->
+        <div class="card card-assertive cardError" ng-if="submitted && docteurInscrire.Prenom.$error.required" >
+          <p class="error">Vous Devez indiquez Votre prenom
+        </div>
+        <!---------------------------------------------------------------------------------------->
+
+
+
+
+
+        <!----------------------------------------------------------------------------->
+        <div class="padding-bottom"></div>
+
+        <!--------error show message------------------->
+        <div class="card card-assertive cardError" ng-if="submitted && docteurInscrire.Prenom.$error.minlength" >
+          <p class="error">le Prenom contient au moins 3 caractéres
+        </div>
+        <!---------------------------------------------------------------------------------------->
+
+
+
+
+
+        <!---------------------->
+      <div style="border: 2px solid #2196F3;" class="">
+      <label class="item item-input ">
+        <i class="icon ion-ios-locked placeholder-icon"></i>
+        <input type="text" placeholder="Code d'inscription" autocorrect="off" autocapitalize="off"
+               ng-model="newDocteur.code" required name="Code">
+      </label>
+        </div><!-------end of div--------------->
+
+
+        <!----------------------------------------------------------------------------->
+        <div class="padding-bottom"></div>
+
+        <!--------error show message------------------->
+        <div class="card card-assertive cardError" ng-if="submitted  && docteurInscrire.Code.$invalid" >
+          <p class="error">Code invalide </p>
+          </div>
+        <!---------------------------------------------------------------------------------------->
+
+
+        <button class="button button-block button-outline button-positive outline text  ink" data-ink-color="#9DEAFF" data-ink-opacity="1"
+                style="border: 2px solid #2196F3;">
+          S'inscrire
+        </button>
+
+</form>
+
+    </div>
+
+
+
+    <div class="padding text">
+      <a ui-sref="app.espacePraticienlogin">Vous avez  déja un compte ?</a>
+    </div>
+
+
+
+  </ion-content>
+</ion-view>

@@ -117,7 +117,7 @@ var urlBase = 'http://192.168.1.4/webservices';
   .service('DocteurService',['$http','$q','localStorageService', function($http,$q,localStorageService){
 
     var urlBase = 'http://192.168.1.4/webservices';
-    console.log('work work work 2 2 2 !')
+
 
     //-_-_-_-_-_une méthode pour mettre le docteur en localStorage
 
@@ -237,13 +237,14 @@ var urlBase = 'http://192.168.1.4/webservices';
 
 
     var urlBase = 'http://192.168.1.4/webservices';
+
     //une méthode pour récuperer la liste des docteurs
     this.getDocteurs = function(){
 
       var def = $q.defer();
 //http://localhost/webservices/
       //urlBase +'/listeDocteurs.php
-      $http.get('http://192.168.1.4/webservices/listeDocteurs.php')
+      $http.get(urlBase +'/listeDocteurs.php')
         .then(function(data){
 
          def.resolve(data.data);
@@ -260,7 +261,7 @@ var urlBase = 'http://192.168.1.4/webservices';
       var liste =new Array();
       var def = $q.defer();
       console.log('hello ')
-      $http.get('http://192.168.1.4/webservices/specialitees.php')
+      $http.get(urlBase +'/specialitees.php')
         .then(function(data){
 
           //liste = angular.fromJson(data.data)
@@ -292,7 +293,7 @@ var urlBase = 'http://192.168.1.4/webservices';
       var def = $q.defer();
       $http({
         method: "post",
-        url:  'http://192.168.1.4/webservices/getDocteurParNom.php',
+        url:  urlBase +'/getDocteurParNom.php',
         data :{'id' : id},
         headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
       }).success(function(data){
@@ -318,7 +319,7 @@ var urlBase = 'http://192.168.1.4/webservices';
 
       var liste =new Array();
       var def = $q.defer();
-      $http.get('http://192.168.1.4/webservices/gouvernorats.php')
+      $http.get(urlBase + '/gouvernorats.php')
         .then(function(data){
 
              def.resolve(data);
@@ -343,7 +344,7 @@ var urlBase = 'http://192.168.1.4/webservices';
 
      return $http({
         method: "post",
-        url:  'http://192.168.1.4/webservices/RechercheDocteurs.php',
+        url:  urlBase + '/RechercheDocteurs.php',
         data: {'specialite': data.specialite, 'gouvernorat': data.gouvernorat, 'delegation': data.delegation},
         headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
       })
