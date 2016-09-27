@@ -1,1 +1,30 @@
-<ion-view> <ion-nav-title> <p class="choix">Rendez Vous</p> </ion-nav-title> <ion-nav-buttons side="right"> <button class="button button-calm" ng-click="logout()"> logout </button> </ion-nav-buttons> <ion-content class="padding animated fadeInLeft"> <h4 class="content padding double-padding-x text" style="text-align:center">Mes Rendez-vous</h4> <!--------Praticients------------------> <div class="card"> <p class="error">Bienvenue Mr {{ Client.userData.nom_patient + ' ' + Client.userData.prenom_patient }} , Vous n'avez effectuer aucun rendez Vous !</p> </div> <div class="list animate-fade-slide-in-right"> <a class="item item-avatar item-icon-left" ng-repeat=" rdv in Client.RendezVous.data"> <img src="/img/dashbord.png"> <h2 class="text2">Rendez vous {{ rd.id}}</h2> <p class="rdvText"> Date :{{ rdv.DATE }}</p> <p class="rdvText"> {{ rdv.nom_praticien + ' ' + rdv.prenom_praticien}}</p> <p class="rdvText"> Spécialité : {{ rdv.specialite}}</p> <p class="rdvText"> Etat :{{ rdv.etat}}</p> </a> </div> <!-------------------------> </ion-content> </ion-view>
+<ion-view>
+  <ion-nav-title>
+    <p class="choix">Rendez Vous</p>
+  </ion-nav-title>
+  <ion-nav-buttons side="right">
+    <button class="button button-calm" ng-click="logout()"> logout </button>
+    <button class="button button-calm " ng-click="Refresh()"> Refresh </button>
+  </ion-nav-buttons>
+  <ion-content class="padding animated fadeInLeft">
+    <h4 class="content padding double-padding-x text choix" style="text-align:center;color: #2196F3;">Mes Rendez-vous</h4>
+    <!--------Praticients------------------>
+    <div class="card" ng-if="!Client.RendezVous.data">
+      <p class="error">Bienvenue Mr {{ Client.userData.nom_patient + ' ' + Client.userData.prenom_patient }} , Vous n'avez effectuer aucun rendez Vous !</p>
+    </div>
+    <div class="list animate-fade-slide-in-right">
+      <a class="item item-avatar item-icon-left" ng-repeat=" rdv in Client.RendezVous.data" style=" font-family: 'Roboto, sans-serif', Roboto, sans-serif;
+  color: #B71C1C;
+  font-weight: bold;
+  text-align: center;
+  margin: auto"> <img src="dist/img/dashbord.png">
+        <h2 class="text2">Rendez vous {{ rd.id}}</h2>
+        <p class="element" > Date :{{ rdv.DATE }}</p>
+        <p class="element"> {{ rdv.nom_praticien + ' ' + rdv.prenom_praticien}}</p>
+        <p class="element"> Spécialité : {{ rdv.specialite}}</p>
+        <p class="element"> Etat :{{ rdv.etat}}</p>
+      </a>
+    </div>
+    <!------------------------->
+  </ion-content>
+</ion-view>

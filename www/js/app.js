@@ -132,16 +132,15 @@ angular.module('tbibi', ['ionic','ionic-material','ngAnimate','ionic-datepicker'
       views: {
         'menuContent': {
           templateUrl: 'templates2/Docteur/Docteur.details.html',
-          controller :'DocteurDetailsCtrl'
+          controller :'ResultatsCtrl',
+          resolve:{
+            getDocteur : ['RechercherSevice','$stateParams', function(RechercherSevice,$stateParams){
+              return RechercherSevice.RechercheDocteur($stateParams.id);
+            }]
+          }
         }
-      },
-      resolve:{
-        getDocteur : ['RechercherSevice','$stateParams', function(RechercherSevice,$stateParams){
-
-         return RechercherSevice.RechercheDocteur($stateParams.id);
-
-        }]
       }
+
     })
 
     /*

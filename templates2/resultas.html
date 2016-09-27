@@ -18,7 +18,7 @@
         {{ Resultats.length}} praticients
       </h4>
 
-<h5><a ng-click="goMpas()">Voir Maps <i class="icon ion-ios-location"></i>
+<h5 class="title text"><a ng-click="goMpas()">Voir Maps <i class="icon ion-ios-location"></i>
 </a></h5>
 
 
@@ -36,14 +36,14 @@
 
         <div class="col-40" >
           <a ui-sref="app.docteursDetails({ id : dc.id_praticien})">
-          <img src="img/doctorNew.png" width="40px" style="border-radius:50%; background-position:center center; background-size:cover; width:50%; height:100%;">
+          <img src="dist/img/doctorNew.png" width="40px" style="border-radius:50%; background-position:center center; background-size:cover; width:50%; height:100%;">
           </a>
         </div><!----end of col md40----->
 
        <div class="col-60 text-center">
-          <h3 class="resultat">
+          <h3 class="title text">
 
-            <a ui-sref="app.docteursDetails({id : dc.id_praticien})">Dr {{ dc.nom_praticien + ' ' + dc.prenom_praticien}}
+            <a style="text-decoration: none" ui-sref="app.docteursDetails({id : dc.id_praticien})">Daa {{ dc.nom_praticien + ' ' + dc.prenom_praticien}}
           </a>
           </h3>
          <div class="padding-bottom"></div>

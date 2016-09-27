@@ -12,54 +12,14 @@ angular.module('tbibi')
                                                                                             $ionicPopover, $timeout,$state) {
 
 
-    // Form data for the login modal
-    $scope.loginData = {};
-    $scope.isExpanded = false;
-    $scope.hasHeaderFabLeft = false;
-    $scope.hasHeaderFabRight = false;
 
-    var navIcons = document.getElementsByClassName('ion-navicon');
-    for (var i = 0; i < navIcons.length; i++) {
-      navIcons.addEventListener('click', function() {
-        this.classList.toggle('active');
-      });
-    }
 
     ////////////////////////////////////////
     // Layout Methods
     ////////////////////////////////////////
 
 
-    $scope.setExpanded = function(bool) {
-      $scope.isExpanded = bool;
-    };
 
-    $scope.setHeaderFab = function(location) {
-      var hasHeaderFabLeft = false;
-      var hasHeaderFabRight = false;
-
-      switch (location) {
-        case 'left':
-          hasHeaderFabLeft = true;
-          break;
-        case 'right':
-          hasHeaderFabRight = true;
-          break;
-      }
-
-      $scope.hasHeaderFabLeft = hasHeaderFabLeft;
-      $scope.hasHeaderFabRight = hasHeaderFabRight;
-    };
-
-    $scope.hasHeader = function() {
-      var content = document.getElementsByTagName('ion-content');
-      for (var i = 0; i < content.length; i++) {
-        if (!content[i].classList.contains('has-header')) {
-          content[i].classList.toggle('has-header');
-        }
-      }
-
-    };
 
 
 
@@ -67,7 +27,6 @@ angular.module('tbibi')
 
     $scope.navigateTo = function(stateName){
 
-      console.log('satteName'+ stateName);
       $state.go(stateName);
 
     }
@@ -119,7 +78,7 @@ angular.module('tbibi')
 
 
 
-      $scope.$on("$ionicView.beforeEnter", function() {
+      /*$scope.$on("$ionicView.beforeEnter", function() {
         console.log("Running stuff...");
         $ionicLoading.show({
           template: '<ion-spinner icon="dots"></ion-spinner>',
@@ -135,7 +94,7 @@ angular.module('tbibi')
           $ionicLoading.hide();
         },2000)
 
-      });
+      });*/
 
 
 
@@ -257,7 +216,6 @@ value = angular.fromJson(value);
 
 
 
-      console.log('abstract state !')
 
 
     //la liste de sgouvernorats
@@ -385,13 +343,10 @@ value = angular.fromJson(value);
 
 
 if($scope.data.doctor){
-console.log('id is' + $scope.data.doctor.id);
+
   RechercherSevice.RechercheDocteur($scope.data.doctor.id)
     .then(function(result){
       $ionicLoading.hide();
-      console.log('result' + JSON.stringify(result));
-
-
 
       if(result){
         //app.docteursDetails
@@ -399,7 +354,6 @@ console.log('id is' + $scope.data.doctor.id);
       }else{
         $scope.openModal();
       }
-
 
 
     }).catch(function(err){
@@ -499,8 +453,6 @@ _-_-_-_-_-_-_-__-__-_-_-_-__-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-_-_-_-__-_-_-
 
 
 
-
-console.log('resultats are' + JSON.stringify($scope.Resultats));
 
 
 $scope.goMpas = function(){
@@ -871,7 +823,7 @@ console.log('go to maps !')
       /*
        avant d'entrer dans dans la vue
        */
-      $scope.$on("$ionicView.beforeEnter", function() {
+      /*$scope.$on("$ionicView.beforeEnter", function() {
         console.log("praticien login...");
         $ionicLoading.show({
           template: '<ion-spinner icon="dots"></ion-spinner>',
@@ -887,7 +839,7 @@ console.log('go to maps !')
           $ionicLoading.hide();
         },2000)
 
-      });
+      });*/
 
       /*-----------------------------------------*/
 
@@ -1059,9 +1011,9 @@ console.log('go to maps !')
   }])
 
   .controller('dashabordClientCtrl',['$scope','$ionicModal','$timeout','ionicMaterialMotion','ionicMaterialInk','$ionicLoading',
-    '$ionicHistory','PatientService','ionicToast','$state','$rootScope',
+    '$ionicHistory','PatientService','ionicToast','$state','$rootScope','ionicDatePicker',
     function($scope, $ionicModal, $timeout,ionicMaterialMotion,ionicMaterialInk,
-                                              $ionicLoading, $ionicHistory,PatientService,ionicToast, $state,$rootScope) {
+                                              $ionicLoading, $ionicHistory,PatientService,ionicToast, $state,$rootScope,ionicDatePicker) {
 
       /*
        avant d'entrer dans dans la vue
@@ -1089,36 +1041,42 @@ console.log('go to maps !')
 
       $scope.phNumber = "^[1-9][0-9]{7}$";
 
+      /*
+       the datepicker configuration
+       */
+      var ipObj1 = {
+        callback: function (val) {  //Mandatory
+          console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+          $scope.Client.userData.date_naissance = new Date(val);
+
+        },
+
+        from: new Date(1940, 1, 1), //Optional
+        to: new Date(2016, 10, 30), //Optional
+        //inputDate: new Date(),      //Optional
+        mondayFirst: true,          //Optional
+        //Optional
+        closeOnSelect: true,       //Optional
+        templateType: 'popup'       //Optional
+      };
+
+      $scope.openDatePicker = function(){
+        ionicDatePicker.openDatePicker(ipObj1);
+      };
+      /*--------------------------------------------------------*/
+
 
 
 //modifier la date de naissance
 
       if(PatientService.getPatient()){
         $scope.Client = JSON.parse(PatientService.getPatient());
-        $scope.Client.userData.date_naissance = new Date(  $scope.Client.userData.date_naissance )
+console.log('date de naisiance est ',$scope.Client.userData.date_naissance);
+        $scope.Client.userData.date_naissance = new Date($scope.Client.userData.date_naissance )
       }
 
 
 
-    $scope.isExpanded = false;
-    $scope.$parent.setExpanded(false);
-    $scope.$parent.setHeaderFab(false);
-
-    // Set Motion
-    $timeout(function() {
-      ionicMaterialMotion.slideUp({
-        selector: '.slide-up'
-      });
-    }, 300);
-
-    $timeout(function() {
-      ionicMaterialMotion.fadeSlideInRight({
-        startVelocity: 3000
-      });
-    }, 700);
-
-    // Set Ink
-    ionicMaterialInk.displayEffect();
 
 
 
@@ -1143,20 +1101,23 @@ console.log('go to maps !')
         showDelay: 0,
 
       });
-console.log('isvalid')
+
 
       //on doit valider les informations changées
       if(isvlaid) {
 
-
+console.log('date de anissane',JSON.stringify($scope.Client.userData));
         PatientService.modifierProfile($scope.Client.userData)
           .then(function (result) {
 
             $ionicLoading.hide();
-            console.log('result is' + JSON.stringify(result));
+            console.log('result is' + JSON.stringify(result.data));
             //we will save it
 
-            PatientService.setPatient(result);
+            PatientService.setPatient(result.data);
+            /*PatientService.setPatient(data.data);*/
+            $scope.Client = JSON.parse(PatientService.getPatient());
+            $scope.Client.userData.date_naissance = new Date($scope.Client.userData.date_naissance )
             ionicToast.show('Votre profile a été modifié avec succées ', 'top', true, 2500);
           }).catch(function (err) {
             $ionicLoading.hide();
@@ -1174,11 +1135,42 @@ console.log('isvalid')
 
 $scope.logout = function(){
   PatientService.logout();
-  ionicToast.show('déconnecter from our app', 'top', true, 2500);
+  ionicToast.show('Deconnecter', 'top', true, 2500);
   $rootScope.clientAuthenticated = false ;
-  $state.go('app.recherche');
+  $state.go('app.recherche.specialite');
 }
 
+
+      /*
+       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+       */
+
+
+
+      $scope.Refresh = function(){
+
+
+        $ionicLoading.show({
+          content: 'Loading',
+          animation: 'fade-in',
+          showBackdrop: true,
+          maxWidth: 200,
+          showDelay: 0,
+
+        })
+
+        PatientService.refresh( $scope.Client.userData.id_patient)
+          .then(function(data){
+
+            $ionicLoading.hide();
+
+            PatientService.setPatient(data.data);
+            $scope.Client = JSON.parse(PatientService.getPatient());
+            $scope.Client.userData.date_naissance = new Date($scope.Client.userData.date_naissance )
+          }).catch(function(err){
+            console.log('err' +err)
+          })
+      }
 
 
 
@@ -1267,7 +1259,7 @@ console.log('result' + JSON.stringify(result));
 
 var data ={};
 
-
+    console.log('ddhhdhdhdhdhhd' +  JSON.stringify($scope.Docteur));
     /*_-_-__-_-_-_-_-_methode rejeter RDV*/
 
     $scope.rejeterRendezVous = function(idRdv){
@@ -1329,7 +1321,7 @@ $scope.submitted = false ;
 /*è-_-_-_-_-_-_-_-_-_-_-_-_*/
     $scope.logout = function(){
       DocteurService.logout();
-      ionicToast.show('Déconnecter', 'top', true, 2500);
+      ionicToast.show('Deconnecter', 'top', true, 2500);
       $rootScope.praticientAuthenticated = false ;
       $state.go('app.recherche.specialite');
     }
@@ -1342,7 +1334,7 @@ $scope.submitted = false ;
      */
 
     $scope.refresh = function(){
-      console.log('rfersh data from server!')
+
 
 
       $ionicLoading.show({
@@ -1383,285 +1375,10 @@ $scope.submitted = false ;
 
 
 
-  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur','PatientService','$ionicSlideBoxDelegate','ionicDatePicker','$ionicPopup',function($scope,
-                                                                                                                                $ionicModal, $timeout, $cordovaCalendar,getDocteur,PatientService,$ionicSlideBoxDelegate,ionicDatePicker,$ionicPopup) {
+  .controller('DocteurDetailsCtrl',['$scope','$ionicModal','$timeout','$cordovaCalendar','getDocteur',
+    'PatientService','$ionicSlideBoxDelegate','ionicDatePicker','$ionicPopup',function($scope, $ionicModal,
+           $timeout, $cordovaCalendar,getDocteur,PatientService,$ionicSlideBoxDelegate,ionicDatePicker,$ionicPopup) {
 
-
-   $scope.Docteur  = getDocteur;
-
-
-
-
-
-
-    /*
-
-    teh datepikcer
-     */
-var date = new Date();
-
-    var date2 = new Date()
-    date2.setDate(date.getDate() + 7);
-
-    var ipObj1 = {
-      callback: function (val) {  //Mandatory
-        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-        $scope.RDV.date = new Date(val);
-      },
-      disabledDates: [            //Optional
-
-      ],
-     //Optional
-      from: new Date(), //Optional
-      to: new Date(2017, 8, 1),
-      inputDate: new Date(),      //Optional
-      mondayFirst: true,          //Optional
-      //disableWeekdays: [0],       //Optional
-      closeOnSelect: true,       //Optional
-      templateType: 'popup'       //Optional
-    };
-
-    $scope.openDatePicker = function(){
-      ionicDatePicker.openDatePicker(ipObj1);
-    };
-
-
-    //-------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-/*
-THE MODAL
- */
-    $ionicModal.fromTemplateUrl('/templates2/Docteur/PrendreRdv.html', {
-      scope: $scope,
-      animation: 'slide-in-up',
-      focusFirstInput: true
-    }).then(function(modal) {
-      $scope.modal = modal;
-      //$scope.modal.show();
-    });
-
-
-    $scope.openModal = function() {
-      $scope.modal.show();
-    };
-
-    $scope.closeModal = function() {
-      $scope.modal.hide();
-    };
-
-
-    $scope.$on('$destroy', function() {
-      $scope.modal.remove();
-    });
-
-    $scope.$on('modal.hidden', function() {
-      // Execute action
-    });
-
-    $scope.$on('modal.removed', function() {
-      // Execute action
-    });
-
-
-
-
-
-
-
-
-    $scope.myActiveSlide = 1;
-
-    $scope.slidePrevious = function() {
-
-      $ionicSlideBoxDelegate.previous();
-    }
-
-    $scope.slideNext = function() {
-
-      $ionicSlideBoxDelegate.next();
-    }
-
-
-
-
-//temps =["8h:30","9h","9h:30","10h","10h:30","11h","11h:30","12h","12h:30","13h","13h:30","14h","14h:30","15h","15h:30","16h","16h:30","17h"]
-
-$scope.temps =["9h","10h","11h","12h","14h","15h","16h","17h"]
-
-//initialize le rendez vous
-
-    $scope.RDV ={};
-
-
-
-
-
-    /*
-    Défenir uen fonction pour ouvrir un Popup
-     */
-    // An alert dialog
-    $scope.showAlert = function() {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Alerte',
-        template: 'Vous devez étre authentifié pour prendre un rendez vous !'
-      });
-
-      alertPopup.then(function (res) {
-        console.log('Thank you for not eating my delicious ice cream cone');
-      });
-
-    }
-
-    //-_-_-_-_-_-_-__--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-___-_-_-
-
-
-
-
-
-
-
-
-$scope.submitted = false ;
-
-/* fonction pour le client pour prenrdre rendez vous */
-
-
-
-    $scope.prendreRdv = function(){
-
-      $scope.submitted = true ;
-
-
-      if(PatientService.getPatient()){
-
-        var client = angular.fromJson(PatientService.getPatient());
-        console.log('client' + JSON.stringify(client.userData.id_patient))
-        console.log('docteur' + JSON.stringify(  $scope.Docteur.id_praticien ));
-        $scope.RDV.id_patient = client.userData.id_patient;
-        $scope.RDV.id_praticien =$scope.Docteur.id_praticien ;
-
-
-
-      }
-
-
-      if(!PatientService.getPatient()){
-        //open a modal etre authentifiéé
-        $scope.showAlert();
-      }else{
-
-        PatientService.prendreRendezVous( $scope.RDV)
-          .then(function(data){
-            console.log('data' + data.data.etat);
-
-            if(data.data.etat==200){
-              alert('suucess cretaed !')
-            }
-
-          }).catch(function(err){
-            console.log('err' + err);
-          })
-      }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    $scope.calendar = {};
-    $scope.changeMode = function (mode) {
-      $scope.calendar.mode = mode;
-    };
-
-    $scope.loadEvents = function () {
-      $scope.calendar.eventSource = createRandomEvents();
-    };
-
-    $scope.onEventSelected = function (event) {
-      console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
-    };
-
-    $scope.onViewTitleChanged = function (title) {
-      $scope.viewTitle = title;
-    };
-
-    $scope.today = function () {
-      $scope.calendar.currentDate = new Date();
-    };
-
-    $scope.isToday = function () {
-      var today = new Date(),
-        currentCalendarDate = new Date($scope.calendar.currentDate);
-
-      today.setHours(0, 0, 0, 0);
-      currentCalendarDate.setHours(0, 0, 0, 0);
-      return today.getTime() === currentCalendarDate.getTime();
-    };
-
-    $scope.onTimeSelected = function (selectedTime, events) {
-      console.log('Selected time: ' + selectedTime + ', hasEvents: ' + (events !== undefined && events.length !== 0));
-    };
-
-    function createRandomEvents() {
-      var events = [];
-      for (var i = 0; i < 50; i += 1) {
-        var date = new Date();
-        var eventType = Math.floor(Math.random() * 2);
-        var startDay = Math.floor(Math.random() * 90) - 45;
-        var endDay = Math.floor(Math.random() * 2) + startDay;
-        var startTime;
-        var endTime;
-        if (eventType === 0) {
-          startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + startDay));
-          if (endDay === startDay) {
-            endDay += 1;
-          }
-          endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + endDay));
-          events.push({
-            title: 'All Day - ' + i,
-            startTime: startTime,
-            endTime: endTime,
-            allDay: true
-          });
-        } else {
-          var startMinute = Math.floor(Math.random() * 24 * 60);
-          var endMinute = Math.floor(Math.random() * 180) + startMinute;
-          startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + startDay, 0, date.getMinutes() + startMinute);
-          endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + endDay, 0, date.getMinutes() + endMinute);
-          events.push({
-            title: 'Event - ' + i,
-            startTime: startTime,
-            endTime: endTime,
-            allDay: false
-          });
-        }
-      }
-      return events;
-    }
 
 
   }])

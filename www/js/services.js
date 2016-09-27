@@ -9,10 +9,10 @@ définir Nos services
 
 
 .service('PatientService',['$http','$q','localStorageService', function($http,$q,localStorageService){
-var urlBase = 'http://192.168.1.4/webservices';
+var urlBase = 'http://192.168.1.5/webservices';
 
     //-_-_-_-_-_une méthode pour mettre le patient en localStorage
-    console.log('work work work !')
+
 
     this.setPatient = function(data){
 
@@ -104,6 +104,20 @@ var urlBase = 'http://192.168.1.4/webservices';
 
     }
 
+
+    //_-_-_-_-_-_-_-méthode pour refershir les donnes d'apres le server _-_-_-_-_-_
+
+
+    this.refresh= function(id){
+      //
+      return     $http({
+        method: "post",
+        url: urlBase +'/refreshClient.php',
+        data :{'id' :id },
+        headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+      })
+    }
+
   }])
 
 
@@ -116,7 +130,7 @@ var urlBase = 'http://192.168.1.4/webservices';
 
   .service('DocteurService',['$http','$q','localStorageService', function($http,$q,localStorageService){
 
-    var urlBase = 'http://192.168.1.4/webservices';
+    var urlBase = 'http://192.168.1.5/webservices';
 
 
     //-_-_-_-_-_une méthode pour mettre le docteur en localStorage
@@ -236,7 +250,7 @@ var urlBase = 'http://192.168.1.4/webservices';
 
 
 
-    var urlBase = 'http://192.168.1.4/webservices';
+    var urlBase = 'http://192.168.1.5/webservices';
 
     //une méthode pour récuperer la liste des docteurs
     this.getDocteurs = function(){

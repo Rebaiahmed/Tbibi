@@ -105,7 +105,7 @@ gulp.task('example', function() {
 
 
 
-
+var ngAnnotate = require('gulp-ng-annotate');
 
 
 
@@ -121,6 +121,7 @@ gulp.task('default',['templates'], function() {
   ])
     .pipe(concat('all.js'))
     .pipe(uglify())
+    .pipe(ngAnnotate())
     .pipe(gulp.dest('./www/dist'));
 })
 
